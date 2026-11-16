@@ -418,6 +418,14 @@ input,textarea,select{font-family:inherit;font-size:16px}
           </div>
         </div>
 
+      </div>
+
+      <div>
+        <div class="card">
+          <div class="card-h"><h2>今天做什么</h2><span class="badge" id="study-badge">0 分</span></div>
+          <div id="home-entries"></div>
+        </div>
+
         <div class="card">
           <div class="card-h"><h2>最近三天</h2><span class="sub">战力走势</span></div>
           <div class="trend" id="trend"></div>
@@ -426,24 +434,6 @@ input,textarea,select{font-family:inherit;font-size:16px}
             <span class="chip">累计 <b id="stat-total">0</b> 条记录</span>
             <span class="chip">已完成 <b id="stat-all">0</b> 项任务</span>
           </div>
-        </div>
-      </div>
-
-      <div>
-        <div class="card">
-          <div class="card-h"><h2>今天做什么</h2><span class="badge" id="study-badge">0/11</span></div>
-          <div id="home-entries"></div>
-        </div>
-
-        <div class="card">
-          <div class="card-h"><h2>学习任务</h2><span class="sub">前 4 项</span></div>
-          <div id="study-quick"></div>
-          <button class="btn ghost sm" style="width:100%;margin-top:10px" data-go="study">查看全部任务</button>
-        </div>
-
-        <div class="card">
-          <div class="card-h"><h2>奖励商店</h2><span class="sub" id="shop-coin">0 能量块</span></div>
-          <div class="shop-grid" id="shop-quick"></div>
         </div>
       </div>
     </div>
@@ -1253,54 +1243,45 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     if ($('stat-all')) $('stat-all').textContent = n;
   }
 
-  function renderStudyQuick() {
+  /* 今日五项：任务中心显示完成进度，首页显示该项当天得分 */
+  function dailyItems() {
     var t = todayStr();
-    var done = calc.studyDoneMap(t);
-    var n = Object.keys(done).length;
-    if ($('study-badge')) $('study-badge').textContent = n + '/11';
-    var html = '';
-    STUDY_TASKS.slice(0, 4).forEach(function (task) {
-      var d = !!done[task.name];
-      html += '<div class="trow">' +
-        '<div class="chk' + (d ? ' done' : '') + '" data-task="' + task.id + '" role="button">' + svg('check') + '</div>' +
-        '<div class="tm"><b>' + esc(task.name) + '</b><span>' + esc(task.desc) + '</span></div>' +
-        '<div class="pt">+' + task.pts + '</div></div>';
-    });
-    if ($('study-quick')) $('study-quick').innerHTML = html;
-  }
-
-  function renderShopQuick() {
-    var coin = calc.coin();
-    if ($('shop-coin')) $('shop-coin').textContent = coin + ' 能量块';
-    var html = '';
-    SHOP_ITEMS.slice(0, 4).forEach(function (it) {
-      html += '<div class="shop-item' + (coin >= it.cost ? ' can' : '') + '" data-shop="' + it.id + '" role="button">' +
-        svgIcon(it.icon) + '<div class="nm">' + esc(it.name) + '</div>' +
-        '<div class="cost">' + it.cost + ' 能量块</div></div>';
-    });
-    if ($('shop-quick')) $('shop-quick').innerHTML = html;
-  }
-
-  /* 首页打卡入口网格 */
-  function renderCheckGrid() {
-    var t = todayStr();
-    var items = [
-      { id: 'study',    label: '学习任务', icon: 'book',     sub: calc.sumType(t, '任务打卡') + '/55' },
-      { id: 'mood',     label: '心情日记', icon: 'smile',    sub: calc.moodOf(t) ? '已记录' : '待记录' },
-      { id: 'picbook',  label: '打卡', icon: 'calendar', sub: calc.picbookDays() + '/15' },
-      { id: 'sport',    label: '运动锻炼', icon: 'run',      sub: calc.sumType(t, '运动打卡') + '/40' },
-      { id: 'behavior', label: '行为规范', icon: 'shield',   sub: (calc.sumType(t, '行为规范') >= 0 ? '+' : '') + calc.sumType(t, '行为规范') },
-      { id: 'quiz',     label: '知识科普', icon: 'quiz',     sub: calc.sumType(t, '每日题数') + '/10' }
+    var st = calc.sumType(t, '任务打卡');
+    var sp = calc.sumType(t, '运动打卡');
+    var bh = calc.sumType(t, '行为规范');
+    var qz = calc.sumType(t, '每日题数');
+    var mooded = !!calc.moodOf(t);
+    return [
+      { id: 'study',    label: '学习任务', icon: 'book',   prog: st + '/55', pts: st },
+      { id: 'mood',     label: '心情日记', icon: 'smile',  prog: mooded ? '已记录' : '待记录', pts: mooded ? '已记录' : '待记录' },
+      { id: 'sport',    label: '运动锻炼', icon: 'run',    prog: sp + '/40', pts: sp },
+      { id: 'behavior', label: '行为规范', icon: 'shield', prog: (bh >= 0 ? '+' : '') + bh, pts: bh },
+      { id: 'quiz',     label: '知识科普', icon: 'quiz',   prog: qz + '/10', pts: qz }
     ];
+  }
+
+  function entryHtml(list, mode) {
     var html = '';
-    items.forEach(function (it) {
+    list.forEach(function (it) {
+      var sub;
+      if (mode === 'pts') {
+        sub = (typeof it.pts === 'string') ? it.pts : ((it.pts > 0 ? '+' : '') + it.pts + ' 分');
+      } else {
+        sub = it.prog;
+      }
       html += '<div class="entry" data-go="' + it.id + '" role="button">' +
         '<span class="e-ic">' + svgStroke(it.icon) + '</span>' +
-        '<span class="e-tx"><b>' + esc(it.label) + '</b><i>' + esc(it.sub) + '</i></span>' +
+        '<span class="e-tx"><b>' + esc(it.label) + '</b><i>' + esc(sub) + '</i></span>' +
         '<span class="e-ar">›</span></div>';
     });
-    if ($('check-grid')) $('check-grid').innerHTML = html;
-    if ($('home-entries')) $('home-entries').innerHTML = html;
+    return html;
+  }
+
+  function renderCheckGrid() {
+    var list = dailyItems();
+    if ($('check-grid')) $('check-grid').innerHTML = entryHtml(list, 'prog');
+    if ($('home-entries')) $('home-entries').innerHTML = entryHtml(list, 'pts');
+    if ($('study-badge')) $('study-badge').textContent = calc.scoreOf(todayStr()) + ' 分';
   }
 
   function renderShopList() {
@@ -1387,8 +1368,6 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     renderArena();
     renderRing();
     renderTrend();
-    renderStudyQuick();
-    renderShopQuick();
     renderCheckGrid();
     renderStudyList();
     renderShopList();
