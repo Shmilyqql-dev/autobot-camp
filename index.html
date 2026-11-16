@@ -344,19 +344,12 @@ input,textarea,select{font-family:inherit;font-size:16px}
 <header class="topbar">
   <div class="topbar-in">
     <div class="brand">
-      <svg class="brand-logo" viewBox="0 0 40 40" aria-hidden="true">
-        <defs><linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4E8BFF"/><stop offset="1" stop-color="#3FD8F0"/></linearGradient></defs>
-        <rect x="1" y="1" width="38" height="38" rx="11" fill="url(#lg1)" opacity=".18"/>
-        <rect x="1.5" y="1.5" width="37" height="37" rx="10.5" fill="none" stroke="rgba(78,139,255,.55)"/>
-        <path d="M15 11h10l3.5 4v14.5a1.5 1.5 0 0 1-1.5 1.5H13a1.5 1.5 0 0 1-1.5-1.5V15z" fill="none" stroke="#8FB8FF" stroke-width="2" stroke-linejoin="round"/>
-        <path d="M17 18.5h6M17 22.5h6M17 26h4" stroke="#3FD8F0" stroke-width="2" stroke-linecap="round"/>
-      </svg>
       <div class="brand-t"><b>汽车人训练营</b><span>AUTOBOT CAMP</span></div>
     </div>
     <div class="stats">
       <div class="stat gold"><i>能量块</i><b id="hdr-coin">0</b></div>
       <div class="stat blue"><i>今日</i><b id="hdr-today">0</b></div>
-      <div class="stat cy"><i>打卡天</i><b id="hdr-days">0</b></div>
+      <div class="stat cy"><i>累计天</i><b id="hdr-days">0</b></div>
     </div>
     <span class="syncdot" id="syncdot"></span>
   </div>
@@ -364,12 +357,6 @@ input,textarea,select{font-family:inherit;font-size:16px}
 
 <nav class="side-nav" id="sidenav">
   <div class="brand">
-    <svg class="brand-logo" viewBox="0 0 40 40" aria-hidden="true">
-      <rect x="1" y="1" width="38" height="38" rx="11" fill="url(#lg1)" opacity=".18"/>
-      <rect x="1.5" y="1.5" width="37" height="37" rx="10.5" fill="none" stroke="rgba(78,139,255,.55)"/>
-      <path d="M15 11h10l3.5 4v14.5a1.5 1.5 0 0 1-1.5 1.5H13a1.5 1.5 0 0 1-1.5-1.5V15z" fill="none" stroke="#8FB8FF" stroke-width="2" stroke-linejoin="round"/>
-      <path d="M17 18.5h6M17 22.5h6M17 26h4" stroke="#3FD8F0" stroke-width="2" stroke-linecap="round"/>
-    </svg>
     <div class="brand-t"><b>汽车人训练营</b><span>训练日志</span></div>
   </div>
   <div id="navlist"></div>
@@ -465,7 +452,7 @@ input,textarea,select{font-family:inherit;font-size:16px}
   <section id="view-check" class="hide">
     <div class="page-h">
       <button class="back" data-go="home" aria-label="返回"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
-      <h1>打卡中心</h1>
+      <h1>任务中心</h1>
       <span class="sub">六项训练全在这里</span>
     </div>
     <div class="card">
@@ -526,9 +513,9 @@ input,textarea,select{font-family:inherit;font-size:16px}
 
   <section id="view-picbook" class="hide">
     <div class="page-h">
-      <button class="back" data-go="check" aria-label="返回"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
-      <h1>绘本打卡</h1>
-      <span class="sub">满 15 天解锁奖励</span>
+      <button class="back" data-go="home" aria-label="返回"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <h1>打卡</h1>
+      <span class="sub">每天陪读一本，满 15 天解锁奖励</span>
     </div>
     <div class="card">
       <div class="card-h"><h2>本月日历</h2><span class="badge g" id="pb-days">0 天</span></div>
@@ -765,7 +752,8 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
 
   var TABS = [
     { id: 'home',    label: '首页', icon: 'home' },
-    { id: 'check',   label: '打卡', icon: 'grid' },
+    { id: 'check',   label: '任务', icon: 'grid' },
+    { id: 'picbook', label: '打卡', icon: 'calendar' },
     { id: 'shop',    label: '商店', icon: 'cart' },
     { id: 'history', label: '记录', icon: 'clock' },
     { id: 'setting', label: '设置', icon: 'gear' }
@@ -1160,10 +1148,10 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     var nav = '';
     var all = [
       { id: 'home', label: '首页', icon: 'home' },
-      { id: 'check', label: '打卡中心', icon: 'grid' },
+      { id: 'check', label: '任务中心', icon: 'grid' },
       { id: 'study', label: '学习任务', icon: 'book' },
       { id: 'mood', label: '心情日记', icon: 'smile' },
-      { id: 'picbook', label: '绘本打卡', icon: 'calendar' },
+      { id: 'picbook', label: '打卡', icon: 'calendar' },
       { id: 'sport', label: '运动锻炼', icon: 'run' },
       { id: 'behavior', label: '行为规范', icon: 'shield' },
       { id: 'quiz', label: '知识科普', icon: 'quiz' },
@@ -1299,7 +1287,7 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     var items = [
       { id: 'study',    label: '学习任务', icon: 'book',     sub: calc.sumType(t, '任务打卡') + '/55' },
       { id: 'mood',     label: '心情日记', icon: 'smile',    sub: calc.moodOf(t) ? '已记录' : '待记录' },
-      { id: 'picbook',  label: '绘本打卡', icon: 'calendar', sub: calc.picbookDays() + '/15' },
+      { id: 'picbook',  label: '打卡', icon: 'calendar', sub: calc.picbookDays() + '/15' },
       { id: 'sport',    label: '运动锻炼', icon: 'run',      sub: calc.sumType(t, '运动打卡') + '/40' },
       { id: 'behavior', label: '行为规范', icon: 'shield',   sub: (calc.sumType(t, '行为规范') >= 0 ? '+' : '') + calc.sumType(t, '行为规范') },
       { id: 'quiz',     label: '知识科普', icon: 'quiz',     sub: calc.sumType(t, '每日题数') + '/10' }
@@ -1545,17 +1533,83 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     if (!item) return;
     var coin = calc.coin();
     if (coin < item.cost) { toast('能量块不够，还差 ' + (item.cost - coin) + ' 个', 'err'); return; }
-    confirmBox('兑换「' + item.name + '」', '将消耗 ' + item.cost + ' 能量块，当前余额 ' + coin + '。兑换后请家长确认执行。', '确认兑换', function () {
-      store.data.coin = coin - item.cost;
-      addRec('奖励兑换', todayStr(), item.name, item.cost, '兑换');
-      toast('兑换成功：' + item.name + '，记得找家长兑现', 'ok');
-      refreshAll();
-    });
+
+    /* 兑换必须家长输密码，防止小朋友自己刷 */
+    askPin('兑换「' + item.name + '」',
+      '将消耗 ' + item.cost + ' 能量块，当前余额 ' + coin + '。请家长输入密码确认。',
+      function () {
+        store.data.coin = coin - item.cost;
+        addRec('奖励兑换', todayStr(), item.name, item.cost, '兑换');
+        toast('兑换成功：' + item.name + '，记得找家长兑现', 'ok');
+        refreshAll();
+      });
   }
 
   function goTo(view) {
     state.view = view;
     refreshAll();
+  }
+
+  /* ================= 家长密码校验（兑换等敏感操作前调用） ================= */
+  function askPin(title, desc, onOk) {
+    /* 还没设过密码：先让家长设一个，设完再继续 */
+    if (!store.data.parentPin) {
+      var b0 = openModal(
+        '<h3>' + esc(title || '需要家长密码') + '</h3>' +
+        '<p>还没有设置家长密码。先设一个 4 位数字，以后兑换奖励、补录数据都要用它。</p>' +
+        '<div class="field"><label>设置 4 位数字密码</label>' +
+        '<input id="ap-set" type="tel" inputmode="numeric" maxlength="4" placeholder="例如 1234"></div>' +
+        '<div class="row"><button class="btn ghost" id="ap-no">取消</button>' +
+        '<button class="btn pri" id="ap-ok">保存并继续</button></div>'
+      );
+      var i0 = b0.querySelector('#ap-set');
+      b0.querySelector('#ap-no').onclick = closeModal;
+      b0.querySelector('#ap-ok').onclick = function () {
+        var v = (i0.value || '').trim();
+        if (!/^\d{4}$/.test(v)) { toast('请输入 4 位数字', 'err'); return; }
+        store.data.parentPin = v;
+        store.save();
+        toast('家长密码已设置', 'ok');
+        closeModal();
+        setTimeout(function () { askPin(title, desc, onOk); }, 180);
+      };
+      setTimeout(function () { i0.focus(); }, 120);
+      return;
+    }
+
+    var box = openModal(
+      '<h3>' + esc(title || '请输入家长密码') + '</h3>' +
+      (desc ? '<p>' + esc(desc) + '</p>' : '') +
+      '<div class="field"><label>家长密码</label>' +
+      '<input id="ap-in" type="tel" inputmode="numeric" maxlength="4" placeholder="4 位数字"></div>' +
+      '<p class="mini-note" id="ap-err" style="color:#FF7A88;margin:0 0 8px;display:none">密码不对，再试一次</p>' +
+      '<div class="row"><button class="btn ghost" id="ap-no">取消</button>' +
+      '<button class="btn gold" id="ap-ok">确认</button></div>'
+    );
+    var inp = box.querySelector('#ap-in');
+    var err = box.querySelector('#ap-err');
+
+    function submit() {
+      var v = (inp.value || '').trim();
+      if (!/^\d{4}$/.test(v)) { toast('请输入 4 位数字', 'err'); return; }
+      if (v !== store.data.parentPin) {
+        err.style.display = 'block';
+        inp.value = '';
+        inp.focus();
+        return;
+      }
+      closeModal();
+      if (onOk) onOk();
+    }
+
+    box.querySelector('#ap-no').onclick = closeModal;
+    box.querySelector('#ap-ok').onclick = submit;
+    inp.onkeydown = function (e) { if (e.key === 'Enter') submit(); };
+    inp.oninput = function () {
+      err.style.display = 'none';
+      if (/^\d{4}$/.test(inp.value)) submit();
+    };
+    setTimeout(function () { inp.focus(); }, 120);
   }
 
   /* ================= 家长模式 ================= */
@@ -1566,7 +1620,7 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     if (!el) return;
     if (!store.data.parentPin) {
       el.innerHTML =
-        '<p class="mini-note">还没有设置家长密码。设置后，补录数据需要输入密码，防止小朋友自己改分。</p>' +
+        '<p class="mini-note">还没有设置家长密码。设置后，兑换奖励、补录数据都要家长输密码，防止小朋友自己刷。</p>' +
         '<div class="field"><label>设置 4 位数字密码</label><input id="pin-new" type="tel" inputmode="numeric" maxlength="4" placeholder="例如 1234"></div>' +
         '<button class="btn sm pri" style="width:100%" id="btn-set-pin">设置密码</button>';
       var b = $('btn-set-pin');
@@ -1583,7 +1637,7 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
 
     if (!parentUnlocked) {
       el.innerHTML =
-        '<p class="mini-note">家长功能已锁定，输入 4 位密码解锁（补录能量块、打卡天数）。</p>' +
+        '<p class="mini-note">家长功能已锁定，输入 4 位密码解锁（兑换奖励、补录能量块与天数都要用它）。</p>' +
         '<div class="field"><label>家长密码</label><input id="pin-in" type="tel" inputmode="numeric" maxlength="4" placeholder="4 位数字"></div>' +
         '<button class="btn sm gold" style="width:100%" id="btn-unlock">解锁</button>' +
         '<button class="btn sm ghost" style="width:100%;margin-top:8px" id="btn-reset-pin">忘记密码？重置（会清空密码）</button>';
@@ -1848,6 +1902,7 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     $: $, esc: esc, num: num, uid: uid, todayStr: todayStr, nowISO: nowISO, pad: pad,
     svg: svg, svgStroke: svgStroke, svgIcon: svgIcon, ICON: ICON,
     toast: toast, confirmBox: confirmBox, openModal: openModal, closeModal: closeModal,
+    askPin: askPin,
     // 数据
     store: store, calc: calc, addRec: addRec, delRec: delRec,
     toggleByItem: toggleByItem,
