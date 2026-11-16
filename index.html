@@ -1,0 +1,1700 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="HzxMfjS7ZkQB77TROODHBF">
+<head data-page-node-id="7b3buROTS5t1F1ulJbWi9L">
+<meta charset="UTF-8" data-page-node-id="1AJRDrmu3FjF0AF07FbHnR">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" data-page-node-id="FgDY85FlaYYFXQaRh1Jhen">
+<meta name="apple-mobile-web-app-capable" content="yes" data-page-node-id="jNcTdXWEwg9HQlE5614run">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" data-page-node-id="RvWa9fojq2ku0kcWjUJBx8">
+<meta name="theme-color" content="#0B1026" data-page-node-id="YX2yOoDANvw8K8XVCUiNCi">
+<title>汽车人训练营 · 第一期</title>
+<!-- 本工作台通过 WorkBuddy「资料库」skill 搭建、存储和部署 -->
+<style>
+:root{
+  --bg:#0B1026; --bg2:#131A33; --bg3:#1B2444;
+  --line:rgba(255,255,255,.10);
+  --txt:#EAF0FF; --txt2:#9FAECB; --txt3:#6E7C99;
+  --blue:#2F6BFF; --blue2:#4E8BFF; --cyan:#3FD8F0;
+  --gold:#FFC53D; --gold2:#FFDE8A;
+  --red:#FF4D5E; --green:#28C46B; --purple:#7A5CFF;
+  --r:16px;
+  --safe-b:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:
+    radial-gradient(900px 480px at 10% -8%, rgba(47,107,255,.32), transparent 62%),
+    radial-gradient(760px 420px at 100% 0%, rgba(63,216,240,.16), transparent 60%),
+    linear-gradient(180deg,#0B1026 0%, #0D1330 45%, #0A0F22 100%);
+  background-attachment:fixed;
+  color:var(--txt);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",Roboto,sans-serif;
+  min-height:100vh; -webkit-font-smoothing:antialiased;
+  font-size:15px; line-height:1.5;
+}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,textarea,select{font-family:inherit;font-size:16px}
+/* 顶栏 */
+.topbar{
+  position:sticky;top:0;z-index:60;
+  padding:calc(10px + env(safe-area-inset-top,0px)) 14px 10px;
+  background:linear-gradient(180deg,rgba(11,16,38,.96),rgba(11,16,38,.78) 70%,rgba(11,16,38,0));
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+}
+.topbar-in{max-width:980px;margin:0 auto;display:flex;align-items:center;gap:10px}
+.brand{display:flex;align-items:center;gap:9px;min-width:0}
+.brand-logo{width:36px;height:36px;flex:0 0 36px}
+.brand-t{min-width:0}
+.brand-t b{display:block;font-size:15px;letter-spacing:.4px;white-space:nowrap}
+.brand-t span{display:block;font-size:11px;color:var(--txt3);letter-spacing:.5px}
+.stats{margin-left:auto;display:flex;gap:7px;align-items:center}
+.stat{
+  background:rgba(255,255,255,.06);border:1px solid var(--line);
+  border-radius:12px;padding:5px 9px;text-align:center;min-width:52px;
+}
+.stat i{display:block;font-size:10px;color:var(--txt3);font-style:normal;white-space:nowrap}
+.stat b{display:block;font-size:15px;line-height:1.25;font-variant-numeric:tabular-nums}
+.stat.gold b{color:var(--gold)}
+.stat.blue b{color:var(--blue2)}
+.stat.cy b{color:var(--cyan)}
+.syncdot{width:8px;height:8px;border-radius:50%;background:var(--txt3);flex:0 0 8px}
+.syncdot.on{background:var(--green);box-shadow:0 0 8px rgba(40,196,107,.9)}
+.syncdot.off{background:var(--gold)}
+.syncdot.busy{background:var(--blue2);animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}
+/* 容器 */
+.wrap{max-width:980px;margin:0 auto;padding:0 14px calc(96px + var(--safe-b))}
+.card{
+  background:linear-gradient(160deg,#19213C 0%,#141B33 100%);
+  border:1px solid rgba(255,255,255,.11);border-radius:var(--r);
+  padding:15px;margin-bottom:12px;
+  box-shadow:0 10px 26px -18px rgba(0,0,0,.9);
+}
+.card.soft{
+  background:linear-gradient(160deg,rgba(255,255,255,.075),rgba(255,255,255,.032));
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;
+  background:radial-gradient(900px 480px at 10% -8%, rgba(47,107,255,.32), transparent 62%),
+    radial-gradient(760px 420px at 100% 0%, rgba(63,216,240,.16), transparent 60%);
+  pointer-events:none;
+}
+.card-h{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.card-h h2{margin:0;font-size:15px;font-weight:700;letter-spacing:.3px}
+.card-h .sub{font-size:11px;color:var(--txt3);margin-left:auto}
+.badge{font-size:11px;padding:2px 8px;border-radius:99px;background:rgba(47,107,255,.22);color:#9CC2FF;border:1px solid rgba(47,107,255,.4);white-space:nowrap}
+.badge.g{background:rgba(255,197,61,.16);color:var(--gold2);border-color:rgba(255,197,61,.35)}
+.badge.r{background:rgba(255,77,94,.16);color:#FF9AA4;border-color:rgba(255,77,94,.35)}
+/* 主战斗卡 */
+.arena{position:relative;overflow:hidden}
+.arena::after{content:"";position:absolute;inset:0;background:radial-gradient(400px 160px at 50% 0%,rgba(47,107,255,.22),transparent 70%);pointer-events:none}
+.vs-row{display:flex;align-items:center;gap:8px;position:relative;z-index:1}
+.fighter{flex:1;text-align:center;min-width:0}
+.fighter img{width:100%;max-width:132px;height:auto;display:block;margin:0 auto 6px;filter:drop-shadow(0 8px 18px rgba(0,0,0,.6))}
+.fighter .fname{font-size:12px;font-weight:700;letter-spacing:.5px}
+.fighter .fsub{font-size:10px;color:var(--txt3)}
+.vs{font-size:20px;font-weight:900;color:var(--gold);letter-spacing:1px;flex:0 0 auto;text-shadow:0 0 14px rgba(255,197,61,.6)}
+.hp{height:10px;border-radius:99px;background:rgba(0,0,0,.45);overflow:hidden;margin-top:7px;border:1px solid var(--line)}
+.hp>i{display:block;height:100%;border-radius:99px;transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.hp.blue>i{background:linear-gradient(90deg,#2F6BFF,#4E8BFF,#3FD8F0)}
+.hp.red>i{background:linear-gradient(90deg,#FF3B4F,#FF7B45)}
+.hp-txt{font-size:10px;color:var(--txt2);margin-top:4px;font-variant-numeric:tabular-nums}
+/* 今日进度 */
+.prog-wrap{display:flex;align-items:center;gap:12px}
+.ring{flex:0 0 78px}
+.prog-info{flex:1;min-width:0}
+.prog-info .big{font-size:26px;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
+.prog-info .big small{font-size:13px;color:var(--txt2);font-weight:600}
+.prog-info p{margin:4px 0 0;font-size:11.5px;color:var(--txt2)}
+/* 短条 */
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.chip{font-size:11px;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.06);border:1px solid var(--line);color:var(--txt2)}
+.chip b{color:var(--txt);font-variant-numeric:tabular-nums}
+/* 表格型任务 */
+.trow{
+  display:flex;align-items:center;gap:10px;padding:9px 2px;
+  border-bottom:1px dashed rgba(255,255,255,.07);
+}
+.trow:last-child{border-bottom:none}
+.trow .tm{flex:1;min-width:0}
+.trow .tm b{display:block;font-size:13.5px;font-weight:600}
+.trow .tm span{display:block;font-size:10.5px;color:var(--txt3);margin-top:1px}
+.trow .pt{font-size:11px;color:var(--gold);flex:0 0 auto;font-variant-numeric:tabular-nums}
+.btn{
+  min-height:44px;padding:0 16px;border-radius:12px;
+  font-size:14px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  background:rgba(255,255,255,.08);border:1px solid var(--line);color:var(--txt);
+  transition:transform .12s, background .2s;
+}
+.btn:active{transform:scale(.96)}
+.btn.pri{background:linear-gradient(135deg,#2F6BFF,#4E8BFF);border-color:transparent;box-shadow:0 8px 20px -10px rgba(47,107,255,.95)}
+.btn.gold{background:linear-gradient(135deg,#F5A623,#FFC53D);border-color:transparent;color:#3A2600;box-shadow:0 8px 20px -10px rgba(255,197,61,.95)}
+.btn.ghost{background:rgba(255,255,255,.04)}
+.btn.sm{min-height:38px;padding:0 13px;font-size:13px;border-radius:10px}
+.btn[disabled]{opacity:.42;pointer-events:none}
+.chk{
+  width:44px;height:44px;flex:0 0 44px;border-radius:12px;
+  border:1.5px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);
+  display:flex;align-items:center;justify-content:center;transition:all .18s;
+}
+.chk svg{width:22px;height:22px;stroke:rgba(255,255,255,.35);fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;transition:all .18s}
+.chk.done{background:linear-gradient(135deg,rgba(40,196,107,.9),rgba(40,196,107,.55));border-color:rgba(40,196,107,.9);box-shadow:0 0 14px rgba(40,196,107,.45)}
+.chk.done svg{stroke:#fff;stroke-dashoffset:0}
+.chk:active{transform:scale(.92)}
+/* 商店 */
+.shop-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.shop-item{
+  background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:14px;
+  padding:12px;text-align:center;position:relative;transition:all .18s;
+}
+.shop-item .ic{width:34px;height:34px;margin:0 auto 6px;display:block}
+.shop-item .nm{font-size:13px;font-weight:600}
+.shop-item .cost{font-size:12px;color:var(--gold);font-weight:700;margin-top:3px;font-variant-numeric:tabular-nums}
+.shop-item .lock{position:absolute;top:8px;right:8px;font-size:10px;color:var(--txt3)}
+.shop-item.can{border-color:rgba(255,197,61,.62);background:linear-gradient(160deg,rgba(255,197,61,.16),rgba(255,197,61,.05));box-shadow:0 0 0 1px rgba(255,197,61,.2) inset,0 8px 22px -14px rgba(255,197,61,.9)}
+.shop-item.can .cost{color:var(--gold2)}
+.shop-item:not(.can){opacity:.62}
+.shop-item:active{transform:scale(.97)}
+/* Tab 底部导航 */
+.tabbar{
+  position:fixed;left:0;right:0;bottom:0;z-index:70;
+  padding:6px 8px calc(6px + var(--safe-b));
+  background:linear-gradient(0deg,rgba(8,12,28,.98),rgba(8,12,28,.86));
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-top:1px solid var(--line);
+}
+.tabbar-in{max-width:560px;margin:0 auto;display:flex}
+.tab{
+  flex:1;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  color:var(--txt3);font-size:10.5px;border-radius:12px;transition:color .18s;
+}
+.tab svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.tab.on{color:var(--blue2)}
+.tab.on svg{stroke:var(--blue2);filter:drop-shadow(0 0 6px rgba(78,139,255,.8))}
+/* 弹层 */
+.mask{position:fixed;inset:0;background:rgba(4,7,18,.72);backdrop-filter:blur(4px);z-index:90;display:none;align-items:center;justify-content:center;padding:16px}
+.mask.on{display:flex}
+.modal{
+  width:100%;max-width:420px;background:linear-gradient(160deg,#18213E,#111830);
+  border:1px solid rgba(255,255,255,.14);border-radius:20px;padding:18px;
+  max-height:86vh;overflow:auto;box-shadow:0 24px 60px -20px rgba(0,0,0,.9);
+  animation:pop .22s cubic-bezier(.2,.9,.3,1.2);
+}
+@keyframes pop{from{transform:scale(.92) translateY(10px);opacity:0}to{transform:none;opacity:1}}
+.modal h3{margin:0 0 6px;font-size:17px}
+.modal p{margin:0 0 14px;font-size:12.5px;color:var(--txt2);line-height:1.6}
+.modal .row{display:flex;gap:8px;margin-top:14px}
+.modal .row .btn{flex:1}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:11.5px;color:var(--txt2);margin-bottom:5px}
+.field input,.field textarea,.field select{
+  width:100%;min-height:46px;padding:10px 12px;border-radius:12px;
+  background:rgba(0,0,0,.35);border:1px solid var(--line);color:var(--txt);outline:none;
+}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--blue2);box-shadow:0 0 0 3px rgba(47,107,255,.18)}
+/* toast */
+.toast{
+  position:fixed;left:50%;bottom:calc(88px + var(--safe-b));transform:translateX(-50%) translateY(20px);
+  z-index:120;background:rgba(20,28,52,.96);border:1px solid rgba(255,255,255,.16);
+  padding:11px 18px;border-radius:14px;font-size:13px;font-weight:600;
+  opacity:0;transition:all .28s cubic-bezier(.2,.9,.3,1.2);pointer-events:none;max-width:88vw;text-align:center;
+  box-shadow:0 14px 36px -14px rgba(0,0,0,.95);
+}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.ok{border-color:rgba(40,196,107,.6);color:#B6FFD6}
+.toast.err{border-color:rgba(255,77,94,.6);color:#FFC3C9}
+/* 备份提醒条 */
+.warn{
+  display:flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,rgba(255,197,61,.18),rgba(255,197,61,.05));
+  border:1px solid rgba(255,197,61,.42);border-radius:14px;
+  padding:11px 13px;margin-bottom:12px;font-size:12px;color:#FFE3A3;line-height:1.5;
+}
+.warn b{color:var(--gold);font-variant-numeric:tabular-nums}
+/* 骨架 */
+.skel{height:14px;border-radius:7px;background:linear-gradient(90deg,rgba(255,255,255,.06),rgba(255,255,255,.14),rgba(255,255,255,.06));background-size:200% 100%;animation:sk 1.3s infinite}
+@keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.hide{display:none!important}
+/* 走势图 */
+.trend{display:flex;align-items:flex-end;gap:10px;height:96px;padding-top:4px}
+.trend .bar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:5px}
+.trend .bar .col{
+  width:100%;max-width:46px;border-radius:8px 8px 4px 4px;min-height:4px;
+  background:linear-gradient(180deg,#4E8BFF,#2F6BFF);position:relative;
+  transition:height .6s cubic-bezier(.2,.8,.2,1);
+}
+.trend .bar .col.hi{background:linear-gradient(180deg,#FFDE8A,#FFC53D)}
+.trend .bar .col .v{position:absolute;top:-17px;left:0;right:0;text-align:center;font-size:10.5px;color:var(--txt2);font-variant-numeric:tabular-nums}
+.trend .bar .lb{font-size:10.5px;color:var(--txt3);white-space:nowrap}
+.trend .bar.today .lb{color:var(--blue2);font-weight:700}
+/* 桌面 */
+@media(min-width:820px){
+  body{font-size:15.5px;padding-left:200px;padding-bottom:0}
+  .wrap{max-width:1100px;padding-bottom:32px}
+  .grid2{display:grid;grid-template-columns:1.12fr .88fr;gap:14px;align-items:start}
+  .grid2 > div > .card:last-child{margin-bottom:0}
+  .shop-grid{grid-template-columns:1fr 1fr}
+  .tabbar{display:none}
+  .topbar .brand{display:none}
+  .topbar-in{max-width:1100px;justify-content:flex-end}
+  .topbar .stats{margin-left:0}
+  .stat{min-width:70px;padding:6px 14px}
+  .stat b{font-size:18px}
+  .stat i{font-size:10.5px}
+  #sidenav{display:flex}
+  .page-h .back{display:none!important}
+  .page-h h1{font-size:22px}
+}
+@media(max-width:819px){ .side-nav{display:none!important} }
+/* 侧边导航（桌面） */
+.side-nav{
+  position:fixed;left:0;top:0;bottom:0;width:200px;z-index:65;
+  padding:calc(16px + env(safe-area-inset-top,0px)) 12px 16px;
+  background:linear-gradient(180deg,rgba(14,20,44,.96),rgba(10,14,32,.96));
+  border-right:1px solid var(--line);flex-direction:column;gap:4px;display:none;
+}
+.side-nav .brand{margin-bottom:14px;padding-left:6px}
+.nav-i{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:11px;color:var(--txt2);font-size:13.5px;transition:all .16s}
+.nav-i svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.nav-i.on{background:linear-gradient(90deg,rgba(47,107,255,.28),rgba(47,107,255,.06));color:#fff;border-left:2px solid var(--blue2)}
+.nav-i:active{transform:scale(.98)}
+@media(min-width:820px){
+  body{padding-left:200px}
+  .topbar{padding-left:214px}
+  .tabbar{display:none}
+}
+/* 子页头 */
+.page-h{display:flex;align-items:center;gap:10px;margin:2px 0 12px}
+.page-h .back{width:38px;height:38px;border-radius:11px;background:rgba(255,255,255,.06);border:1px solid var(--line);display:none;align-items:center;justify-content:center}
+.page-h .back svg{width:18px;height:18px;stroke:var(--txt);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.page-h h1{margin:0;font-size:19px;font-weight:800;letter-spacing:.3px}
+.page-h .sub{font-size:11px;color:var(--txt3);margin-left:auto;text-align:right;line-height:1.4}
+@media(max-width:819px){.page-h .back{display:flex}}
+@media(min-width:820px){ .page-h h1{font-size:21px} }
+</style>
+</head>
+<body data-page-node-id="JocmczEAYwZamsA8iYPTrm">
+
+<!-- 顶栏 -->
+<header class="topbar" data-page-node-id="cikuBI9vWGTCtBidWqsSJF">
+  <div class="topbar-in" data-page-node-id="eHBDBz8385apFaOY4JL49n">
+    <div class="brand" data-page-node-id="wG3cBbn3VCJGcSCQ6qIZzD">
+      <svg class="brand-logo" viewBox="0 0 40 40" aria-hidden="true" data-page-node-id="8ZCbnkyyVSBRAOBzsBwOa6">
+        <defs data-page-node-id="9obU5w4zQK9lWwA36yODN7"><linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1" data-page-node-id="HLLDoMv9EIWvRZlmMc2xYT"><stop offset="0" stop-color="#4E8BFF" data-page-node-id="7EbAWUaxyjdzffm0SDz6fz"/><stop offset="1" stop-color="#3FD8F0" data-page-node-id="znkGH1AfdlDHLylG4DXqOy"/></linearGradient></defs>
+        <rect x="1" y="1" width="38" height="38" rx="11" fill="url(#lg1)" opacity=".18" data-page-node-id="zLHiD165DKXW4FXAhEEDQn"/>
+        <rect x="1.5" y="1.5" width="37" height="37" rx="10.5" fill="none" stroke="rgba(78,139,255,.55)" data-page-node-id="eTow6aHwLy24a0Wg8DoLHE"/>
+        <path d="M15 11h10l3.5 4v14.5a1.5 1.5 0 0 1-1.5 1.5H13a1.5 1.5 0 0 1-1.5-1.5V15z" fill="none" stroke="#8FB8FF" stroke-width="2" stroke-linejoin="round" data-page-node-id="xe4wkJx7xUy8KjHWCHbWeO"/>
+        <path d="M17 18.5h6M17 22.5h6M17 26h4" stroke="#3FD8F0" stroke-width="2" stroke-linecap="round" data-page-node-id="TXthtYR0i1WGDBcn6LEXOz"/>
+      </svg>
+      <div class="brand-t" data-page-node-id="qoVpyzC3rIyL5cclSihsak"><b data-page-node-id="4lmiFz7DOmaShlzOAkSdpf">汽车人训练营</b><span data-page-node-id="wDOABE5HkDW25EyjfEnwxB">AUTOBOT CAMP</span></div>
+    </div>
+    <div class="stats" data-page-node-id="g5JZsKFWzbAFOlTDGf9TGm">
+      <div class="stat gold" data-page-node-id="qIE5eNE1jyN0GCqoUDsQCJ"><i data-page-node-id="QoH3vhYnADJdPgsNdX4x91">能量块</i><b id="hdr-coin" data-page-node-id="NA1KwMLhCyUwVI31HyFVtW">0</b></div>
+      <div class="stat blue" data-page-node-id="TBzNI6N7zwMtQezdvBERGj"><i data-page-node-id="0NpwMn3jVwUbRLNhcKUqJ1">今日</i><b id="hdr-today" data-page-node-id="UQkyWRdrA8lebyZhxFGwC4">0</b></div>
+      <div class="stat cy" data-page-node-id="nusJiKQkC2pbrbTnqByNeX"><i data-page-node-id="TAlfK4RXCP1xbZkbyxNoxA">打卡天</i><b id="hdr-days" data-page-node-id="dMju1GqryErnxNLxHYPEVr">0</b></div>
+    </div>
+    <span class="syncdot" id="syncdot" title="同步状态" data-page-node-id="CcNoggbASolnrIrZx9n1OI"></span>
+  </div>
+</header>
+
+<!-- 桌面侧栏 -->
+<nav class="side-nav" id="sidenav" data-page-node-id="8JK2GhB8PjA4UvE7ANGPUM">
+  <div class="brand" data-page-node-id="NmNmFxiLj2gTZNPi8jL2jc">
+    <svg class="brand-logo" viewBox="0 0 40 40" aria-hidden="true" data-page-node-id="pKkaCyFdPHOXelPz5vC6JQ">
+      <rect x="1" y="1" width="38" height="38" rx="11" fill="url(#lg1)" opacity=".18" data-page-node-id="5LWGaTZEB3RHd6ab8O7NCk"/>
+      <rect x="1.5" y="1.5" width="37" height="37" rx="10.5" fill="none" stroke="rgba(78,139,255,.55)" data-page-node-id="jNIshm3FXAbqH2gaXMPovc"/>
+      <path d="M15 11h10l3.5 4v14.5a1.5 1.5 0 0 1-1.5 1.5H13a1.5 1.5 0 0 1-1.5-1.5V15z" fill="none" stroke="#8FB8FF" stroke-width="2" stroke-linejoin="round" data-page-node-id="O4i1nmGzFdKiW8K8EzRQFE"/>
+      <path d="M17 18.5h6M17 22.5h6M17 26h4" stroke="#3FD8F0" stroke-width="2" stroke-linecap="round" data-page-node-id="KhVYGWBGqQUZA1V3ipACHj"/>
+    </svg>
+    <div class="brand-t" data-page-node-id="vnsIMnZtr4UHakNNCdvvJ0"><b data-page-node-id="0qsdx78WTdYJWO7hTwjvUV">汽车人训练营</b><span data-page-node-id="SrqNMtvT8EKjYJVCfcS2Ev">第一期</span></div>
+  </div>
+  <div id="navlist" data-page-node-id="11nxehwD395BPdeT1lnzcG"></div>
+</nav>
+
+<!-- 内容 -->
+<main class="wrap" id="wrap" data-page-node-id="VcBEpVeHBM9281zFtMNLIR">
+
+  <!-- 首页 -->
+  <section id="view-home" data-page-node-id="J9WtDsPh6hsYncgGbs0PLz">
+    <div id="backup-warn" class="warn hide" data-page-node-id="afFDHr0SLoPWePOg9KgPBa"></div>
+    <div class="grid2" data-page-node-id="ty4ubs4q4MIfoyOm4hrX5b">
+      <div data-page-node-id="hkqbvsAFnu95SdLVq3Ll0X">
+        <!-- 对战场 -->
+        <div class="card arena" data-page-node-id="FKzS96mXFbxA1KZ3myV9TN">
+          <div class="card-h" data-page-node-id="3WQ1rtqCzL4BJWWwEOIgHY">
+            <h2 data-page-node-id="AtnKmCMw2RvEQZaGYnsAvo">第 <span id="arena-day" data-page-node-id="KTBjNEQil6fKPGOFXBkflB">1</span> 天 · 今日战场</h2>
+            <span class="badge g" id="arena-state" data-page-node-id="rfuefa7BXlMpPvS5Mw8T7B">进行中</span>
+          </div>
+          <div class="vs-row" data-page-node-id="qpTiNDSyK4t5rTKoe03Qgk">
+            <div class="fighter" data-page-node-id="ZoWtsdIHNXeGsijl2PIaEj">
+              <img id="img-a" alt="擎天柱" src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 240' width='200' height='240'%3E %3Cdefs%3E %3ClinearGradient id='oBlue' x1='0' y1='0' x2='0.7' y2='1'%3E %3Cstop offset='0' stop-color='%235B8DEF'/%3E%3Cstop offset='0.5' stop-color='%232F5FC4'/%3E%3Cstop offset='1' stop-color='%231B3A80'/%3E %3C/linearGradient%3E %3ClinearGradient id='oRed' x1='0' y1='0' x2='0' y2='1'%3E %3Cstop offset='0' stop-color='%23E8484F'/%3E%3Cstop offset='1' stop-color='%23B3202B'/%3E %3C/linearGradient%3E %3ClinearGradient id='oSteel' x1='0' y1='0' x2='1' y2='1'%3E %3Cstop offset='0' stop-color='%23D9E2F2'/%3E%3Cstop offset='0.55' stop-color='%2398A8C4'/%3E%3Cstop offset='1' stop-color='%2366748F'/%3E %3C/linearGradient%3E %3ClinearGradient id='oVis' x1='0' y1='0' x2='0' y2='1'%3E %3Cstop offset='0' stop-color='%238FE8FF'/%3E%3Cstop offset='1' stop-color='%232FA8D8'/%3E %3C/linearGradient%3E %3CradialGradient id='oGlow' cx='0.5' cy='0.35' r='0.6'%3E %3Cstop offset='0' stop-color='%236FA8FF' stop-opacity='0.45'/%3E%3Cstop offset='1' stop-color='%236FA8FF' stop-opacity='0'/%3E %3C/radialGradient%3E %3C/defs%3E %3Cellipse cx='100' cy='118' rx='96' ry='112' fill='url(%23oGlow)'/%3E %3C!-- 腿部 --%3E %3Cpath d='M72 150 L68 214 L58 224 L84 224 L88 214 L92 150 Z' fill='url(%23oSteel)'/%3E %3Cpath d='M128 150 L132 214 L142 224 L116 224 L112 214 L108 150 Z' fill='url(%23oSteel)'/%3E %3Cpath d='M72 150 L92 150 L90 176 L74 176 Z' fill='%238FA2C0' opacity='0.85'/%3E %3Cpath d='M128 150 L108 150 L110 176 L126 176 Z' fill='%238FA2C0' opacity='0.85'/%3E %3Cpath d='M58 224 L84 224 L84 232 L54 232 Z' fill='%233E4A63'/%3E %3Cpath d='M142 224 L116 224 L116 232 L146 232 Z' fill='%233E4A63'/%3E %3C!-- 腰 --%3E %3Cpath d='M74 130 L126 130 L132 152 L68 152 Z' fill='%232C3E63'/%3E %3Cpath d='M78 138 L122 138 L124 148 L76 148 Z' fill='url(%23oSteel)' opacity='0.55'/%3E %3C!-- 躯干 --%3E %3Cpath d='M66 74 Q100 62 134 74 L140 132 Q100 144 60 132 Z' fill='url(%23oBlue)'/%3E %3C!-- 车窗胸甲 --%3E %3Cpath d='M82 78 L100 76 L100 106 L78 108 Z' fill='url(%23oVis)' opacity='0.92'/%3E %3Cpath d='M118 78 L100 76 L100 106 L122 108 Z' fill='url(%23oVis)' opacity='0.92'/%3E %3Cpath d='M82 78 L100 76 L100 106 L78 108 Z' fill='none' stroke='%23EAF4FF' stroke-width='1.6'/%3E %3Cpath d='M118 78 L100 76 L100 106 L122 108 Z' fill='none' stroke='%23EAF4FF' stroke-width='1.6'/%3E %3C!-- 肩甲 --%3E %3Cpath d='M64 72 Q46 70 42 86 L44 100 Q60 104 68 96 L70 80 Z' fill='url(%23oRed)'/%3E %3Cpath d='M136 72 Q154 70 158 86 L156 100 Q140 104 132 96 L130 80 Z' fill='url(%23oRed)'/%3E %3Cpath d='M46 82 L66 78 L66 90 L46 94 Z' fill='%23F26A6F' opacity='0.5'/%3E %3Cpath d='M154 82 L134 78 L134 90 L154 94 Z' fill='%23F26A6F' opacity='0.5'/%3E %3C!-- 手臂 --%3E %3Cpath d='M44 100 L34 152 L48 156 L58 106 Z' fill='url(%23oSteel)'/%3E %3Cpath d='M156 100 L166 152 L152 156 L142 106 Z' fill='url(%23oSteel)'/%3E %3Cpath d='M34 152 L48 156 L46 172 L32 168 Z' fill='%237C8AA6'/%3E %3Cpath d='M166 152 L152 156 L154 172 L168 168 Z' fill='%237C8AA6'/%3E %3C!-- 头部 --%3E %3Cpath d='M84 40 L116 40 L120 62 L112 72 L88 72 L80 62 Z' fill='url(%23oSteel)'/%3E %3C!-- 头盔耳罩 --%3E %3Cpath d='M80 50 L74 54 L76 66 L82 64 Z' fill='url(%23oBlue)'/%3E %3Cpath d='M120 50 L126 54 L124 66 L118 64 Z' fill='url(%23oBlue)'/%3E %3C!-- 面罩 --%3E %3Cpath d='M86 54 L114 54 L112 70 L88 70 Z' fill='%23243152'/%3E %3Cpath d='M88 58 L98 58 L98 63 L88 63 Z' fill='url(%23oVis)'/%3E %3Cpath d='M102 58 L112 58 L112 63 L102 63 Z' fill='url(%23oVis)'/%3E %3Cpath d='M92 66 L108 66 L108 69 L92 69 Z' fill='%237C8AA6' opacity='0.7'/%3E %3C!-- 头顶天线/冠饰 --%3E %3Cpath d='M96 40 L100 26 L104 40 Z' fill='url(%23oRed)'/%3E %3Cpath d='M100 30 L100 38' stroke='%23FFD0D3' stroke-width='1.4'/%3E %3C!-- 天窗 --%3E %3Cpath d='M90 44 L110 44 L108 50 L92 50 Z' fill='%23A9BCD8' opacity='0.55'/%3E %3C!-- 高光 --%3E %3Cpath d='M70 82 L78 78 L76 120 L68 122 Z' fill='%23AFC6F0' opacity='0.28'/%3E %3C/svg%3E" data-page-node-id="3lMPFF6jKMX4f8bHrxuZsG">
+              <div class="fname" style="color:#8FB8FF" data-page-node-id="tPxCklq4QHwsJO3jpejiqn">擎天柱</div>
+              <div class="fsub" data-page-node-id="2sx6ZTfXcFKBiIyjZka7TE">我方战力</div>
+              <div class="hp blue" data-page-node-id="RIBB4wKOhhM66lbN05AWS2"><i id="hp-a" style="width:20%" data-page-node-id="3n602qsVCjlZwllVMs4ES1"></i></div>
+              <div class="hp-txt" data-page-node-id="0dfcqYsxcnYSeGvPziA59N"><span id="hp-a-txt" data-page-node-id="ZKXjUfcC36upvb3fhRsJZB">0</span> / 100</div>
+            </div>
+            <div class="vs" data-page-node-id="B9YvTkS9GY1NhdLMgjdtNv">VS</div>
+            <div class="fighter" data-page-node-id="mzyraqVRcbsuSBt3wTc6Dn">
+              <img id="img-b" alt="威震天" src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 240' width='200' height='240'%3E %3Cdefs%3E %3ClinearGradient id='mDark' x1='0' y1='0' x2='0.7' y2='1'%3E %3Cstop offset='0' stop-color='%236E7A92'/%3E%3Cstop offset='0.5' stop-color='%233E485E'/%3E%3Cstop offset='1' stop-color='%23232A3B'/%3E %3C/linearGradient%3E %3ClinearGradient id='mSteel' x1='0' y1='0' x2='1' y2='1'%3E %3Cstop offset='0' stop-color='%23B9C4D6'/%3E%3Cstop offset='0.55' stop-color='%237C879C'/%3E%3Cstop offset='1' stop-color='%234C5568'/%3E %3C/linearGradient%3E %3ClinearGradient id='mVio' x1='0' y1='0' x2='0' y2='1'%3E %3Cstop offset='0' stop-color='%239B6BFF'/%3E%3Cstop offset='1' stop-color='%235A2FB0'/%3E %3C/linearGradient%3E %3ClinearGradient id='mEye' x1='0' y1='0' x2='0' y2='1'%3E %3Cstop offset='0' stop-color='%23FF8B8B'/%3E%3Cstop offset='1' stop-color='%23E0253A'/%3E %3C/linearGradient%3E %3CradialGradient id='mGlow' cx='0.5' cy='0.35' r='0.6'%3E %3Cstop offset='0' stop-color='%23FF4D5E' stop-opacity='0.34'/%3E%3Cstop offset='1' stop-color='%23FF4D5E' stop-opacity='0'/%3E %3C/radialGradient%3E %3C/defs%3E %3Cellipse cx='100' cy='118' rx='96' ry='112' fill='url(%23mGlow)'/%3E %3C!-- 腿 --%3E %3Cpath d='M74 152 Q66 190 60 218 L88 218 Q90 188 94 152 Z' fill='url(%23mSteel)'/%3E %3Cpath d='M126 152 Q134 190 140 218 L112 218 Q110 188 106 152 Z' fill='url(%23mSteel)'/%3E %3Cpath d='M60 218 L88 218 L88 228 L54 228 Z' fill='%232C3244'/%3E %3Cpath d='M140 218 L112 218 L112 228 L146 228 Z' fill='%232C3244'/%3E %3Cpath d='M74 156 Q84 172 94 156 L94 178 L74 178 Z' fill='url(%23mVio)' opacity='0.65'/%3E %3Cpath d='M126 156 Q116 172 106 156 L106 178 L126 178 Z' fill='url(%23mVio)' opacity='0.65'/%3E %3C!-- 腰 --%3E %3Cpath d='M72 128 L128 128 L134 154 L66 154 Z' fill='%232A3040'/%3E %3C!-- 躯干 --%3E %3Cpath d='M62 66 Q100 52 138 66 L146 130 Q100 146 54 130 Z' fill='url(%23mDark)'/%3E %3C!-- 胸前能量核心 --%3E %3Cpath d='M84 80 L116 80 L120 104 L100 116 L80 104 Z' fill='url(%23mVio)' opacity='0.9'/%3E %3Cpath d='M100 86 L110 94 L100 106 L90 94 Z' fill='%23E7D9FF' opacity='0.9'/%3E %3C!-- 肩甲（尖刺） --%3E %3Cpath d='M64 64 L36 72 L40 92 L50 98 L70 90 L72 72 Z' fill='url(%23mDark)'/%3E %3Cpath d='M136 64 L164 72 L160 92 L150 98 L130 90 L128 72 Z' fill='url(%23mDark)'/%3E %3Cpath d='M40 70 L28 60 L44 66 Z' fill='%238A93A8'/%3E %3Cpath d='M160 70 L172 60 L156 66 Z' fill='%238A93A8'/%3E %3Cpath d='M44 80 L66 76 L66 88 L44 92 Z' fill='%235A6478' opacity='0.8'/%3E %3Cpath d='M156 80 L134 76 L134 88 L156 92 Z' fill='%235A6478' opacity='0.8'/%3E %3C!-- 手臂 --%3E %3Cpath d='M42 98 L30 150 L46 154 L58 104 Z' fill='url(%23mSteel)'/%3E %3Cpath d='M158 98 L170 150 L154 154 L142 104 Z' fill='url(%23mSteel)'/%3E %3Cpath d='M30 150 L46 154 L44 172 L28 166 Z' fill='%235B6478'/%3E %3Cpath d='M170 150 L154 154 L156 172 L172 166 Z' fill='%235B6478'/%3E %3C!-- 头部 --%3E %3Cpath d='M82 36 L118 36 L122 60 L112 72 L88 72 L78 60 Z' fill='url(%23mSteel)'/%3E %3C!-- 头盔两侧 --%3E %3Cpath d='M78 46 L70 50 L72 64 L80 62 Z' fill='url(%23mDark)'/%3E %3Cpath d='M122 46 L130 50 L128 64 L120 62 Z' fill='url(%23mDark)'/%3E %3C!-- 面罩 --%3E %3Cpath d='M84 50 L116 50 L114 70 L86 70 Z' fill='%231B2130'/%3E %3C!-- 眼睛 --%3E %3Cpath d='M88 56 L99 54 L100 60 L89 62 Z' fill='url(%23mEye)'/%3E %3Cpath d='M112 56 L101 54 L100 60 L111 62 Z' fill='url(%23mEye)'/%3E %3C!-- 嘴部格栅 --%3E %3Cpath d='M92 65 L108 65 L107 69 L93 69 Z' fill='%235B6478'/%3E %3Cpath d='M95 66 L95 69 M100 66 L100 69 M105 66 L105 69' stroke='%231B2130' stroke-width='1.2'/%3E %3C!-- 头顶尖冠 --%3E %3Cpath d='M88 36 L84 22 L96 32 Z' fill='url(%23mDark)'/%3E %3Cpath d='M112 36 L116 22 L104 32 Z' fill='url(%23mDark)'/%3E %3Cpath d='M94 34 L100 24 L106 34 Z' fill='%238A93A8'/%3E %3C!-- 高光 --%3E %3Cpath d='M66 74 L76 70 L74 116 L64 118 Z' fill='%23C6D0E0' opacity='0.18'/%3E %3C/svg%3E" data-page-node-id="y34EvHuiEtx2WdNgVMcMcE">
+              <div class="fname" style="color:#FF8A93" data-page-node-id="Xh34eQOUG8DqOWbd8EUZDv">威震天</div>
+              <div class="fsub" data-page-node-id="ghKTTwI98mnr4T0R1DMOCs">敌方坚固度</div>
+              <div class="hp red" data-page-node-id="uP4QDPVmxyZDEH2EeSkYcL"><i id="hp-b" style="width:100%" data-page-node-id="8xVl0oMbJnvc4HNTaQO5H9"></i></div>
+              <div class="hp-txt" data-page-node-id="hOzk8DE3urBUpF1Xu3OhJu"><span id="hp-b-txt" data-page-node-id="K0bixmkRg4L5bm4zm2Vwa5">100</span> / 100</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:14px" data-page-node-id="KfgBnKsMS9zlspeBzNxl5K">
+            <button class="btn pri" style="flex:1" id="btn-settle" data-page-node-id="HtGkQrAoszKdKCM0HWmweS">结算今天的战斗</button>
+          </div>
+          <div class="chips" data-page-node-id="Wovq4nhKJH0ZkljzU8dHYk">
+            <span class="chip" data-page-node-id="E8Ufa5v4O8q7QMaVI7Hh1R">学习 <b id="c-study" data-page-node-id="C2MZzavGMlVthkcnpOUgEi">0</b>/55</span>
+            <span class="chip" data-page-node-id="CPfxp1r8riEe4kaxFwlxIM">运动 <b id="c-sport" data-page-node-id="eiORcxJxmdPrbHdye7ilwe">0</b>/40</span>
+            <span class="chip" data-page-node-id="7CCnBHb1nkijvoU1y0dhcH">行为 <b id="c-behavior" data-page-node-id="0XClQK0jBYZNTG3kDoDfEv">0</b></span>
+            <span class="chip" data-page-node-id="DqcnZm6RCx78OyhKcqlr4D">科普 <b id="c-quiz" data-page-node-id="Y8Qwnqt9ALwHLG4ACzRcUh">0</b>/10</span>
+          </div>
+        </div>
+
+        <!-- 今日进度 -->
+        <div class="card" data-page-node-id="BjDZk6lNSuHJykVyfx2FU0">
+          <div class="card-h" data-page-node-id="hqKuzzhXRJ4w6QqLjHndHV"><h2 data-page-node-id="xos5D5pNuhHWs94KTP0Zsd">今日进度</h2><span class="sub" id="today-date" data-page-node-id="3v3oEoheCaxCrGTbGFMham"></span></div>
+          <div class="prog-wrap" data-page-node-id="URAHl6LMr7ChKiCq4ky4kc">
+            <div class="ring" id="ring" data-page-node-id="bPqwx9MBOmLShx5Xmk1ojQ"></div>
+            <div class="prog-info" data-page-node-id="d3B85jh1aOGQXNhbJguJqN">
+              <div class="big" data-page-node-id="oRfFoLPoWkwaYAJpqe1gIw"><span id="today-score" data-page-node-id="RRJB18lgzF8fnLpnZHSr7c">0</span><small data-page-node-id="RgWYlhdmCuGdzVZrlVudln"> 分 / 105</small></div>
+              <p id="today-tip" data-page-node-id="9DoC72uZzgVVkxqk6pHE2e">完成一项得一分战力，赶紧开工吧</p>
+              <p style="color:var(--txt3);font-size:11px" id="settle-tip" data-page-node-id="MFQaJbOvZXktyaNZkkelcy"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 最近三天 -->
+        <div class="card" data-page-node-id="kAWixoect27vlrQoXJuhJy">
+          <div class="card-h" data-page-node-id="iI5aAzNzohx1SHChUPcZzh"><h2 data-page-node-id="AVEac2AIjd5rW5bqa9r8qI">最近三天</h2><span class="sub" data-page-node-id="rcDuouugQCfM5l9rgKFSCD">战力走势</span></div>
+          <div class="trend" id="trend" data-page-node-id="VbMQC2MOy0CiCsOAoIz5iz"></div>
+          <div class="chips" style="margin-top:12px" data-page-node-id="q1TA8GbuDWkSLClXAI3ZLG">
+            <span class="chip" data-page-node-id="Ck7Qlb9hBQMVcTOIcWAere">连续打卡 <b id="stat-streak" data-page-node-id="2Pdz70tHosDvCp6EX4T9Iv">0</b> 天</span>
+            <span class="chip" data-page-node-id="T1yfFLBjeoXchimUyQhjak">累计 <b id="stat-total" data-page-node-id="71V4WFK1YG0CvuWzHMDumP">0</b> 条记录</span>
+            <span class="chip" data-page-node-id="oCH4vqMXNTE616xHVcr1OQ">已完成 <b id="stat-all" data-page-node-id="emnHffO4IItxO6Eo65BfEz">0</b> 项任务</span>
+          </div>
+        </div>
+      </div>
+
+      <div data-page-node-id="iGn8naYDDjYf7KFcH2UHhl">
+        <!-- 学习任务速览 -->
+        <div class="card" data-page-node-id="PUoZ55C2vQWEUEkr85AoW3">
+          <div class="card-h" data-page-node-id="AEQvjYdFY4GzRFVFn9ZXiA"><h2 data-page-node-id="1qB1Q2TQ9RoxFCU5HkYfaG">学习任务</h2><span class="badge" id="study-badge" data-page-node-id="K7PDHnRmPXHK6SUuTvRsuP">0/11</span></div>
+          <div id="study-quick" data-page-node-id="vBQx67n0MMGXksEthXdIav"></div>
+          <button class="btn ghost sm" style="width:100%;margin-top:10px" data-go="study" data-page-node-id="OaFefOAEIjFGoGYhTQgtGg">查看全部任务</button>
+        </div>
+
+        <!-- 能量块兑换 -->
+        <div class="card" data-page-node-id="6i4JYy1akfQuxrSnxfqdYO">
+          <div class="card-h" data-page-node-id="oOG1XmylnbkPtsfRHskA3L"><h2 data-page-node-id="yywEQrNIQ2UnVtiXztL1YX">奖励商店</h2><span class="sub" id="shop-coin" data-page-node-id="6Ux0iLh4kaNY0Hsf97cSNV">0 能量块</span></div>
+          <div class="shop-grid" id="shop-quick" data-page-node-id="T6TbkAc4HYnDSRaxvoCecX"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 学习任务 -->
+  <section id="view-study" class="hide" data-page-node-id="DijGjw0wGEvtiuQR2ZmVnR">
+    <div class="page-h" data-page-node-id="94bYntSgUrXCouirEakIvW">
+      <button class="back" data-go="home" aria-label="返回" data-page-node-id="Ramc3dPSeiN38J0J6zpkUk"><svg viewBox="0 0 24 24" data-page-node-id="HCZaDaJuCAh03QZW4JyEuE"><path d="M15 18l-6-6 6-6" data-page-node-id="iXAB2Ex3QXuGqCXLlCO1DT"/></svg></button>
+      <h1 data-page-node-id="QZ9ner1gyj57oUPl3vqpc6">学习任务</h1>
+      <span class="sub" id="study-sub" data-page-node-id="VpOXzz3h9rYWIFTkMgoL31">满分 55 分</span>
+    </div>
+    <div class="card" data-page-node-id="0PyFW7L8jqxTcUuYaXEfIj">
+      <div class="card-h" data-page-node-id="KPpye3zSuLrBDfO2Uc0jAE"><h2 data-page-node-id="le0xpiIHQCMB6Ea1AQreJO">今日 11 项</h2><span class="badge g" id="study-score" data-page-node-id="VwwCOk66vlupZEoGgXkxFy">0 分</span></div>
+      <div id="study-list" data-page-node-id="fxHNYOtrWkhDANSMrshhkD"></div>
+    </div>
+    <div class="card" data-page-node-id="RhfOVWmkbXZFAvxyYbCb1Q">
+      <div class="card-h" data-page-node-id="ETBHI7y0wjNUuJWxH08Zaq"><h2 data-page-node-id="GBPEtFkHa5zg892HBrm6RZ">状态</h2></div>
+      <p style="font-size:12px;color:var(--txt2);margin:0 0 12px" id="study-done-txt" data-page-node-id="mwIo3nEASfjIm0TIktI9mY">还没有开始打卡</p>
+      <button class="btn ghost sm" id="btn-study-reset" style="width:100%" data-page-node-id="U4rHh4XFTixJ3sA2xEI6jH">撤销今天的学习打卡</button>
+    </div>
+  </section>
+
+  <!-- 奖励商店 -->
+  <section id="view-shop" class="hide" data-page-node-id="yLyKSvWUE7iMqEznmcjfC5">
+    <div class="page-h" data-page-node-id="73PPA8GSggvCKXK4Ozm82V">
+      <button class="back" data-go="home" aria-label="返回" data-page-node-id="XH2qTEpzH7HDL2Lc97OReb"><svg viewBox="0 0 24 24" data-page-node-id="KM9iPi8ztN0WVPcxYdrbZ2"><path d="M15 18l-6-6 6-6" data-page-node-id="W4CitDqd2qIIkRRbRauEh7"/></svg></button>
+      <h1 data-page-node-id="7SYLeqRVyjsovUNJzBPHHK">奖励商店</h1>
+      <span class="sub" id="shop-sub" data-page-node-id="2QZJCuHa3988hWWGPJXbOW">用能量块兑换</span>
+    </div>
+    <div class="card" data-page-node-id="9NEbfHBwOAUt4qLuEJlDvr">
+      <div class="card-h" data-page-node-id="4zIMwulznUUegmRDUKcGgk"><h2 data-page-node-id="XOjWGLQ4Y85gQ5hZuDBQbU">我的能量块</h2><span class="badge g" id="shop-balance" data-page-node-id="KJRfQzpNaU8QFQfYGYzCu2">0</span></div>
+      <div class="shop-grid" id="shop-list" data-page-node-id="ZRSb4hYYfY70I0XdeAFaEF"></div>
+    </div>
+    <div class="card" data-page-node-id="TNLtGSzvxfBlAbzA64fDxW">
+      <div class="card-h" data-page-node-id="cRlRKXuBc62YW99JhxeNSG"><h2 data-page-node-id="hU7VgMD4WgBgJ0FWRKFN40">今天兑换过</h2><span class="sub" data-page-node-id="VsvTXxL4wFrc1sfqU8tCWf">每日清零</span></div>
+      <div id="shop-today" data-page-node-id="vzEiTPcKfNZ6va6ClhzUqd"></div>
+    </div>
+  </section>
+
+  <!-- 设置 -->
+  <section id="view-setting" class="hide" data-page-node-id="Rtgra9trusVgvRyoEbm2X8">
+    <div class="page-h" data-page-node-id="yGb83vyg3YmG0B8jAYoEET">
+      <button class="back" data-go="home" aria-label="返回" data-page-node-id="KWEUmywilK2dK3WkHgRJPe"><svg viewBox="0 0 24 24" data-page-node-id="xrojFMvcjZpKbRYyvfKb6Q"><path d="M15 18l-6-6 6-6" data-page-node-id="T5ZFIT1xc2OZ1pk5MMx90L"/></svg></button>
+      <h1 data-page-node-id="izC8sHjwHfbAHwRqcnpw69">设置</h1>
+      <span class="sub" data-page-node-id="a3vjDAhCOBEtY43xo66nZt">数据与备份</span>
+    </div>
+    <div class="card" data-page-node-id="GkO7FLyqL9gjxdODersjAg">
+      <div class="card-h" data-page-node-id="pNKe27klzMaN8KJwFRRoWI"><h2 data-page-node-id="F6yghUn1kIW2J7vXXYAuhy">数据存储</h2><span class="badge" id="sync-badge" data-page-node-id="bp1MW8c4D9Vu5Nr6Za06aD">检查中</span></div>
+      <p style="font-size:12px;color:var(--txt2);margin:0 0 12px;line-height:1.7" id="sync-desc" data-page-node-id="nI04OTMOkVeafz7730tyW3">
+        打卡数据保存在这台手机的浏览器里，关掉页面不会丢。
+      </p>
+      <div id="cloud-actions" style="display:flex;gap:8px" data-page-node-id="UhRMXddcbIidLHSHgiiEpz">
+        <button class="btn sm ghost" style="flex:1" id="btn-refresh" data-page-node-id="IczaQ59OXZQy4iPiDGDIwk">立即刷新</button>
+        <button class="btn sm ghost" style="flex:1" id="btn-push" data-page-node-id="GbOP7LvDaW3ibbKajYUonr">本地上传云端</button>
+      </div>
+    </div>
+    <div class="card" data-page-node-id="1sSkMzJfdRUsYh72iQcgrT">
+      <div class="card-h" data-page-node-id="TmXZvlcxDxF8ALCnjVVnYi"><h2 data-page-node-id="jeR7cknxgSPvmvbvnL2xNM">备份码</h2><span class="sub" data-page-node-id="zBrmQ0MJ4cc9YnOOFgEGOZ">可长期保存</span></div>
+      <p style="font-size:12px;color:var(--txt2);margin:0 0 12px;line-height:1.7" data-page-node-id="QTe7MIhDoyn3OplATfWqDa">生成一串备份码，截图或复制保存；换设备时粘贴恢复，不会删掉原记录。</p>
+      <textarea id="backup-out" readonly style="width:100%;height:88px;padding:10px;border-radius:12px;background:rgba(0,0,0,.35);border:1px solid var(--line);color:var(--txt2);font-size:12px;font-family:ui-monospace,Menlo,monospace;resize:vertical" placeholder="点下面按钮生成备份码"></textarea>
+      <div style="display:flex;gap:8px;margin-top:10px" data-page-node-id="Hcaf1CnrPVAWpA7Zq6ARzU">
+        <button class="btn sm pri" style="flex:1" id="btn-make-code" data-page-node-id="cMOLOuB2QPqPn3GLCEWdsU">生成备份码</button>
+        <button class="btn sm ghost" style="flex:1" id="btn-copy-code" data-page-node-id="oNuUrVC6yzQ9MueOfFa7pL">复制</button>
+      </div>
+      <div class="field" style="margin-top:14px" data-page-node-id="5bvppUxzt1piteE4SGHUux">
+        <label data-page-node-id="LpOuiNoCM8BjFcwZ49fm7m">粘贴备份码恢复</label>
+        <textarea id="backup-in" style="height:70px;resize:vertical" placeholder="把备份码粘到这里"></textarea>
+      </div>
+      <button class="btn sm gold" style="width:100%" id="btn-restore" data-page-node-id="EV2DDaacsDI63vkX0DJjLJ">恢复数据（智能合并）</button>
+    </div>
+    <div class="card" data-page-node-id="JKHCW0cCBDXutscGhWSDSH">
+      <div class="card-h" data-page-node-id="4mo7rmbX9bJvwTH3VuNolw"><h2 data-page-node-id="R3uWJwhGE4OCGZxau4U8M3">导出 / 导入</h2></div>
+      <div style="display:flex;gap:8px" data-page-node-id="TNVK0Oy9JRj8cS2eYLrn3s">
+        <button class="btn sm ghost" style="flex:1" id="btn-export" data-page-node-id="esAZA7qk4uKYgI5eF8aCZW">导出 JSON</button>
+        <button class="btn sm ghost" style="flex:1" id="btn-csv" data-page-node-id="k3WFvGCxid8x5o9emoAgM1">导出 CSV</button>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:8px" data-page-node-id="scdBrME0mHjQBci0R0asDx">
+        <button class="btn sm ghost" style="flex:1" id="btn-import" data-page-node-id="Oq3lYNFkIFwbSLp9dvVGJn">导入 JSON</button>
+        <button class="btn sm ghost" style="flex:1" id="btn-load-sample" data-page-node-id="FnNF6ioWvM9kloYI4LwS6X">载入示例</button>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:8px" data-page-node-id="ixLHI2PMcCZ24Gd6GifXa3">
+        <button class="btn sm ghost" style="flex:1;color:#FF9AA4" id="btn-clear" data-page-node-id="JxPqsIC5KwCEoG1A3dGn1F">清空全部数据</button>
+      </div>
+      <input type="file" id="file-import" accept=".json,application/json" class="hide" data-page-node-id="nmdk3yp7ISvtJU3Gdy7HPh">
+    </div>
+    <div class="card" data-page-node-id="5efMsjh19YSaGehiUa4bvI">
+      <div class="card-h" data-page-node-id="HKEwrQYa0wRrWedvufiAGz"><h2 data-page-node-id="A3Yf1y3rFcfQAAjJz2NVl3">关于</h2></div>
+      <p style="font-size:11.5px;color:var(--txt3);margin:0;line-height:1.8" data-page-node-id="clXwdPpl9aIgrcQu1ds4UI">
+        汽车人训练营 · 第一期（核心闭环）<br data-page-node-id="quSDCLSwBfxnBSz1xqZa5J">
+        学习任务 · 今日战场 · 奖励商店 · 本机存储<br data-page-node-id="PAhi1DE8ra9S5iSnKcERGN">
+        数据存在本机浏览器，请每周导出一次备份码<br data-page-node-id="DFSqBlVsy3gEUZjcHp0ovQ">
+        第二期将加入：心情日记 / 绘本打卡 / 运动锻炼 / 行为规范 / 知识科普
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<!-- 底部导航 -->
+<nav class="tabbar" data-page-node-id="DXEy9A9QpDC85y9sTmqv0F">
+  <div class="tabbar-in" id="tabbar" data-page-node-id="wZIUiMCEf22MgmmRhGx4Dc"></div>
+</nav>
+
+<!-- 弹层 -->
+<div class="mask" id="mask" data-page-node-id="Yyuca23MARyhrqh8DqEQa8">
+  <div class="modal" id="modal" data-page-node-id="4OppVUnJMjEhqHlAmjLGuo"></div>
+</div>
+
+<div class="toast" id="toast" data-page-node-id="5CxVKnSXXoCS7N9UqLwNwq"></div>
+
+<script>
+window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
+</script>
+<script>
+/* 汽车人训练营 · 第一期
+ * 架构：数据层(store) → 同步层(sync) → 计算层(calc) → 渲染层(render) → 统一入口 refreshAll()
+ * 铁律：渲染函数之间禁止互调，一律通过 refreshAll() 调度。
+ */
+(function () {
+  'use strict';
+
+  /* ============ 常量 ============ */
+  var DB_ID = window.CAMP_DB_ID || '';
+  var LS_KEY = 'wb_autobot_camp_v1';
+  var LS_PENDING = 'wb_autobot_camp_pending_v1';
+
+  var STUDY_TASKS = [
+    { id: 'shizi',   name: '识字',      desc: '摩比爱识字 · 每天一课',      pts: 5, icon: 'book' },
+    { id: 'math',    name: '数学',      desc: '20 以内加减法练习',          pts: 5, icon: 'calc' },
+    { id: 'morning', name: '早读',      desc: '大声朗读 10 分钟',           pts: 5, icon: 'sun'  },
+    { id: 'night',   name: '晚读',      desc: '睡前亲子共读',               pts: 5, icon: 'moon' },
+    { id: 'poem',    name: '古诗',      desc: '背一首古诗',                 pts: 5, icon: 'feather' },
+    { id: 'picbook', name: '绘本',      desc: '读一本绘本并复述',           pts: 5, icon: 'image' },
+    { id: 'copybook',name: '字帖',      desc: '写一页字帖',                 pts: 5, icon: 'pen'  },
+    { id: 'think',   name: '思维',      desc: '思维训练一题',               pts: 5, icon: 'bulb' },
+    { id: 'draw',    name: '画画',      desc: '自由绘画',                   pts: 5, icon: 'brush'},
+    { id: 'listen',  name: '磨耳朵',    desc: '英语音频 20 分钟',           pts: 5, icon: 'ear'  },
+    { id: 'literacy',name: '文学启蒙',  desc: '听一个故事',                 pts: 5, icon: 'star' }
+  ];
+
+  var SHOP_ITEMS = [
+    { id: 'tv',     name: '看动画',    cost: 20,  icon: 'tv'    },
+    { id: 'snack',  name: '小零食',    cost: 30,  icon: 'candy' },
+    { id: 'game',   name: '玩游戏',    cost: 30,  icon: 'pad'   },
+    { id: 'arcade', name: '电玩城',    cost: 140, icon: 'gamepad'},
+    { id: 'box_s',  name: '小盲盒',    cost: 300, icon: 'box'   },
+    { id: 'box_l',  name: '大盲盒',    cost: 900, icon: 'gift'  }
+  ];
+
+  var TABS = [
+    { id: 'home',    label: '首页',   icon: 'home'   },
+    { id: 'study',   label: '学习',   icon: 'book'   },
+    { id: 'shop',    label: '商店',   icon: 'cart'   },
+    { id: 'setting', label: '设置',   icon: 'gear'   }
+  ];
+
+  /* ============ 工具 ============ */
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function todayStr(d) {
+    d = d || new Date();
+    return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+  }
+  function nowISO() { return new Date().toISOString(); }
+  function uid() {
+    return 'r' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+  }
+  function $(id) { return document.getElementById(id); }
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+  function num(v) { var n = Number(v); return isFinite(n) ? n : 0; }
+
+  var toastTimer = null;
+  function toast(msg, type) {
+    var el = $('toast');
+    el.textContent = msg;
+    el.className = 'toast on' + (type ? ' ' + type : '');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { el.className = 'toast'; }, 2100);
+  }
+
+  function confirmBox(title, text, okText, onOk) {
+    var m = $('mask'), box = $('modal');
+    box.innerHTML =
+      '<h3>' + esc(title) + '</h3>' +
+      '<p>' + esc(text) + '</p>' +
+      '<div class="row">' +
+        '<button class="btn ghost" id="cf-no">取消</button>' +
+        '<button class="btn ' + (okText === '确定清空' ? 'gold' : 'pri') + '" id="cf-yes">' + esc(okText || '确定') + '</button>' +
+      '</div>';
+    m.classList.add('on');
+    $('cf-no').onclick = function () { m.classList.remove('on'); };
+    $('cf-yes').onclick = function () { m.classList.remove('on'); onOk && onOk(); };
+  }
+
+  /* ============ 数据层 ============ */
+  var store = {
+    data: null,
+
+    blank: function () {
+      return {
+        v: 1,
+        records: [],       // 全部打卡记录
+        coin: 0,           // 能量块余额
+        daysBase: 0,       // 家长补录的累计打卡天数
+        settleLog: {},     // { '2026-11-16': 分数 } 已结算记录
+        dayBase: 1,        // 起始「第 N 天」
+        lastOpen: '',
+        lastBackupAt: ''   // 上次生成备份码的时间
+      };
+    },
+
+    load: function () {
+      var raw = null;
+      try { raw = localStorage.getItem(LS_KEY); } catch (e) { raw = null; }
+      if (raw) {
+        try {
+          var o = JSON.parse(raw);
+          if (o && typeof o === 'object') {
+            this.data = this.migrate(o);
+            return true;
+          }
+        } catch (e) {}
+      }
+      this.data = this.blank();
+      this.seed();
+      this.save();
+      return false;
+    },
+
+    migrate: function (o) {
+      var b = this.blank();
+      for (var k in b) { if (!(k in o)) o[k] = b[k]; }
+      if (!Array.isArray(o.records)) o.records = [];
+      if (!o.settleLog || typeof o.settleLog !== 'object') o.settleLog = {};
+      return o;
+    },
+
+    save: function () {
+      try { localStorage.setItem(LS_KEY, JSON.stringify(this.data)); } catch (e) {}
+    },
+
+    seed: function () {
+      var d = new Date();
+      var d0 = new Date(d.getTime() - 86400000 * 2);
+      var d1 = new Date(d.getTime() - 86400000);
+      var rows = [];
+      // 前天：满勤
+      STUDY_TASKS.forEach(function (t) {
+        rows.push({ id: uid(), type: '任务打卡', date: todayStr(d0), item: t.name, value: t.pts, note: '示例数据', synced: false });
+      });
+      // 昨天：只做了 6 项（制造「昨天没做完」的顺延感）
+      STUDY_TASKS.slice(0, 6).forEach(function (t) {
+        rows.push({ id: uid(), type: '任务打卡', date: todayStr(d1), item: t.name, value: t.pts, note: '示例数据', synced: false });
+      });
+      this.data.records = rows;
+      this.data.coin = 17;
+      this.data.daysBase = 0;
+      this.data.dayBase = 1;
+    }
+  };
+
+  /* ============ 同步层 ============ */
+  var sync = {
+    ready: false,
+    busy: false,
+    offline: false,
+    local: false,      // 纯本地模式（无云端 SDK，如 GitHub Pages）
+
+    db: function () {
+      try {
+        return (window.__SMART_PAGE__ && window.__SMART_PAGE__.database) || null;
+      } catch (e) { return null; }
+    },
+
+    setDot: function (state) {
+      var el = $('syncdot');
+      var bd = $('sync-badge');
+      if (el) el.className = 'syncdot ' + state;
+      var map = { on: ['rgba(40,196,107,.16)', '#B6FFD6', '已同步'],
+                  busy: ['rgba(47,107,255,.22)', '#9CC2FF', '同步中'],
+                  off: ['rgba(255,197,61,.16)', '#FFE3A3', '网络异常'],
+                  local: ['rgba(63,216,240,.18)', '#A7EEFB', '本机存储'],
+                  '': ['rgba(255,255,255,.08)', '#9FAECB', '检查中'] };
+      var c = map[state] || map[''];
+      if (bd) { bd.textContent = c[2]; bd.style.background = c[0]; bd.style.color = c[1]; }
+    },
+
+    pending: function () {
+      try { return JSON.parse(localStorage.getItem(LS_PENDING) || '[]'); } catch (e) { return []; }
+    },
+    setPending: function (arr) {
+      try { localStorage.setItem(LS_PENDING, JSON.stringify(arr)); } catch (e) {}
+    },
+    addPending: function (ids) {
+      var p = this.pending();
+      ids.forEach(function (i) { if (p.indexOf(i) === -1) p.push(i); });
+      this.setPending(p);
+    },
+    clearPending: function (ids) {
+      var p = this.pending().filter(function (i) { return ids.indexOf(i) === -1; });
+      this.setPending(p);
+    },
+
+    /* 拉全量（分页） */
+    pull: function () {
+      var db = this.db();
+      if (!db) return Promise.reject(new Error('no sdk'));
+      var self = this;
+      var acc = [], guard = 0;
+      function step(cur) {
+        if (guard++ > 40) return Promise.resolve(acc);
+        return db.query({ databaseId: DB_ID, pageSize: 200, startCursor: cur })
+          .then(function (r) {
+            var rows = (r && r.results) || [];
+            acc = acc.concat(rows);
+            var next = r && r.nextCursor;
+            if (r && r.hasMore && next && next !== cur && rows.length) return step(next);
+            return acc;
+          });
+      }
+      return step(undefined);
+    },
+
+    /* 云端记录 → 本地结构 */
+    fromCloud: function (rows) {
+      return rows.map(function (r) {
+        var dateV = r['记录日期'];
+        var ds = '';
+        if (dateV) {
+          ds = String(dateV).slice(0, 10);
+        }
+        return {
+          id: r['记录ID'] || r._id,
+          rid: r._id,
+          type: r['类型'] || '',
+          date: ds,
+          item: r['项目'] || '',
+          value: num(r['数值']),
+          note: r['备注'] || '',
+          synced: true
+        };
+      }).filter(function (x) { return x.date && x.type; });
+    },
+
+    init: function () {
+      var self = this;
+      var db = this.db();
+      if (!db || !DB_ID) {
+        // 无云端 SDK（如 GitHub Pages 部署）→ 纯本机存储模式，不是故障
+        this.ready = false;
+        this.offline = false;
+        this.local = true;
+        this.setDot('local');
+        return Promise.resolve(false);
+      }
+      this.local = false;
+      this.setDot('busy');
+      return this.pull().then(function (rows) {
+        var cloud = self.fromCloud(rows);
+        self.ready = true;
+        self.offline = false;
+
+        if (!cloud.length) {
+          // 云端为空：把本地已有数据整体推上去
+          self.setDot('on');
+          return self.pushAll().then(function () { return true; });
+        }
+
+        // 合并：以 id 去重，云端优先（云端是最新真相）
+        var byId = {};
+        var localOnly = [];
+        store.data.records.forEach(function (r) {
+          byId[r.id] = r;
+        });
+        var merged = cloud.slice();
+        var cloudIds = {};
+        cloud.forEach(function (r) { cloudIds[r.id] = 1; });
+        store.data.records.forEach(function (r) {
+          if (!cloudIds[r.id]) localOnly.push(r);
+        });
+        store.data.records = merged;
+
+        // 清理已同步的待传队列
+        self.clearPending(cloud.map(function (r) { return r.id; }));
+
+        store.save();
+        self.setDot('on');
+        // 本地独有（上次没传上去的）补传
+        if (localOnly.length) {
+          localOnly.forEach(function (r) { r.synced = false; });
+          self.addPending(localOnly.map(function (r) { return r.id; }));
+          self.flush();
+        }
+        return true;
+      }).catch(function (err) {
+        console.warn('[camp] 云端拉取失败，转离线模式', err);
+        self.ready = false;
+        self.offline = true;
+        self.setDot('off');
+        return false;
+      });
+    },
+
+    toProps: function (r) {
+      var p = {};
+      p['类型'] = { select: r.type };
+      p['记录日期'] = { date: r.date };
+      p['项目'] = { text: r.item || '' };
+      p['数值'] = { number: num(r.value) };
+      p['备注'] = { text: r.note || '' };
+      p['记录ID'] = { text: r.id };
+      return p;
+    },
+
+    pushAll: function () {
+      var self = this;
+      var db = this.db();
+      var list = store.data.records.filter(function (r) { return !r.synced; });
+      // 首次同步时把所有记录推上去
+      if (!list.length) list = store.data.records.slice();
+      if (!list.length) return Promise.resolve();
+      this.setDot('busy');
+      var chunks = [], size = 40;
+      for (var i = 0; i < list.length; i += size) chunks.push(list.slice(i, i + size));
+      var chain = Promise.resolve();
+      chunks.forEach(function (chunk) {
+        chain = chain.then(function () {
+          return db.addRecord({ databaseId: DB_ID, properties: self.toProps(chunk[0]) })
+            .then(function () {
+              // addRecord 一次一条 → 串行补齐
+              var rest = chunk.slice(1);
+              var c2 = Promise.resolve();
+              rest.forEach(function (r) {
+                c2 = c2.then(function () {
+                  return db.addRecord({ databaseId: DB_ID, properties: self.toProps(r) });
+                });
+              });
+              return c2;
+            });
+        });
+      });
+      return chain.then(function () {
+        list.forEach(function (r) { r.synced = true; });
+        self.setPending([]);
+        store.save();
+        self.setDot('on');
+      }).catch(function (err) {
+        console.warn('[camp] 上传失败', err);
+        self.setDot('off');
+        self.offline = true;
+      });
+    },
+
+    /* 单条写云端（乐观：先本地后异步） */
+    pushOne: function (rec) {
+      if (this.local) return;        // 纯本机模式：数据已在本地，无需入队
+      var self = this;
+      var db = this.db();
+      if (!db || !this.ready) {
+        this.addPending([rec.id]);
+        this.setDot('off');
+        return;
+      }
+      this.setDot('busy');
+      db.addRecord({ databaseId: DB_ID, properties: this.toProps(rec) })
+        .then(function (res) {
+          rec.synced = true;
+          if (res && res.id) rec.rid = res.id;
+          self.clearPending([rec.id]);
+          store.save();
+          self.setDot('on');
+        })
+        .catch(function (err) {
+          console.warn('[camp] 单条上传失败', err);
+          self.addPending([rec.id]);
+          self.setDot('off');
+        });
+    },
+
+    flush: function () {
+      if (this.local) return Promise.resolve();
+      var self = this;
+      var db = this.db();
+      if (!db || !this.ready) return Promise.resolve();
+      var pend = this.pending();
+      if (!pend.length) return Promise.resolve();
+      this.setDot('busy');
+      var todo = store.data.records.filter(function (r) { return pend.indexOf(r.id) !== -1 && !r.synced; });
+      var chain = Promise.resolve();
+      todo.forEach(function (r) {
+        chain = chain.then(function () {
+          return db.addRecord({ databaseId: DB_ID, properties: self.toProps(r) })
+            .then(function (res) {
+              r.synced = true;
+              if (res && res.id) r.rid = res.id;
+              self.clearPending([r.id]);
+            });
+        });
+      });
+      return chain.then(function () {
+        store.save();
+        self.setDot('on');
+      }).catch(function () { self.setDot('off'); });
+    }
+  };
+
+  /* ============ 计算层 ============ */
+  var calc = {
+    ofDay: function (dateStr) {
+      return store.data.records.filter(function (r) { return r.date === dateStr; });
+    },
+    /* 某天的得分（只算加分项：学习/运动/科普/行为） */
+    scoreOf: function (dateStr) {
+      var s = 0;
+      this.ofDay(dateStr).forEach(function (r) {
+        if (r.type === '奖励兑换' || r.type === '家长补录') return;
+        s += num(r.value);
+      });
+      return s;
+    },
+    studyPts: function (dateStr) {
+      var s = 0;
+      this.ofDay(dateStr).forEach(function (r) {
+        if (r.type === '任务打卡') s += num(r.value);
+      });
+      return s;
+    },
+    studyDoneIds: function (dateStr) {
+      var map = {};
+      this.ofDay(dateStr).forEach(function (r) {
+        if (r.type === '任务打卡') map[r.item] = r;
+      });
+      return map;
+    },
+    coin: function () {
+      var c = num(store.data.coin);
+      // 兼容：历史记录里有奖励兑换但不改余额的情况不会出现，这里以 coin 字段为准
+      return c;
+    },
+    daysCount: function () {
+      var set = {};
+      store.data.records.forEach(function (r) {
+        if (r.type === '奖励兑换') return;
+        set[r.date] = 1;
+      });
+      return Object.keys(set).length + num(store.data.daysBase);
+    },
+    dayIndex: function () {
+      return num(store.data.dayBase) + Math.max(0, this.daysCount() - 1);
+    },
+    streak: function () {
+      var set = {};
+      store.data.records.forEach(function (r) {
+        if (r.type !== '奖励兑换') set[r.date] = 1;
+      });
+      var n = 0, d = new Date();
+      // 今天没打卡不算断，从昨天往前数
+      if (!set[todayStr(d)]) d = new Date(d.getTime() - 86400000);
+      while (set[todayStr(d)]) {
+        n++;
+        d = new Date(d.getTime() - 86400000);
+      }
+      return n;
+    },
+    shopToday: function () {
+      var t = todayStr();
+      return this.ofDay(t).filter(function (r) { return r.type === '奖励兑换'; });
+    }
+  };
+
+  /* ============ 图标 ============ */
+  var ICON = {
+    home: '<path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
+    book: '<path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v16H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20v4H6.5A2.5 2.5 0 0 1 4 19.5z"/>',
+    cart: '<circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.5 12h11L21 7H6"/>',
+    gear: '<circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.2 5.2l2.1 2.1M16.7 16.7l2.1 2.1M18.8 5.2l-2.1 2.1M7.3 16.7l-2.1 2.1"/>',
+    calc: '<rect x="4" y="2.5" width="16" height="19" rx="2.5"/><path d="M8 7h8M8 12h2M12 12h2M16 12h.01M8 16h2M12 16h2M16 16h.01"/>',
+    sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.5 1.5M17.6 17.6l1.5 1.5M19.1 4.9l-1.5 1.5M6.4 17.6l-1.5 1.5"/>',
+    moon: '<path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/>',
+    feather: '<path d="M20 4c0 8-5 13-13 13H4l3-3"/><path d="M4 20l6-6"/><path d="M12 12h6"/>',
+    image: '<rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="8.5" cy="9.5" r="1.6"/><path d="M21 16l-5-5-9 9"/>',
+    pen: '<path d="M4 20h4l10-10a2.8 2.8 0 0 0-4-4L4 16z"/><path d="M13.5 6.5l4 4"/>',
+    bulb: '<path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9V16h7v-2.1A6 6 0 0 0 12 3z"/>',
+    brush: '<path d="M9 15l-5 5"/><path d="M14 4l6 6-7 7-6-6z"/>',
+    ear: '<path d="M6 9a6 6 0 0 1 12 0c0 3-2 4-3 6s0 4-3 4-3-2-3-4"/><path d="M9.5 9a2.5 2.5 0 0 1 5 0"/>',
+    star: '<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',
+    tv: '<rect x="2.5" y="6" width="19" height="13" rx="2.5"/><path d="M8 2.5l4 3.5 4-3.5"/>',
+    candy: '<path d="M7 7h10v10H7z"/><path d="M7 10 3 7.5v9L7 14M17 10l4-2.5v9L17 14"/>',
+    pad: '<rect x="3.5" y="5" width="17" height="14" rx="2.5"/><path d="M9 12h6M12 9v6"/>',
+    gamepad: '<path d="M7 8h10a5 5 0 0 1 5 5v.5a4 4 0 0 1-7 2.7L14 15h-4l-1 1.2a4 4 0 0 1-7-2.7V13a5 5 0 0 1 5-5z"/><path d="M8 11v3M6.5 12.5h3M16 12h.01M18 11.5h.01"/>',
+    box: '<path d="M3.5 7.5 12 3l8.5 4.5v9L12 21l-8.5-4.5z"/><path d="M3.5 7.5 12 12l8.5-4.5M12 12v9"/>',
+    gift: '<rect x="3.5" y="9" width="17" height="12" rx="2"/><path d="M2.5 6h19v3h-19zM12 6v15"/><path d="M12 6S10.5 2.5 8 3.5 8 6 12 6zM12 6s1.5-3.5 4-2.5S16 6 12 6z"/>',
+    check: '<path d="M4 12.5l5 5L20 6.5"/>',
+    lock: '<rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8.5 10.5V7a3.5 3.5 0 0 1 7 0v3.5"/>'
+  };
+
+  function svg(name, cls) {
+    return '<svg viewBox="0 0 24 24" aria-hidden="true"' + (cls ? ' class="' + cls + '"' : '') + '>' + (ICON[name] || '') + '</svg>';
+  }
+  function svgIcon(name) {
+    return '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="color:var(--gold2)">' + (ICON[name] || '') + '</svg>';
+  }
+
+  /* ============ 渲染层（只读数据，不互调） ============ */
+  var state = { view: 'home', loaded: false };
+
+  function renderTrend() {
+    var days = [];
+    for (var i = 2; i >= 0; i--) {
+      var d = new Date(Date.now() - 86400000 * i);
+      var ds = todayStr(d);
+      days.push({
+        ds: ds,
+        label: i === 0 ? '今天' : (i === 1 ? '昨天' : (d.getMonth() + 1) + '/' + d.getDate()),
+        score: calc.scoreOf(ds),
+        today: i === 0
+      });
+    }
+    var max = 105;
+    var html = '';
+    days.forEach(function (x) {
+      var h = Math.max(4, Math.round(x.score / max * 78));
+      var hi = x.score >= 60 ? ' hi' : '';
+      html +=
+        '<div class="bar' + (x.today ? ' today' : '') + '">' +
+          '<div class="col' + hi + '" style="height:' + h + 'px"><span class="v">' + x.score + '</span></div>' +
+          '<div class="lb">' + esc(x.label) + '</div>' +
+        '</div>';
+    });
+    $('trend').innerHTML = html;
+
+    $('stat-streak').textContent = calc.streak();
+    $('stat-total').textContent = store.data.records.length;
+    var n = 0;
+    store.data.records.forEach(function (r) { if (r.type === '任务打卡') n++; });
+    $('stat-all').textContent = n;
+  }
+
+  function renderHeader() {
+    var t = todayStr();
+    $('hdr-coin').textContent = calc.coin();
+    $('hdr-today').textContent = calc.scoreOf(t);
+    $('hdr-days').textContent = calc.daysCount();
+  }
+
+  function renderArena() {
+    var t = todayStr();
+    var score = calc.scoreOf(t);
+    var maxScore = 105;
+    var hpA = Math.max(4, Math.min(100, Math.round(score / maxScore * 100)));
+    var hpB = Math.max(0, 100 - hpA);
+    $('arena-day').textContent = calc.dayIndex();
+    $('hp-a').style.width = hpA + '%';
+    $('hp-b').style.width = Math.max(2, hpB) + '%';
+    $('hp-a-txt').textContent = hpA;
+    $('hp-b-txt').textContent = hpB;
+    $('img-a').style.filter = score > 60 ? 'drop-shadow(0 0 16px rgba(78,139,255,.85))' : 'drop-shadow(0 8px 18px rgba(0,0,0,.6))';
+    $('img-b').style.opacity = score > 60 ? '.55' : '1';
+
+    var st = $('arena-state');
+    if (store.data.settleLog[t]) {
+      st.textContent = '已结算 · ' + store.data.settleLog[t] + ' 分';
+      st.className = 'badge';
+    } else if (score >= maxScore) {
+      st.textContent = '满战力！';
+      st.className = 'badge g';
+    } else {
+      st.textContent = '进行中';
+      st.className = 'badge g';
+    }
+
+    // 各维度小计
+    var study = 0, sport = 0, beh = 0, quiz = 0;
+    calc.ofDay(t).forEach(function (r) {
+      if (r.type === '任务打卡') study += num(r.value);
+      else if (r.type === '运动打卡') sport += num(r.value);
+      else if (r.type === '行为规范') beh += num(r.value);
+      else if (r.type === '每日题数') quiz += num(r.value);
+    });
+    $('c-study').textContent = study;
+    $('c-sport').textContent = sport;
+    $('c-behavior').textContent = beh;
+    $('c-quiz').textContent = quiz;
+  }
+
+  function renderRing() {
+    var t = todayStr();
+    var score = calc.scoreOf(t);
+    var pct = Math.max(0, Math.min(1, score / 105));
+    var R = 32, C = 2 * Math.PI * R;
+    var off = C * (1 - pct);
+    $('ring').innerHTML =
+      '<svg viewBox="0 0 78 78" style="width:78px;height:78px">' +
+        '<defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1">' +
+        '<stop offset="0" stop-color="#4E8BFF"/><stop offset="1" stop-color="#3FD8F0"/></linearGradient></defs>' +
+        '<circle cx="39" cy="39" r="' + R + '" fill="none" stroke="rgba(255,255,255,.10)" stroke-width="8"/>' +
+        '<circle cx="39" cy="39" r="' + R + '" fill="none" stroke="url(#rg)" stroke-width="8" stroke-linecap="round" ' +
+          'stroke-dasharray="' + C.toFixed(1) + '" stroke-dashoffset="' + off.toFixed(1) + '" ' +
+          'transform="rotate(-90 39 39)"/>' +
+        '<text x="39" y="44" text-anchor="middle" fill="#EAF0FF" font-size="15" font-weight="800" font-family="inherit">' + Math.round(pct * 100) + '%</text>' +
+      '</svg>';
+    $('today-score').textContent = score;
+    $('today-date').textContent = t.replace(/-/g, '/');
+
+    var tip = $('today-tip');
+    if (score === 0) tip.textContent = '完成一项得一分战力，赶紧开工吧';
+    else if (score < 30) tip.textContent = '开局不错，威震天开始退后了';
+    else if (score < 60) tip.textContent = '打了一半，再加把劲！';
+    else if (score < 105) tip.textContent = '威震天快撑不住了！';
+    else tip.textContent = '满战力！今天完胜威震天 🎉';
+
+    var sl = store.data.settleLog;
+    var st = $('settle-tip');
+    if (sl[t]) st.textContent = '今日已结算：' + sl[t] + ' 分（记录已锁定）';
+    else {
+      var h = new Date().getHours();
+      st.textContent = h >= 21 ? '已经过 21:00，可以结算了' : '每晚 21:00 后可结算当日战斗';
+    }
+    var btn = $('btn-settle');
+    btn.textContent = sl[t] ? '今日已结算 ✓' : '结算今天的战斗';
+    btn.disabled = !!sl[t];
+  }
+
+  function renderStudyQuick() {
+    var t = todayStr();
+    var done = calc.studyDoneIds(t);
+    var n = Object.keys(done).length;
+    $('study-badge').textContent = n + '/11';
+    var html = '';
+    STUDY_TASKS.slice(0, 4).forEach(function (task) {
+      var d = !!done[task.name];
+      html +=
+        '<div class="trow">' +
+          '<div class="chk' + (d ? ' done' : '') + '" data-task="' + task.id + '" role="button" aria-label="' + esc(task.name) + '">' + svg('check') + '</div>' +
+          '<div class="tm"><b>' + esc(task.name) + '</b><span>' + esc(task.desc) + '</span></div>' +
+          '<div class="pt">+' + task.pts + '</div>' +
+        '</div>';
+    });
+    $('study-quick').innerHTML = html;
+  }
+
+  function renderShopQuick() {
+    var coin = calc.coin();
+    $('shop-coin').textContent = coin + ' 能量块';
+    var html = '';
+    SHOP_ITEMS.slice(0, 4).forEach(function (it) {
+      var can = coin >= it.cost;
+      html +=
+        '<div class="shop-item' + (can ? ' can' : '') + '" data-shop="' + it.id + '" role="button">' +
+          svgIcon(it.icon) +
+          '<div class="nm">' + esc(it.name) + '</div>' +
+          '<div class="cost">' + it.cost + ' 能量块</div>' +
+        '</div>';
+    });
+    $('shop-quick').innerHTML = html;
+  }
+
+  function renderStudyList() {
+    var t = todayStr();
+    var done = calc.studyDoneIds(t);
+    var pts = calc.studyPts(t);
+    $('study-score').textContent = pts + ' 分';
+    $('study-sub').textContent = '满分 55 分';
+    var html = '';
+    STUDY_TASKS.forEach(function (task) {
+      var rec = done[task.name];
+      html +=
+        '<div class="trow">' +
+          '<div class="chk' + (rec ? ' done' : '') + '" data-task="' + task.id + '" role="button" aria-label="' + esc(task.name) + '">' + svg('check') + '</div>' +
+          '<div class="tm"><b>' + esc(task.name) + '</b><span>' + esc(task.desc) + '</span></div>' +
+          '<div class="pt">+' + task.pts + '</div>' +
+        '</div>';
+    });
+    $('study-list').innerHTML = html;
+    var n = Object.keys(done).length;
+    $('study-done-txt').textContent = n === 0 ? '还没有开始打卡' :
+      (n === 11 ? '11 项全部完成，太厉害了！' : '已完成 ' + n + ' 项，还剩 ' + (11 - n) + ' 项');
+  }
+
+  function renderShopList() {
+    var coin = calc.coin();
+    $('shop-balance').textContent = coin + ' 能量块';
+    $('shop-sub').textContent = '兑换：' + calc.shopToday().length + ' 笔';
+    var html = '';
+    SHOP_ITEMS.forEach(function (it) {
+      var can = coin >= it.cost;
+      html +=
+        '<div class="shop-item' + (can ? ' can' : '') + '" data-shop="' + it.id + '" role="button">' +
+          svgIcon(it.icon) +
+          '<div class="nm">' + esc(it.name) + '</div>' +
+          '<div class="cost">' + it.cost + ' 能量块</div>' +
+        '</div>';
+    });
+    $('shop-list').innerHTML = html;
+
+    var tdy = calc.shopToday();
+    $('shop-today').innerHTML = tdy.length
+      ? tdy.map(function (r) {
+          return '<div class="trow"><div class="tm"><b>' + esc(r.item) + '</b><span>' + esc(r.note || '今日兑换') + '</span></div><div class="pt" style="color:#FF9AA4">-' + num(r.value) + '</div></div>';
+        }).join('')
+      : '<div style="font-size:12px;color:var(--txt3);padding:6px 2px">今天还没有兑换</p>';
+  }
+
+  function renderTabs() {
+    var html = '';
+    TABS.forEach(function (tb) {
+      html += '<button class="tab' + (state.view === tb.id ? ' on' : '') + '" data-go="' + tb.id + '">' +
+        svg(tb.icon) + '<span>' + tb.label + '</span></button>';
+    });
+    $('tabbar').innerHTML = html;
+
+    var nav = '';
+    TABS.forEach(function (tb) {
+      nav += '<div class="nav-i' + (state.view === tb.id ? ' on' : '') + '" data-go="' + tb.id + '">' +
+        svg(tb.icon) + '<span>' + tb.label + '</span></div>';
+    });
+    $('navlist').innerHTML = nav;
+  }
+
+  var lastRenderedView = '';
+  function renderViews() {
+    ['home', 'study', 'shop', 'setting'].forEach(function (v) {
+      var el = $('view-' + v);
+      if (el) el.classList.toggle('hide', state.view !== v);
+    });
+    // 只在真正换页时回到顶部，打卡/兑换等刷新不要打断当前浏览位置
+    if (lastRenderedView !== state.view) {
+      lastRenderedView = state.view;
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    }
+  }
+
+  function renderSyncBadge() {
+    var desc = $('sync-desc');
+    var acts = $('cloud-actions');
+    if (sync.local) {
+      sync.setDot('local');
+      if (desc) {
+        desc.innerHTML = '打卡数据保存在<b style="color:var(--cyan)">这台手机的浏览器里</b>，关掉页面或断网都不会丢。' +
+          '<br><span style="color:var(--txt3)">换手机、清理浏览器数据会丢失，请每周导出一次备份码。</span>';
+      }
+      if (acts) acts.style.display = 'none';
+      return;
+    }
+    if (acts) acts.style.display = 'flex';
+    if (desc) {
+      desc.innerHTML = '打卡数据同时保存在云端数据表和本机，换手机、清缓存都能拉回来。断网时先存本地，联网后自动补传。';
+    }
+    if (sync.offline) sync.setDot('off');
+    else if (sync.ready) sync.setDot('on');
+  }
+
+  /* 备份提醒：攒够条数 + 久未备份才提示，不天天烦人 */
+  function renderBackupWarn() {
+    var el = $('backup-warn');
+    if (!el) return;
+    var n = store.data.records.length;
+    var last = store.data.lastBackupAt ? new Date(store.data.lastBackupAt).getTime() : 0;
+    var days = last ? Math.floor((Date.now() - last) / 86400000) : -1;
+    var need = n >= 20 && (days === -1 || days >= 7);
+    if (!need) { el.classList.add('hide'); return; }
+    el.innerHTML =
+      '<span style="flex:1">已积累 <b>' + n + '</b> 条记录' +
+        (days === -1 ? '，还没备份过' : '，' + days + ' 天没备份') +
+        '，建议导出备份码。</span>' +
+      '<button class="btn sm gold" id="btn-warn-backup" style="flex:0 0 auto;min-height:34px;padding:0 12px;font-size:12px">去备份</button>';
+    el.classList.remove('hide');
+    var b = $('btn-warn-backup');
+    if (b) b.onclick = function () { goTo('setting'); };
+  }
+
+  /* ============ 统一刷新入口 ============ */
+  function refreshAll() {
+    renderHeader();
+    renderArena();
+    renderRing();
+    renderTrend();
+    renderStudyQuick();
+    renderShopQuick();
+    renderStudyList();
+    renderShopList();
+    renderTabs();
+    renderViews();
+    renderSyncBadge();
+    renderBackupWarn();
+  }
+
+  /* ============ 业务动作 ============ */
+  function toggleTask(taskId) {
+    var task = null;
+    STUDY_TASKS.forEach(function (t) { if (t.id === taskId) task = t; });
+    if (!task) return;
+    var t = todayStr();
+    var done = calc.studyDoneIds(t);
+    var exist = done[task.name];
+
+    if (exist) {
+      // 撤销
+      store.data.records = store.data.records.filter(function (r) { return r.id !== exist.id; });
+      store.save();
+      if (exist.rid) {
+        var db = sync.db();
+        if (db && sync.ready) {
+          db.deleteRecord({ databaseId: DB_ID, recordId: exist.rid }).catch(function () {});
+        }
+      }
+      toast('已撤销：' + task.name);
+    } else {
+      var rec = {
+        id: uid(), rid: '', type: '任务打卡', date: t,
+        item: task.name, value: task.pts, note: '', synced: false
+      };
+      store.data.records.push(rec);
+      store.save();
+      sync.pushOne(rec);
+      toast('打卡成功 +' + task.pts + ' 战力', 'ok');
+    }
+    refreshAll();
+  }
+
+  function resetStudyToday() {
+    confirmBox('撤销今天的学习打卡', '今天所有「学习任务」打卡都会被撤销（其他记录保留）。确定吗？', '撤销', function () {
+      var t = todayStr();
+      var dels = [];
+      store.data.records = store.data.records.filter(function (r) {
+        if (r.type === '任务打卡' && r.date === t) { dels.push(r); return false; }
+        return true;
+      });
+      store.save();
+      var db = sync.db();
+      if (db && sync.ready) {
+        dels.forEach(function (r) {
+          if (r.rid) db.deleteRecord({ databaseId: DB_ID, recordId: r.rid }).catch(function () {});
+        });
+      }
+      toast('已撤销今天的学习打卡');
+      refreshAll();
+    });
+  }
+
+  function settleDay() {
+    var t = todayStr();
+    if (store.data.settleLog[t]) { toast('今天已经结算过了'); return; }
+    var score = calc.scoreOf(t);
+    var h = new Date().getHours();
+    if (h < 21) {
+      confirmBox('还没到 21:00', '现在是 ' + pad(h) + ':00，正式结算是 21:00 之后。要提前结算吗？（结算后当天记录锁定）', '提前结算', function () {
+        doSettle(t, score);
+      });
+      return;
+    }
+    doSettle(t, score);
+  }
+
+  function doSettle(t, score) {
+    store.data.settleLog[t] = score;
+    // 结算奖励：战力 ≥ 60 给能量块
+    var reward = 0;
+    if (score >= 105) reward = 30;
+    else if (score >= 80) reward = 20;
+    else if (score >= 60) reward = 10;
+    if (reward > 0) {
+      store.data.coin = num(store.data.coin) + reward;
+      var rec = {
+        id: uid(), rid: '', type: '家长补录', date: t,
+        item: '每日结算奖励', value: reward, note: '战力 ' + score, synced: false
+      };
+      store.data.records.push(rec);
+      store.save();
+      sync.pushOne(rec);
+      toast('结算完成：' + score + ' 分，奖励 ' + reward + ' 能量块！', 'ok');
+    } else {
+      store.save();
+      toast('结算完成：' + score + ' 分，明天再努力！');
+    }
+    refreshAll();
+  }
+
+  function buyItem(itemId) {
+    var item = null;
+    SHOP_ITEMS.forEach(function (i) { if (i.id === itemId) item = i; });
+    if (!item) return;
+    var coin = calc.coin();
+    if (coin < item.cost) {
+      toast('能量块不够，还差 ' + (item.cost - coin) + ' 个', 'err');
+      return;
+    }
+    confirmBox('兑换「' + item.name + '」', '将消耗 ' + item.cost + ' 能量块，当前余额 ' + coin + '。兑换后请家长确认执行。', '确认兑换', function () {
+      store.data.coin = num(store.data.coin) - item.cost;
+      var rec = {
+        id: uid(), rid: '', type: '奖励兑换', date: todayStr(),
+        item: item.name, value: item.cost, note: '兑换', synced: false
+      };
+      store.data.records.push(rec);
+      store.save();
+      sync.pushOne(rec);
+      toast('兑换成功：' + item.name + '，记得找家长兑现', 'ok');
+      refreshAll();
+    });
+  }
+
+  function goTo(view) {
+    state.view = view;
+    refreshAll();
+  }
+
+  /* ============ 备份 / 导入导出 ============ */
+  function makeCode() {
+    var payload = {
+      t: 'autobot-camp',
+      v: 1,
+      ts: nowISO(),
+      coin: num(store.data.coin),
+      daysBase: num(store.data.daysBase),
+      dayBase: num(store.data.dayBase),
+      settleLog: store.data.settleLog,
+      records: store.data.records.map(function (r) {
+        return { i: r.id, y: r.type, d: r.date, m: r.item, v: num(r.value), n: r.note || '' };
+      })
+    };
+    var json = JSON.stringify(payload);
+    var code = '';
+    try { code = btoa(unescape(encodeURIComponent(json))); }
+    catch (e) { code = json; }
+    $('backup-out').value = code;
+    store.data.lastBackupAt = nowISO();
+    store.save();
+    refreshAll();
+    toast('备份码已生成，请复制保存', 'ok');
+  }
+
+  function copyCode() {
+    var el = $('backup-out');
+    if (!el.value) { toast('请先生成备份码', 'err'); return; }
+    el.select();
+    el.setSelectionRange(0, 99999);
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(el.value).then(function () { toast('已复制到剪贴板', 'ok'); })
+        .catch(function () { toast(ok ? '已复制' : '复制失败，请长按选择复制', ok ? 'ok' : 'err'); });
+    } else {
+      toast(ok ? '已复制到剪贴板' : '复制失败，请长按选择复制', ok ? 'ok' : 'err');
+    }
+  }
+
+  function restoreCode() {
+    var code = ($('backup-in').value || '').trim();
+    if (!code) { toast('请先粘贴备份码', 'err'); return; }
+    var obj = null;
+    try {
+      var json = code.charAt(0) === '{' ? code : decodeURIComponent(escape(atob(code)));
+      obj = JSON.parse(json);
+    } catch (e) { obj = null; }
+    if (!obj || !Array.isArray(obj.records)) { toast('备份码格式不对，请检查', 'err'); return; }
+
+    var added = 0, skipped = 0;
+    var exist = {};
+    store.data.records.forEach(function (r) { exist[r.id] = 1; });
+    var incoming = [];
+    obj.records.forEach(function (r) {
+      var id = r.i || r.id;
+      if (!id || exist[id]) { skipped++; return; }
+      exist[id] = 1;
+      var rec = {
+        id: id, rid: '', type: r.y || r.type, date: r.d || r.date,
+        item: r.m || r.item || '', value: num(r.v != null ? r.v : r.value),
+        note: r.n || r.note || '', synced: false
+      };
+      incoming.push(rec);
+      added++;
+    });
+    if (incoming.length) {
+      store.data.records = store.data.records.concat(incoming);
+      sync.addPending(incoming.map(function (r) { return r.id; }));
+    }
+    if (obj.settleLog && typeof obj.settleLog === 'object') {
+      for (var k in obj.settleLog) { if (!store.data.settleLog[k]) store.data.settleLog[k] = obj.settleLog[k]; }
+    }
+    store.data.coin = Math.max(num(store.data.coin), num(obj.coin));
+    store.data.daysBase = Math.max(num(store.data.daysBase), num(obj.daysBase));
+    store.save();
+    sync.flush().then(function () { refreshAll(); });
+    $('backup-in').value = '';
+    toast('恢复完成：新增 ' + added + ' 条，跳过重复 ' + skipped + ' 条', 'ok');
+  }
+
+  function exportJSON() {
+    var payload = {
+      app: 'autobot-camp', v: 1, exportedAt: nowISO(),
+      data: store.data
+    };
+    var blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = '汽车人训练营备份_' + todayStr() + '.json';
+    document.body.appendChild(a); a.click();
+    setTimeout(function () { document.body.removeChild(a); URL.revokeObjectURL(a.href); }, 800);
+    toast('已导出 JSON 备份', 'ok');
+  }
+
+  function exportCSV() {
+    var head = ['日期', '类型', '项目', '数值', '备注', '记录ID'];
+    var lines = [head.join(',')];
+    store.data.records.slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; }).forEach(function (r) {
+      lines.push([r.date, r.type, r.item, r.value, (r.note || '').replace(/,/g, ' '), r.id].join(','));
+    });
+    var blob = new Blob(['\ufeff' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = '汽车人训练营明细_' + todayStr() + '.csv';
+    document.body.appendChild(a); a.click();
+    setTimeout(function () { document.body.removeChild(a); URL.revokeObjectURL(a.href); }, 800);
+    toast('已导出 CSV', 'ok');
+  }
+
+  function importJSON(file) {
+    var reader = new FileReader();
+    reader.onload = function () {
+      try {
+        var o = JSON.parse(String(reader.result));
+        var d = o.data || o;
+        if (!d || !Array.isArray(d.records)) throw new Error('bad');
+        var exist = {}, add = [];
+        store.data.records.forEach(function (r) { exist[r.id] = 1; });
+        d.records.forEach(function (r) {
+          if (r.id && !exist[r.id]) {
+            exist[r.id] = 1;
+            r.synced = false;
+            add.push(r);
+          }
+        });
+        store.data.records = store.data.records.concat(add);
+        sync.addPending(add.map(function (r) { return r.id; }));
+        if (d.settleLog) for (var k in d.settleLog) if (!store.data.settleLog[k]) store.data.settleLog[k] = d.settleLog[k];
+        store.data.coin = Math.max(num(store.data.coin), num(d.coin));
+        store.data.daysBase = Math.max(num(store.data.daysBase), num(d.daysBase));
+        store.save();
+        sync.flush().then(function () { refreshAll(); });
+        toast('导入成功，新增 ' + add.length + ' 条', 'ok');
+      } catch (e) { toast('文件格式不对', 'err'); }
+    };
+    reader.readAsText(file);
+  }
+
+  function clearAll() {
+    confirmBox('清空全部数据', '所有打卡记录、能量块、结算记录都会被删除，且无法恢复。建议先导出备份。确定清空吗？', '确定清空', function () {
+      store.data = store.blank();
+      store.save();
+      sync.setPending([]);
+      toast('已清空');
+      refreshAll();
+    });
+  }
+
+  function loadSample() {
+    confirmBox('载入示例数据', '会额外加入前两天的示例打卡记录（不影响已有数据）。', '载入', function () {
+      var d = new Date();
+      var d0 = new Date(d.getTime() - 86400000 * 2);
+      var d1 = new Date(d.getTime() - 86400000);
+      var add = [];
+      STUDY_TASKS.forEach(function (t) {
+        add.push({ id: uid(), rid: '', type: '任务打卡', date: todayStr(d0), item: t.name, value: t.pts, note: '示例数据', synced: false });
+      });
+      STUDY_TASKS.slice(0, 6).forEach(function (t) {
+        add.push({ id: uid(), rid: '', type: '任务打卡', date: todayStr(d1), item: t.name, value: t.pts, note: '示例数据', synced: false });
+      });
+      store.data.records = store.data.records.concat(add);
+      store.data.coin = num(store.data.coin) + 17;
+      store.save();
+      sync.addPending(add.map(function (r) { return r.id; }));
+      sync.flush().then(function () { refreshAll(); });
+      toast('示例数据已载入', 'ok');
+    });
+  }
+
+  /* ============ 事件绑定（委托） ============ */
+  function bindEvents() {
+    document.addEventListener('click', function (e) {
+      var t = e.target;
+
+      var goEl = t.closest ? t.closest('[data-go]') : null;
+      if (goEl) {
+        goTo(goEl.getAttribute('data-go'));
+        return;
+      }
+
+      var taskEl = t.closest ? t.closest('[data-task]') : null;
+      if (taskEl) {
+        toggleTask(taskEl.getAttribute('data-task'));
+        return;
+      }
+
+      var shopEl = t.closest ? t.closest('[data-shop]') : null;
+      if (shopEl) {
+        buyItem(shopEl.getAttribute('data-shop'));
+        return;
+      }
+    });
+
+    $('btn-settle').onclick = settleDay;
+    $('btn-study-reset').onclick = resetStudyToday;
+    $('btn-make-code').onclick = makeCode;
+    $('btn-copy-code').onclick = copyCode;
+    $('btn-restore').onclick = restoreCode;
+    $('btn-export').onclick = exportJSON;
+    $('btn-csv').onclick = exportCSV;
+    $('btn-import').onclick = function () { $('file-import').click(); };
+    $('file-import').onchange = function () {
+      if (this.files && this.files[0]) importJSON(this.files[0]);
+      this.value = '';
+    };
+    $('btn-clear').onclick = clearAll;
+    $('btn-load-sample').onclick = loadSample;
+
+    $('btn-refresh').onclick = function () {
+      toast('正在从云端刷新…');
+      sync.init().then(function (ok) {
+        refreshAll();
+        toast(ok ? '已同步最新数据' : '云端不可用，当前为离线模式', ok ? 'ok' : 'err');
+      });
+    };
+    $('btn-push').onclick = function () {
+      if (!sync.db()) { toast('当前离线，无法上传', 'err'); return; }
+      toast('正在上传…');
+      sync.pushAll().then(function () {
+        refreshAll();
+        toast('已上传到云端', 'ok');
+      });
+    };
+
+    $('mask').addEventListener('click', function (e) {
+      if (e.target === this) this.classList.remove('on');
+    });
+  }
+
+  /* ============ 图片加载 ============ */
+  function loadImages() {
+    var a = $('img-a'), b = $('img-b');
+    // 优先用打包的本地素材（随 zip 一起部署），失败则用 SVG 内联占位
+    a.onerror = function () { this.style.display = 'none'; };
+    b.onerror = function () { this.style.display = 'none'; };
+    // 打包版已把角色图写成内联 data URI，此处只在内联缺失时兜底
+    if (!a.getAttribute('src')) a.src = 'assets/optimus.svg';
+    if (!b.getAttribute('src')) b.src = 'assets/megatron.svg';
+  }
+
+  /* ============ 启动 ============ */
+  function boot() {
+    store.load();
+    loadImages();
+    bindEvents();
+    refreshAll();
+
+    state.loaded = true;
+
+    // 云端初始化（异步，不阻塞首屏）
+    sync.init().then(function () {
+      refreshAll();
+      if (sync.pending().length) sync.flush();
+    }).catch(function () {
+      sync.setDot('off');
+    });
+
+    // 数据变更订阅（他人改动即时刷新）
+    var db = sync.db();
+    if (db && typeof db.onUpdated === 'function') {
+      var timer = null;
+      db.onUpdated(function (payload) {
+        var ids = (payload && payload.databaseIds) || [];
+        if (ids.indexOf(DB_ID) === -1) return;
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+          sync.init().then(function () { refreshAll(); }).catch(function () {});
+        }, 400);
+      });
+    }
+
+    // 跨天自动刷新（0 点 / 21 点后回到页面）
+    var lastDay = todayStr();
+    setInterval(function () {
+      var d = todayStr();
+      if (d !== lastDay) { lastDay = d; refreshAll(); }
+    }, 30000);
+
+    document.addEventListener('visibilitychange', function () {
+      if (!document.hidden) {
+        var d = todayStr();
+        if (d !== lastDay) { lastDay = d; refreshAll(); }
+        if (sync.pending().length) sync.flush();
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+})();
+
+</script>
+</body>
+</html>
