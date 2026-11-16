@@ -162,7 +162,14 @@ input,textarea,select{font-family:inherit;font-size:16px}
 .trow .tm{flex:1;min-width:0}
 .trow .tm b{display:block;font-size:13.5px;font-weight:600}
 .trow .tm span{display:block;font-size:10.5px;color:var(--txt3);margin-top:1px}
-.trow .pt{font-size:11px;color:var(--gold);flex:0 0 auto;font-variant-numeric:tabular-nums}
+.trow .pt{font-size:11px;color:var(--gold);flex:0 0 auto;font-variant-numeric:tabular-nums;text-align:right;line-height:1.25}
+.trow .pt small{display:block;font-size:10px;color:var(--cyan);font-weight:700}
+.trow .pt small:only-child{color:inherit}
+.evals{display:flex;gap:6px;margin-top:7px}
+.ev{min-height:38px;padding:0 12px;border-radius:10px;font-size:11.5px;font-weight:600;background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--txt2);transition:all .16s}
+.ev.good.on{background:linear-gradient(140deg,rgba(40,196,107,.88),rgba(40,196,107,.42));border-color:rgba(40,196,107,.9);color:#fff}
+.ev.bad.on{background:linear-gradient(140deg,rgba(255,77,94,.88),rgba(255,77,94,.42));border-color:rgba(255,77,94,.9);color:#fff}
+.ev:active{transform:scale(.96)}
 .btn{min-height:44px;padding:0 16px;border-radius:12px;font-size:14px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:6px;background:rgba(255,255,255,.08);border:1px solid var(--line);color:var(--txt);transition:transform .12s,background .2s}
 .btn:active{transform:scale(.96)}
 .btn.pri{background:linear-gradient(135deg,#2F6BFF,#4E8BFF);border-color:transparent;box-shadow:0 8px 20px -10px rgba(47,107,255,.95)}
@@ -399,8 +406,8 @@ input,textarea,select{font-family:inherit;font-size:16px}
             <button class="btn pri" style="flex:1" id="btn-settle">结算今天的战斗</button>
           </div>
           <div class="chips">
-            <span class="chip">学习 <b id="c-study">0</b>/55</span>
-            <span class="chip">运动 <b id="c-sport">0</b>/40</span>
+            <span class="chip">学习 <b id="c-study">0</b>/88</span>
+            <span class="chip">运动 <b id="c-sport">0</b>/46</span>
             <span class="chip">行为 <b id="c-behavior">0</b></span>
             <span class="chip">科普 <b id="c-quiz">0</b>/10</span>
           </div>
@@ -442,17 +449,19 @@ input,textarea,select{font-family:inherit;font-size:16px}
   <section id="view-check" class="hide">
     <div class="page-h">
       <button class="back" data-go="home" aria-label="返回"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
-      <h1>任务中心</h1>
-      <span class="sub">六项训练全在这里</span>
+      <h1>今日五项</h1>
+      <span class="sub">今天要做的五件事</span>
     </div>
     <div class="card">
-      <div class="card-h"><h2>今日六项</h2><span class="sub">点进去打卡</span></div>
+      <div class="card-h"><h2>今日五项</h2><span class="sub">点进去打卡</span></div>
       <div id="check-grid" class="entry-grid"></div>
     </div>
     <div class="card">
       <div class="card-h"><h2>得分规则</h2></div>
       <p class="mini-note" style="margin-bottom:0">
-        学习任务 11 项 × 5 分 = 55 分｜运动锻炼 5 项每项最高 8 分 = 40 分｜知识科普 5 题 × 2 分 = 10 分<br>
+        学习任务 11 项：每项完成 +5，再加「认真 +3 / 敷衍 -3」＝ 最高 88 分<br>
+        运动锻炼 6 项（跳绳 / 拍球 / 跑步 / 开合跳 / 吊单杠 / 靠墙站）＝ 最高 46 分<br>
+        知识科普 5 题 × 2 分 = 10 分<br>
         行为规范按项加减，表现好可以突破这个分数。<br>
         <b style="color:var(--gold)">10 分 = 1 个能量块</b>，每天结算后自动到账。
       </p>
@@ -463,7 +472,7 @@ input,textarea,select{font-family:inherit;font-size:16px}
     <div class="page-h">
       <button class="back" data-go="check" aria-label="返回"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
       <h1>学习任务</h1>
-      <span class="sub">满分 55 分</span>
+      <span class="sub" id="study-max">满分 88 分</span>
     </div>
     <div class="card">
       <div class="card-h"><h2>今日 11 项</h2><span class="badge g" id="study-score">0 分</span></div>
@@ -536,7 +545,7 @@ input,textarea,select{font-family:inherit;font-size:16px}
     </div>
     <div class="card">
       <div class="card-h"><h2>说明</h2></div>
-      <p class="mini-note" style="margin-bottom:0">每项 4 个档位，对应 +2 / +4 / +6 / +8 分；5 项满分 40 分。再点一次已选档位可以取消。</p>
+      <p class="mini-note" style="margin-bottom:0">每项 4 个档位（跑步是 1/2/3 公里），对应 +2 / +4 / +6 / +8 分，跑步最高 +6；6 项满分 46 分。再点一次已选档位可以取消。</p>
     </div>
   </section>
 
@@ -694,14 +703,29 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     { id: 'literacy', name: '文学启蒙', desc: '听一个故事',            pts: 5, icon: 'star' }
   ];
 
-  var SPORT_ITEMS = [
-    { id: 'rope',    name: '跳绳',    unit: '次', tiers: [0, 100, 200, 300, 400] },
-    { id: 'bounce',  name: '拍球',    unit: '次', tiers: [0, 50, 100, 150, 200] },
-    { id: 'jump',    name: '开合跳',  unit: '次', tiers: [0, 30, 60, 90, 120] },
-    { id: 'bar',     name: '吊单杠',  unit: '秒', tiers: [0, 20, 40, 60, 80] },
-    { id: 'wall',    name: '靠墙站',  unit: '秒', tiers: [0, 30, 60, 90, 120] }
+  /* 每项任务的完成评价：认真 +3 / 敷衍 -3 */
+  var EVAL_ITEMS = [
+    { key: 'good', label: '认真', pts: 3 },
+    { key: 'bad',  label: '敷衍', pts: -3 }
   ];
-  var SPORT_PTS = [0, 2, 4, 6, 8];
+
+  var SPORT_ITEMS = [
+    { id: 'rope',   name: '跳绳',   unit: '次',   tiers: [0, 100, 200, 300, 400], pts: [0, 2, 4, 6, 8] },
+    { id: 'bounce', name: '拍球',   unit: '次',   tiers: [0, 50, 100, 150, 200],  pts: [0, 2, 4, 6, 8] },
+    { id: 'run',    name: '跑步',   unit: '公里', tiers: [0, 1, 2, 3],            pts: [0, 2, 4, 6] },
+    { id: 'jump',   name: '开合跳', unit: '次',   tiers: [0, 30, 60, 90, 120],    pts: [0, 2, 4, 6, 8] },
+    { id: 'bar',    name: '吊单杠', unit: '秒',   tiers: [0, 20, 40, 60, 80],     pts: [0, 2, 4, 6, 8] },
+    { id: 'wall',   name: '靠墙站', unit: '秒',   tiers: [0, 30, 60, 90, 120],    pts: [0, 2, 4, 6, 8] }
+  ];
+  var SPORT_PTS = [0, 2, 4, 6, 8];   // 兼容旧引用，实际以各项目的 pts 为准
+  var SPORT_MAX = SPORT_ITEMS.reduce(function (s, it) {
+    return s + Math.max.apply(null, it.pts);
+  }, 0);
+  var STUDY_MAX = STUDY_TASKS.reduce(function (s, t) {
+    return s + t.pts + 3;      // 完成 + 认真评价
+  }, 0);
+  var QUIZ_MAX = 10;
+  var MAX_SCORE = STUDY_MAX + SPORT_MAX + QUIZ_MAX;   // 每日满分（行为规范可正可负，额外浮动）
 
   var BEHAVIOR_GOOD = [
     { name: '午睡',     pts: 5 },
@@ -722,7 +746,11 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     { name: '浪费时间', pts: -5 },
     { name: '无理取闹', pts: -5 },
     { name: '乱扔东西', pts: -5 },
-    { name: '动手打人', pts: -10 }
+    { name: '不礼貌',   pts: -5 },
+    { name: '没规矩',   pts: -5 },
+    { name: '其他',     pts: -5 },
+    { name: '动手打人', pts: -10 },
+    { name: '蹬腿',     pts: -10 }
   ];
 
   var SHOP_ITEMS = [
@@ -742,7 +770,7 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
 
   var TABS = [
     { id: 'home',    label: '首页', icon: 'home' },
-    { id: 'check',   label: '任务', icon: 'grid' },
+    { id: 'check',   label: '今日五项', icon: 'grid' },
     { id: 'picbook', label: '打卡', icon: 'calendar' },
     { id: 'shop',    label: '商店', icon: 'cart' },
     { id: 'history', label: '记录', icon: 'clock' },
@@ -979,6 +1007,16 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
       this.ofType(ds, '任务打卡').forEach(function (r) { map[r.item] = r; });
       return map;
     },
+    /* 每项任务的完成评价：item 形如「识字·认真」 */
+    evalMap: function (ds) {
+      var map = {};
+      this.ofType(ds, '任务评价').forEach(function (r) { map[r.item] = r; });
+      return map;
+    },
+    /* 学习任务小计 = 完成打卡 + 完成评价 */
+    studyScore: function (ds) {
+      return this.sumType(ds, '任务打卡') + this.sumType(ds, '任务评价');
+    },
     coin: function () { return num(store.data.coin); },
     /* 10 分 = 1 能量块 */
     coinOfScore: function (score) { return Math.floor(Math.max(0, score) / 10); },
@@ -1079,7 +1117,7 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
   function renderArena() {
     var t = todayStr();
     var score = calc.scoreOf(t);
-    var maxScore = 105;
+    var maxScore = MAX_SCORE;
     var hpA = Math.max(6, Math.min(100, Math.round(score / maxScore * 100)));
     var hpB = Math.max(0, 100 - hpA);
 
@@ -1097,7 +1135,7 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     }
 
     // 各维度小计
-    if ($('c-study')) $('c-study').textContent = calc.sumType(t, '任务打卡');
+    if ($('c-study')) $('c-study').textContent = calc.studyScore(t);
     if ($('c-sport')) $('c-sport').textContent = calc.sumType(t, '运动打卡');
     if ($('c-behavior')) $('c-behavior').textContent = calc.sumType(t, '行为规范');
     if ($('c-quiz')) $('c-quiz').textContent = calc.sumType(t, '每日题数');
@@ -1138,7 +1176,7 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     var nav = '';
     var all = [
       { id: 'home', label: '首页', icon: 'home' },
-      { id: 'check', label: '任务中心', icon: 'grid' },
+      { id: 'check', label: '今日五项', icon: 'grid' },
       { id: 'study', label: '学习任务', icon: 'book' },
       { id: 'mood', label: '心情日记', icon: 'smile' },
       { id: 'picbook', label: '打卡', icon: 'calendar' },
@@ -1174,7 +1212,7 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
   function renderRing() {
     var t = todayStr();
     var score = calc.scoreOf(t);
-    var pct = Math.max(0, Math.min(1, score / 105));
+    var pct = Math.max(0, Math.min(1, score / MAX_SCORE));
     var R = 32, C = 2 * Math.PI * R, off = C * (1 - pct);
     if ($('ring')) {
       $('ring').innerHTML =
@@ -1195,7 +1233,7 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
       if (score === 0) tip.textContent = '完成一项得一分战力，赶紧开工吧';
       else if (score < 30) tip.textContent = '开局不错，威震天开始退后了';
       else if (score < 60) tip.textContent = '打了一半，再加把劲！';
-      else if (score < 105) tip.textContent = '威震天快撑不住了！';
+      else if (score < MAX_SCORE) tip.textContent = '威震天快撑不住了！';
       else tip.textContent = '满战力！今天完胜威震天 🎉';
     }
 
@@ -1230,7 +1268,7 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     }
     var html = '';
     days.forEach(function (x) {
-      var h = Math.max(4, Math.round(x.score / 105 * 78));
+      var h = Math.max(4, Math.round(x.score / MAX_SCORE * 78));
       html += '<div class="bar' + (x.today ? ' today' : '') + '">' +
         '<div class="col' + (x.score >= 60 ? ' hi' : '') + '" style="height:' + h + 'px"><span class="v">' + x.score + '</span></div>' +
         '<div class="lb">' + esc(x.label) + '</div></div>';
@@ -1246,17 +1284,17 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
   /* 今日五项：任务中心显示完成进度，首页显示该项当天得分 */
   function dailyItems() {
     var t = todayStr();
-    var st = calc.sumType(t, '任务打卡');
+    var st = calc.studyScore(t);
     var sp = calc.sumType(t, '运动打卡');
     var bh = calc.sumType(t, '行为规范');
     var qz = calc.sumType(t, '每日题数');
     var mooded = !!calc.moodOf(t);
     return [
-      { id: 'study',    label: '学习任务', icon: 'book',   prog: st + '/55', pts: st },
       { id: 'mood',     label: '心情日记', icon: 'smile',  prog: mooded ? '已记录' : '待记录', pts: mooded ? '已记录' : '待记录' },
-      { id: 'sport',    label: '运动锻炼', icon: 'run',    prog: sp + '/40', pts: sp },
-      { id: 'behavior', label: '行为规范', icon: 'shield', prog: (bh >= 0 ? '+' : '') + bh, pts: bh },
-      { id: 'quiz',     label: '知识科普', icon: 'quiz',   prog: qz + '/10', pts: qz }
+      { id: 'quiz',     label: '知识科普', icon: 'quiz',   prog: qz + '/' + QUIZ_MAX, pts: qz },
+      { id: 'study',    label: '学习任务', icon: 'book',   prog: st + '/' + STUDY_MAX, pts: st },
+      { id: 'sport',    label: '运动锻炼', icon: 'run',    prog: sp + '/' + SPORT_MAX, pts: sp },
+      { id: 'behavior', label: '行为规范', icon: 'shield', prog: (bh >= 0 ? '+' : '') + bh, pts: bh }
     ];
   }
 
@@ -1311,17 +1349,31 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
   function renderStudyList() {
     var t = todayStr();
     var done = calc.studyDoneMap(t);
-    var pts = calc.sumType(t, '任务打卡');
+    var evals = calc.evalMap(t);
+    var pts = calc.studyScore(t);
     if ($('study-score')) $('study-score').textContent = pts + ' 分';
+    if ($('study-max')) $('study-max').textContent = '满分 ' + STUDY_MAX + ' 分';
+
     var html = '';
     STUDY_TASKS.forEach(function (task) {
       var rec = done[task.name];
+      var g = evals[task.name + '·认真'];
+      var b = evals[task.name + '·敷衍'];
+      var bonus = g ? g.value : (b ? b.value : 0);
       html += '<div class="trow">' +
         '<div class="chk' + (rec ? ' done' : '') + '" data-task="' + task.id + '" role="button">' + svg('check') + '</div>' +
-        '<div class="tm"><b>' + esc(task.name) + '</b><span>' + esc(task.desc) + '</span></div>' +
-        '<div class="pt">+' + task.pts + '</div></div>';
+        '<div class="tm"><b>' + esc(task.name) + '</b><span>' + esc(task.desc) + '</span>' +
+          '<div class="evals">' +
+            '<button class="ev good' + (g ? ' on' : '') + '" data-ev="' + task.id + '|good">认真 +3</button>' +
+            '<button class="ev bad' + (b ? ' on' : '') + '" data-ev="' + task.id + '|bad">敷衍 -3</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="pt">+' + task.pts +
+          (bonus ? '<small>' + (bonus > 0 ? '+' : '') + bonus + '</small>' : '') +
+        '</div></div>';
     });
     if ($('study-list')) $('study-list').innerHTML = html;
+
     var n = Object.keys(done).length;
     if ($('study-done-txt')) {
       $('study-done-txt').textContent = n === 0 ? '还没有开始打卡'
@@ -1464,10 +1516,42 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     refreshAll();
   }
 
+  /* 每项任务的完成评价：认真 +3 / 敷衍 -3，互斥 */
+  function toggleEval(taskId, key) {
+    var task = null;
+    STUDY_TASKS.forEach(function (t) { if (t.id === taskId) task = t; });
+    if (!task) return;
+    var t = todayStr();
+    var evals = calc.evalMap(t);
+    var pick = key === 'good' ? EVAL_ITEMS[0] : EVAL_ITEMS[1];
+    var other = key === 'good' ? EVAL_ITEMS[1] : EVAL_ITEMS[0];
+    var selfItem = task.name + '·' + pick.label;
+    var otherItem = task.name + '·' + other.label;
+
+    if (evals[otherItem]) delRec(evals[otherItem].id);
+
+    if (evals[selfItem]) {
+      delRec(evals[selfItem].id);
+      toast('已取消：' + task.name + ' ' + pick.label);
+    } else {
+      addRec('任务评价', t, selfItem, pick.pts, task.name);
+      if (pick.pts > 0) toast(task.name + ' 认真 +' + pick.pts + ' 分', 'ok');
+      else toast(task.name + ' 敷衍 ' + pick.pts + ' 分，擎天柱挨了一下', 'err');
+    }
+    refreshAll();
+  }
+
   function resetStudyToday() {
-    confirmBox('撤销今天的学习打卡', '今天所有「学习任务」打卡都会被撤销（其他记录保留）。确定吗？', '撤销', function () {
+    confirmBox('撤销今天的学习打卡', '今天所有「学习任务」打卡和「认真/敷衍」评价都会被撤销（其他记录保留）。确定吗？', '撤销', function () {
       var t = todayStr();
-      store.data.records = store.data.records.filter(function (r) { return !(r.type === '任务打卡' && r.date === t); });
+      store.data.records = store.data.records.filter(function (r) {
+        return !((r.type === '任务打卡' || r.type === '任务评价') && r.date === t);
+      });
+      /* 队列里属于学习任务的伤害也一并撤掉，别让撤销后还能白打一拳 */
+      var names = STUDY_TASKS.map(function (x) { return x.name; });
+      store.data.atkQueue = (store.data.atkQueue || []).filter(function (a) {
+        return !names.some(function (n) { return a.item === n || String(a.item).indexOf(n + '·') === 0; });
+      });
       store.save();
       toast('已撤销今天的学习打卡');
       refreshAll();
@@ -1817,6 +1901,13 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
       var goEl = t.closest ? t.closest('[data-go]') : null;
       if (goEl) { goTo(goEl.getAttribute('data-go')); return; }
 
+      var evEl = t.closest ? t.closest('[data-ev]') : null;
+      if (evEl) {
+        var parts = String(evEl.getAttribute('data-ev')).split('|');
+        toggleEval(parts[0], parts[1]);
+        return;
+      }
+
       var taskEl = t.closest ? t.closest('[data-task]') : null;
       if (taskEl) { toggleTask(taskEl.getAttribute('data-task')); return; }
 
@@ -1890,6 +1981,8 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     getState: function () { return state; },
     // 常量
     STUDY_TASKS: STUDY_TASKS, SPORT_ITEMS: SPORT_ITEMS, SPORT_PTS: SPORT_PTS,
+    SPORT_MAX: SPORT_MAX, STUDY_MAX: STUDY_MAX, QUIZ_MAX: QUIZ_MAX, MAX_SCORE: MAX_SCORE,
+    EVAL_ITEMS: EVAL_ITEMS,
     BEHAVIOR_GOOD: BEHAVIOR_GOOD, BEHAVIOR_BAD: BEHAVIOR_BAD,
     SHOP_ITEMS: SHOP_ITEMS, MOODS: MOODS, TABS: TABS,
     sync: sync,
@@ -2226,7 +2319,7 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     if (!box) return;
 
     var total = C.calc.sumType(ds, TYPE);
-    if (C.$('sp-total')) C.$('sp-total').textContent = total + ' / 40 分';
+    if (C.$('sp-total')) C.$('sp-total').textContent = total + ' / ' + C.SPORT_MAX + ' 分';
 
     var html = '';
     C.SPORT_ITEMS.forEach(function (it) {
@@ -2243,7 +2336,7 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
         var on = cur && cur.note === labelOf(it, i);
         html += '<button class="tier' + (on ? ' on' : '') + '" data-si="' + it.id + '" data-ti="' + i + '" ' +
           'aria-label="' + C.esc(it.name + ' ' + labelOf(it, i)) + '">' +
-          '<b>' + it.tiers[i] + '</b><i>' + (it.unit || '个') + ' +' + C.SPORT_PTS[i] + '</i></button>';
+          '<b>' + it.tiers[i] + '</b><i>' + (it.unit || '个') + ' +' + it.pts[i] + '</i></button>';
       }
       html += '</div></div>';
     });
@@ -2260,7 +2353,7 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     var ds = C.todayStr();
     var cur = curOf(it.name, ds);
     var lab = labelOf(it, tierIdx);
-    var pts = C.SPORT_PTS[tierIdx] || 0;
+    var pts = (it.pts && it.pts[tierIdx]) || 0;
 
     if (cur) {
       var same = cur.note === lab;
