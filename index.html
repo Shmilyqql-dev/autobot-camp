@@ -202,6 +202,17 @@ input,textarea,select{font-family:inherit;font-size:16px}
 .shop-item.can .cost{color:var(--gold2)}
 .shop-item:not(.can){opacity:.62}
 .shop-item:active{transform:scale(.97)}
+/* ---------- 绘本打卡兑换 ---------- */
+.pbr-box{padding:2px 0 0}
+.pbr-row{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.pbr-big{font-size:28px;font-weight:800;line-height:1.05;font-variant-numeric:tabular-nums}
+.pbr-big b{color:var(--gold2)}
+.pbr-big small{font-size:13px;color:var(--txt2);font-weight:600}
+.pbr-sub{font-size:11.5px;color:var(--txt2);margin-top:5px;line-height:1.5}
+.pbr-rt{font-size:22px;font-weight:800;color:var(--cyan);font-variant-numeric:tabular-nums;white-space:nowrap}
+.pbr-rt small{font-size:11px;color:var(--txt2);font-weight:600}
+.pbr-btn{width:100%;min-height:48px;font-size:14.5px;font-weight:700;margin-top:2px}
+.pbr-btn:disabled{opacity:.45;filter:grayscale(.5)}
 /* ---------- 导航 ---------- */
 .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:70;padding:6px 8px calc(6px + var(--safe-b));background:linear-gradient(0deg,rgba(8,12,28,.98),rgba(8,12,28,.86));backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--line)}
 .tabbar-in{max-width:560px;margin:0 auto;display:flex}
@@ -595,6 +606,21 @@ input,textarea,select{font-family:inherit;font-size:16px}
       <div class="shop-grid" id="shop-list"></div>
     </div>
     <div class="card">
+      <div class="card-h"><h2>绘本打卡兑换</h2><span class="badge" id="pbr-badge">0 次</span></div>
+      <div class="pbr-box">
+        <div class="pbr-row">
+          <div>
+            <div class="pbr-big"><b id="pbr-days">0</b><small> 天</small></div>
+            <div class="pbr-sub" id="pbr-tip">满 15 天可兑换 1 次小盲盒</div>
+          </div>
+          <div class="pbr-rt"><span id="pbr-left">0</span><small> 次可兑</small></div>
+        </div>
+        <div class="prog-line" style="margin:8px 0 10px"><i id="pbr-bar" style="width:0%"></i></div>
+        <button class="btn pbr-btn" id="btn-pbr" type="button">兑换小盲盒</button>
+        <p class="mini-note" style="margin:8px 0 0">绘本打卡满 15 天换 1 次小盲盒，<b>不花能量块</b>，兑换需家长密码。</p>
+      </div>
+    </div>
+    <div class="card">
       <div class="card-h"><h2>今天兑换过</h2><span class="sub">每日清零</span></div>
       <div id="shop-today"></div>
     </div>
@@ -762,6 +788,13 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     { id: 'box_l',  name: '大盲盒', cost: 900, icon: 'gift' }
   ];
 
+  /* 绘本打卡兑换：满 15 天换 1 次「小盲盒」，走另一条线，不花能量块 */
+  var PB_GOAL = 15;
+  var PB_REWARD = '小盲盒';
+
+  /* 晚上几点自动结算（24 小时制） */
+  var AUTO_SETTLE_HOUR = 21;
+
   var MOODS = [
     { id: 'happy', name: '开心', color: '#28C46B', face: 'smile' },
     { id: 'ok',    name: '还好', color: '#FFC53D', face: 'meh' },
@@ -784,6 +817,13 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
   }
   function nowISO() { return new Date().toISOString(); }
+  /* 日期字符串加减天数：addDaysStr('2026-11-18', 1) → '2026-11-19' */
+  function addDaysStr(ds, n) {
+    var p = String(ds).split('-');
+    var d = new Date(+p[0], +p[1] - 1, +p[2]);
+    d.setDate(d.getDate() + n);
+    return todayStr(d);
+  }
   function uid() { return 'r' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
   function $(id) { return document.getElementById(id); }
   function esc(s) {
@@ -885,9 +925,12 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
         daysBase: 0,
         dayBase: 1,
         settleLog: {},
+        settleAuto: {},        // 哪些天是 21:00 自动结算的
+        autoSettleSince: '',   // 自动结算从哪天开始负责（首次运行 = 当天，不追溯历史）
         atkQueue: [],
         quiz: {},
         quizSet: {},
+        pbRedeem: 0,           // 绘本打卡已兑换次数（每 15 天可换 1 次）
         parentPin: '',
         lastBackupAt: ''
       };
@@ -1040,7 +1083,10 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
       return n;
     },
     shopToday: function () {
-      return this.ofType(todayStr(), '奖励兑换');
+      var t = todayStr();
+      return this.ofDay(t).filter(function (r) {
+        return r.type === '奖励兑换' || r.type === '绘本兑换';
+      });
     },
     moodOf: function (ds) {
       var list = this.ofType(ds, '心情日记');
@@ -1060,6 +1106,17 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
         if (r.type === '绘本打卡') set[r.date] = 1;
       });
       return set;
+    },
+    /* 绘本打卡兑换：每满 15 天可换 1 次「小盲盒」 */
+    pbRedeemUsed: function () { return num(store.data.pbRedeem); },
+    pbRedeemTotal: function () { return Math.floor(this.picbookDays() / PB_GOAL); },
+    pbRedeemLeft: function () {
+      return Math.max(0, this.pbRedeemTotal() - this.pbRedeemUsed());
+    },
+    /* 距离下一次可兑换还差几天；已经能兑则返回 0 */
+    pbNextIn: function () {
+      if (this.pbRedeemLeft() > 0) return 0;
+      return PB_GOAL - (this.picbookDays() % PB_GOAL);
     }
   };
 
@@ -1118,8 +1175,9 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     var t = todayStr();
     var score = calc.scoreOf(t);
     var maxScore = MAX_SCORE;
-    var hpA = Math.max(6, Math.min(100, Math.round(score / maxScore * 100)));
-    var hpB = Math.max(0, 100 - hpA);
+    // 血条 = 今日战力占满分(144)的百分比，真实值 0~100，不做保底
+    var hpA = Math.max(0, Math.min(100, Math.round(score / maxScore * 100)));
+    var hpB = 100 - hpA;
 
     if ($('arena-day')) $('arena-day').textContent = calc.dayIndex();
     if ($('hp-a')) $('hp-a').style.width = hpA + '%';
@@ -1240,17 +1298,20 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     var st = $('settle-tip');
     if (st) {
       if (store.data.settleLog[t]) {
-        st.textContent = '今日已结算：' + store.data.settleLog[t] + ' 分，获得 ' + calc.coinOfScore(store.data.settleLog[t]) + ' 能量块';
+        var auto = !!(store.data.settleAuto && store.data.settleAuto[t]);
+        st.textContent = (auto ? '21:00 已自动结算：' : '今日已结算：') +
+          store.data.settleLog[t] + ' 分，获得 ' + calc.coinOfScore(store.data.settleLog[t]) + ' 能量块';
       } else {
         var h = new Date().getHours();
         var gain = calc.coinOfScore(score);
-        st.textContent = (h >= 21 ? '已经到晚上了，可以结算今天的战斗' : '每天可以结算一次，随时都行') +
+        st.textContent = '一天只能结算一次，' +
+          (h >= AUTO_SETTLE_HOUR ? '今晚会自动结算' : '21:00 会替你自动结算') +
           ' · 当前可换 ' + gain + ' 能量块（10 分 = 1 块）';
       }
     }
     var btn = $('btn-settle');
     if (btn) {
-      btn.textContent = store.data.settleLog[t] ? '今日已结算 ✓' : '结算今天的战斗';
+      btn.textContent = store.data.settleLog[t] ? '今日已结算 ✓' : '现在结算今天的战斗';
       btn.disabled = !!store.data.settleLog[t];
     }
   }
@@ -1338,11 +1399,66 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     if ($('shop-today')) {
       $('shop-today').innerHTML = tdy.length
         ? tdy.map(function (r) {
+            var cost = num(r.value) > 0
+              ? '-' + num(r.value)
+              : '<span style="font-size:11px;color:var(--cyan)">打卡兑换</span>';
             return '<div class="trow"><div class="tm"><b>' + esc(r.item) + '</b><span>' + esc(r.note || '今日兑换') + '</span></div>' +
-              '<div class="pt" style="color:#FF9AA4">-' + num(r.value) + '</div></div>';
+              '<div class="pt" style="color:#FF9AA4">' + cost + '</div></div>';
           }).join('')
         : '<div style="font-size:12px;color:var(--txt3);padding:6px 2px">今天还没有兑换</div>';
     }
+
+    renderPbRedeem();
+  }
+
+  /* 商店页：绘本打卡兑换卡 */
+  function renderPbRedeem() {
+    var days = calc.picbookDays();
+    var left = calc.pbRedeemLeft();
+    var used = calc.pbRedeemUsed();
+    var mod = days % PB_GOAL;
+
+    if ($('pbr-days')) $('pbr-days').textContent = days;
+    if ($('pbr-left')) $('pbr-left').textContent = left;
+    if ($('pbr-badge')) {
+      $('pbr-badge').textContent = left > 0 ? '可兑 ' + left + ' 次' : '已兑 ' + used + ' 次';
+      $('pbr-badge').className = 'badge' + (left > 0 ? ' g' : '');
+    }
+    if ($('pbr-bar')) {
+      var pct = left > 0 ? 100 : Math.round(mod / PB_GOAL * 100);
+      $('pbr-bar').style.width = Math.max(0, Math.min(100, pct)) + '%';
+    }
+    if ($('pbr-tip')) {
+      if (left > 0) {
+        $('pbr-tip').innerHTML = '已经攒够 <b style="color:var(--gold)">' + left + ' 次</b>，可以让家长帮你兑换';
+      } else {
+        $('pbr-tip').textContent = '再打卡 ' + (PB_GOAL - mod) + ' 天，就能换 1 次小盲盒（已兑 ' + used + ' 次）';
+      }
+    }
+    var btn = $('btn-pbr');
+    if (btn) {
+      btn.disabled = left <= 0;
+      btn.textContent = left > 0 ? '兑换小盲盒（剩 ' + left + ' 次）' : '还没攒够 15 天';
+    }
+  }
+
+  /* 绘本打卡兑换：不花能量块，用 15 天打卡换 1 个小盲盒 */
+  function redeemPicbook() {
+    var days = calc.picbookDays();
+    var left = calc.pbRedeemLeft();
+    if (left <= 0) {
+      toast('还差 ' + calc.pbNextIn() + ' 天才能兑换，继续加油', 'err');
+      return;
+    }
+    askPin('兑换「' + PB_REWARD + '」',
+      '绘本打卡 ' + days + ' 天，可兑换 ' + left + ' 次。本次用掉 15 天打卡换 1 个' + PB_REWARD +
+      '，不消耗能量块。请家长输入密码确认。',
+      function () {
+        store.data.pbRedeem = calc.pbRedeemUsed() + 1;
+        addRec('绘本兑换', todayStr(), PB_REWARD, 0, '绘本打卡满 ' + PB_GOAL + ' 天兑换');
+        toast('兑换成功：' + PB_REWARD + ' ×1，记得找家长兑现', 'ok');
+        refreshAll();
+      });
   }
 
   /* 学习任务页 */
@@ -1569,25 +1685,84 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
 
   function settleDay() {
     var t = todayStr();
-    if (store.data.settleLog[t]) { toast('今天已经结算过了'); return; }
+    if (store.data.settleLog[t]) { toast('今天已经结算过了，一天只能结算一次'); return; }
     var score = calc.scoreOf(t);
     var gain = calc.coinOfScore(score);
     confirmBox('结算第 ' + calc.dayIndex() + ' 天',
-      '今日战力 ' + score + ' 分，按 10 分 = 1 能量块，可兑换 ' + gain + ' 个能量块。一天只能结算一次，确定吗？',
-      '确认结算', function () { doSettle(t, score, gain); });
+      '今日战力 ' + score + ' 分，按 10 分 = 1 能量块，可兑换 ' + gain + ' 个能量块。一天只能结算一次；如果今天不点，晚上 21:00 系统会自动结算。确定现在结算吗？',
+      '确认结算', function () { doSettle(t, score, gain, false); });
   }
 
-  function doSettle(t, score, gain) {
+  function doSettle(t, score, gain, isAuto) {
     store.data.settleLog[t] = score;
+    if (isAuto) {
+      if (!store.data.settleAuto || typeof store.data.settleAuto !== 'object') store.data.settleAuto = {};
+      store.data.settleAuto[t] = 1;
+    }
     if (gain > 0) {
       store.data.coin = calc.coin() + gain;
-      addRec('家长补录', t, '每日结算奖励', gain, '战力 ' + score + ' 分 ÷ 10');
-      toast('结算完成：+' + gain + ' 能量块（战力 ' + score + '）', 'ok');
-    } else {
+      addRec('家长补录', t, '每日结算奖励', gain, (isAuto ? '自动结算' : '手动结算') + ' · 战力 ' + score + ' 分 ÷ 10');
+      if (!isAuto) toast('结算完成：+' + gain + ' 能量块（战力 ' + score + '）', 'ok');
+    } else if (!isAuto) {
       store.save();
       toast('结算完成：' + score + ' 分，不足 10 分没有能量块，明天加油！');
     }
-    refreshAll();
+    store.save();
+    if (!isAuto) refreshAll();
+  }
+
+  /* ============ 21:00 自动结算 ============
+   * 纯前端页面无法在关掉浏览器后后台运行，所以规则是：
+   * 1) 页面开着 → 每到 21:00 自动把当天结算掉（30 秒轮询检查一次）；
+   * 2) 页面关着 → 下一次打开时补齐「应结算但还没结算」的日子；
+   * 3) 只负责 autoSettleSince（首次运行当天）之后的日子，不追溯上线前的历史，
+   *    避免一上线就把旧账一次性换成能量块。
+   */
+  function autoSettleDue() {
+    var d = store.data;
+    var today = todayStr();
+    if (!d.autoSettleSince) { d.autoSettleSince = today; store.save(); }
+    var list = [];
+    var now = new Date();
+    var cur = d.autoSettleSince > today ? today : d.autoSettleSince;
+    var guard = 0;
+    while (cur <= today && guard++ < 62) {
+      if (!d.settleLog[cur]) {
+        // 今天必须过了 21:00 才算到期；更早的日子视为已到期
+        if (cur < today || now.getHours() >= AUTO_SETTLE_HOUR) list.push(cur);
+      }
+      cur = addDaysStr(cur, 1);
+    }
+    return list;
+  }
+
+  /* 执行到期自动结算，返回 {days, blocks} */
+  function runAutoSettle(silent) {
+    var list = autoSettleDue();
+    if (!list.length) return { days: 0, blocks: 0 };
+    var days = 0, blocks = 0;
+    list.forEach(function (ds) {
+      var score = calc.scoreOf(ds);
+      var gain = calc.coinOfScore(score);
+      doSettle(ds, score, gain, true);
+      days++;
+      blocks += gain;
+    });
+    // 游标只推进到「已处理日期的下一天」，今天没到点就不算处理过，避免今晚漏结算
+    store.data.autoSettleSince = addDaysStr(list[list.length - 1], 1);
+    store.save();
+    if (!silent) {
+      if (blocks > 0) toast('已自动结算 ' + days + ' 天，+' + blocks + ' 能量块', 'ok');
+      else toast('已自动结算 ' + days + ' 天：分数不足 10 分，没有能量块');
+    }
+    return { days: days, blocks: blocks };
+  }
+
+  function startAutoSettleTimer() {
+    setInterval(function () {
+      var r = runAutoSettle(false);
+      if (r.days > 0) refreshAll();
+    }, 30000);
   }
 
   function buyItem(itemId) {
@@ -1751,6 +1926,8 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
       daysBase: num(store.data.daysBase),
       dayBase: num(store.data.dayBase),
       settleLog: store.data.settleLog,
+      settleAuto: store.data.settleAuto || {},
+      pbRedeem: calc.pbRedeemUsed(),
       records: store.data.records.map(function (r) {
         return { i: r.id, y: r.type, d: r.date, m: r.item, v: num(r.value), n: r.note || '' };
       })
@@ -1806,6 +1983,11 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     if (obj.settleLog && typeof obj.settleLog === 'object') {
       for (var k in obj.settleLog) { if (!store.data.settleLog[k]) store.data.settleLog[k] = obj.settleLog[k]; }
     }
+    if (obj.settleAuto && typeof obj.settleAuto === 'object') {
+      if (!store.data.settleAuto) store.data.settleAuto = {};
+      for (var k2 in obj.settleAuto) { store.data.settleAuto[k2] = obj.settleAuto[k2]; }
+    }
+    store.data.pbRedeem = Math.max(calc.pbRedeemUsed(), num(obj.pbRedeem));
     store.data.coin = Math.max(calc.coin(), num(obj.coin));
     store.data.daysBase = Math.max(num(store.data.daysBase), num(obj.daysBase));
     store.save();
@@ -1854,6 +2036,11 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
         });
         store.data.records = store.data.records.concat(add);
         if (d.settleLog) { for (var k in d.settleLog) { if (!store.data.settleLog[k]) store.data.settleLog[k] = d.settleLog[k]; } }
+        if (d.settleAuto && typeof d.settleAuto === 'object') {
+          if (!store.data.settleAuto) store.data.settleAuto = {};
+          for (var k3 in d.settleAuto) { store.data.settleAuto[k3] = d.settleAuto[k3]; }
+        }
+        store.data.pbRedeem = Math.max(calc.pbRedeemUsed(), num(d.pbRedeem));
         store.data.coin = Math.max(calc.coin(), num(d.coin));
         store.data.daysBase = Math.max(num(store.data.daysBase), num(d.daysBase));
         store.save();
@@ -1917,6 +2104,7 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
 
     var on = function (id, fn) { var el = $(id); if (el) el.onclick = fn; };
     on('btn-settle', settleDay);
+    on('btn-pbr', redeemPicbook);
     on('btn-study-reset', resetStudyToday);
     on('btn-make-code', makeCode);
     on('btn-copy-code', copyCode);
@@ -1948,6 +2136,9 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     store.load();
     loadImages();
     bindEvents();
+
+    // 先补上「过了 21:00 却没结算」的日子（含今天），再渲染
+    runAutoSettle(false);
     refreshAll();
 
     sync.init().then(function () { refreshAll(); });
@@ -1958,10 +2149,13 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
       if (d !== lastDay) { lastDay = d; refreshAll(); }
     }, 30000);
 
+    startAutoSettleTimer();
+
     document.addEventListener('visibilitychange', function () {
       if (!document.hidden) {
         var d = todayStr();
-        if (d !== lastDay) { lastDay = d; refreshAll(); }
+        var r = runAutoSettle(false);
+        if (d !== lastDay || r.days > 0) { lastDay = d; refreshAll(); }
       }
     });
   }
@@ -1985,6 +2179,8 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     EVAL_ITEMS: EVAL_ITEMS,
     BEHAVIOR_GOOD: BEHAVIOR_GOOD, BEHAVIOR_BAD: BEHAVIOR_BAD,
     SHOP_ITEMS: SHOP_ITEMS, MOODS: MOODS, TABS: TABS,
+    PB_GOAL: PB_GOAL, PB_REWARD: PB_REWARD, AUTO_SETTLE_HOUR: AUTO_SETTLE_HOUR,
+    runAutoSettle: runAutoSettle, autoSettleDue: autoSettleDue, redeemPicbook: redeemPicbook,
     sync: sync,
     playHit: playHit
   };
@@ -2216,14 +2412,16 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
 
     // 进度
     var total = C.calc.picbookDays();
-    var pct = Math.min(100, Math.round(total / GOAL * 100));
+    var mod = total % GOAL;
+    var left = C.calc.pbRedeemLeft();
+    var pct = Math.min(100, Math.round((left > 0 ? GOAL : mod) / GOAL * 100));
     if (C.$('pb-days')) C.$('pb-days').textContent = total + ' 天';
     if (C.$('pb-bar')) C.$('pb-bar').style.width = pct + '%';
     if (C.$('pb-tip')) {
-      if (total >= GOAL) {
-        C.$('pb-tip').innerHTML = '已经满 <b style="color:var(--gold)">' + total + ' 天</b>，可以找家长兑换奖励啦！';
+      if (left > 0) {
+        C.$('pb-tip').innerHTML = '已经攒够 <b style="color:var(--gold)">' + left + ' 次</b>兑换机会，去「商店」换小盲盒吧！';
       } else {
-        C.$('pb-tip').textContent = '还差 ' + (GOAL - total) + ' 天解锁第一个奖励（已打卡 ' + total + ' 天）';
+        C.$('pb-tip').textContent = '再打卡 ' + (GOAL - mod) + ' 天可换 1 次小盲盒（累计 ' + total + ' 天）';
       }
     }
 
@@ -2253,8 +2451,8 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
       C.addRec('绘本打卡', ds, '绘本阅读', 0, '');
       var total = C.calc.picbookDays();
       C.toast('绘本打卡 +1，累计 ' + total + ' 天', 'ok');
-      if (total === GOAL) {
-        setTimeout(function () { C.toast('满 15 天啦！解锁第一次绘本奖励', 'ok'); }, 900);
+      if (total % GOAL === 0) {
+        setTimeout(function () { C.toast('满 ' + GOAL + ' 天啦！去「商店」换小盲盒', 'ok'); }, 900);
       }
     }
     C.refreshAll();
