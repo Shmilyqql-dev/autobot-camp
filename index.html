@@ -97,6 +97,8 @@ input,textarea,select{font-family:inherit;font-size:16px}
 .ko-sub{margin-top:12px;font-size:19px;font-weight:800;color:#FFE9A8;letter-spacing:2px}
 .ko-line{margin-top:10px;font-size:13.5px;color:#DCE6FA}
 .ko-line b{color:#FFD75E;font-size:17px;font-variant-numeric:tabular-nums}
+.ko-next{margin-top:12px;font-size:12.5px;color:#B9C8E6;letter-spacing:.3px}
+.ko-next b{color:#FFD75E;font-size:15px;font-variant-numeric:tabular-nums}
 .ko-tip{margin-top:20px;font-size:11px;color:rgba(220,230,250,.55)}
 .arena.ko-shake{animation:koShake .8s ease-out both}
 @keyframes koFade{from{opacity:0}to{opacity:1}}
@@ -1268,6 +1270,7 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     var st = $('arena-state');
     if (st) {
       if (isSettled(t)) { st.textContent = '已结算 · ' + num(store.data.settleLog[t]) + ' 分'; st.className = 'badge'; }
+      else if (score >= MAX_SCORE) { st.textContent = '满分 ' + MAX_SCORE; st.className = 'badge win'; }
       else if (score >= WIN_SCORE) { st.textContent = '已击败威震天'; st.className = 'badge win'; }
       else { st.textContent = '还差 ' + (WIN_SCORE - score) + ' 分'; st.className = 'badge g'; }
     }
@@ -1348,22 +1351,28 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
   }
 
   /* ================= 渲染：首页进度/走势/快捷 ================= */
-  /* 分阶段激励语：按「距离 KO 还差多少」给话，越近越燃 */
+  /* 阶段激励语：100 分只是「打败威震天」的底线，设计满分 128 才是目标。
+     过了 100 绝不能喊「收工」，否则孩子立刻停手 —— 这一段必须是继续冲刺的语气。 */
   function stageOf(score) {
+    var gapFull = Math.max(0, MAX_SCORE - score);
     if (score <= 0) return { i: 0, tip: '还没出拳，随手做一项就是第一下', color: 'var(--txt3)' };
     if (score < 20) return { i: 1, tip: '开始出拳了！威震天正在活动筋骨', color: 'var(--blue2)' };
     if (score < 40) return { i: 2, tip: '第一拳打中了，继续压上去', color: 'var(--blue2)' };
     if (score < 60) return { i: 3, tip: '打平了！再拿几分就反超威震天', color: 'var(--cyan)' };
     if (score < 80) return { i: 4, tip: '威震天开始后退，别给它喘息', color: 'var(--cyan)' };
     if (score < WIN_SCORE) return { i: 5, tip: '只差 ' + (WIN_SCORE - score) + ' 分就 KO 了！', color: 'var(--gold2)' };
-    return { i: 6, tip: 'KO！擎天柱赢了，今天收工', color: 'var(--gold2)' };
+    if (score < 110) return { i: 6, tip: '威震天倒了！可别停手，离满分还差 ' + gapFull + ' 分', color: 'var(--gold2)' };
+    if (score < 120) return { i: 7, tip: '越打越勇！离满分只差 ' + gapFull + ' 分', color: 'var(--gold2)' };
+    if (score < MAX_SCORE) return { i: 8, tip: '就差 ' + gapFull + ' 分满分了，再冲一把！', color: 'var(--gold2)' };
+    return { i: 9, tip: '满分 ' + MAX_SCORE + ' 达成！今天彻底打爆威震天', color: 'var(--gold2)' };
   }
 
   function renderRing() {
     var t = todayStr();
     var score = calc.scoreOf(t);
-    // 环 = 距离胜利线(100)的百分比
-    var pct = Math.max(0, Math.min(1, score / WIN_SCORE));
+    // 环 = 今日完成度，分母用「设计满分 128」而不是胜利线 100。
+    // 否则刚过 100 分环就显示 100%，等于告诉孩子"已经满了、可以停了"。
+    var pct = Math.max(0, Math.min(1, score / MAX_SCORE));
     var R = 32, C = 2 * Math.PI * R, off = C * (1 - pct);
     if ($('ring')) {
       $('ring').innerHTML =
@@ -1388,10 +1397,17 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
       tip.style.color = sg.color;
     }
     if ($('today-goal')) {
-      $('today-goal').textContent = score >= WIN_SCORE
-        ? '已达成胜利线 ' + WIN_SCORE + ' 分'
-        : '胜利线 ' + WIN_SCORE + ' 分 · 还差 ' + (WIN_SCORE - score) + ' 分';
-      $('today-goal').style.color = score >= WIN_SCORE ? 'var(--gold2)' : 'var(--txt3)';
+      var gEl = $('today-goal');
+      if (score >= MAX_SCORE) {
+        gEl.textContent = '满分 ' + MAX_SCORE + ' 达成！';
+        gEl.style.color = 'var(--gold2)';
+      } else if (score >= WIN_SCORE) {
+        gEl.textContent = '已 KO 威震天 · 离满分 ' + MAX_SCORE + ' 还差 ' + (MAX_SCORE - score) + ' 分';
+        gEl.style.color = 'var(--gold2)';
+      } else {
+        gEl.textContent = '胜利线 ' + WIN_SCORE + ' 分 · 还差 ' + (WIN_SCORE - score) + ' 分';
+        gEl.style.color = 'var(--txt3)';
+      }
     }
 
     var st = $('settle-tip');
@@ -1827,6 +1843,11 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
         '<div class="ko-sub">擎天柱 击败 威震天</div>' +
         '<div class="ko-line">今日战力 <b>' + score + '</b> 分' +
           (gain > 0 ? ' · 获得 <b>' + gain + '</b> 个能量块' : '') + '</div>' +
+        '<div class="ko-next">' +
+          (score >= MAX_SCORE
+            ? '满分 ' + MAX_SCORE + ' 拿满，太强了！'
+            : '离满分 ' + MAX_SCORE + ' 还差 <b>' + (MAX_SCORE - score) + '</b> 分，明天接着冲') +
+        '</div>' +
         '<div class="ko-tip">点一下关闭</div>' +
       '</div>';
     document.body.appendChild(el);
@@ -1854,8 +1875,12 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     if (isSettled(t)) { toast('今天已经结算过了，一天只能结算一次'); return; }
     var score = calc.scoreOf(t);
     var gain = calc.coinOfScore(score);
+    // 已经打赢但还没拿满：提醒一句，别急着结算把孩子继续冲刺的劲头掐掉
+    var extra = (score >= WIN_SCORE && score < MAX_SCORE)
+      ? '现在 ' + score + ' 分，离满分 ' + MAX_SCORE + ' 还差 ' + (MAX_SCORE - score) + ' 分，结算后今天就不能再加分了。'
+      : '';
     confirmBox('结算第 ' + calc.dayIndex() + ' 天',
-      '今日战力 ' + score + ' 分，按 10 分 = 1 能量块，可兑换 ' + gain + ' 个能量块。一天只能结算一次；如果今天不点，晚上 21:00 系统会自动结算。确定现在结算吗？',
+      extra + '今日战力 ' + score + ' 分，按 10 分 = 1 能量块，可兑换 ' + gain + ' 个能量块。一天只能结算一次；如果今天不点，晚上 21:00 系统会自动结算。确定现在结算吗？',
       '确认结算', function () { doSettle(t, score, gain, false); });
   }
 
@@ -3347,8 +3372,10 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
       '<div class="res-box ' + res.cls + '">' +
         '<div class="res-t">当日战绩</div>' +
         '<div class="res-v">' + res.t + '</div>' +
-        '<div class="res-d">总分 <b>' + score + '</b> 分 · 胜利线 ' + C.WIN_SCORE + ' 分' +
-          (b.win === 'a' ? '' : (b.win === 'b' ? ' · 还差 ' + b.left + ' 分' : '')) + '</div>' +
+        '<div class="res-d">总分 <b>' + score + '</b> 分 · 胜利线 ' + C.WIN_SCORE + ' 分 · 满分 ' + C.MAX_SCORE + ' 分' +
+          (b.win === 'a'
+            ? (score >= C.MAX_SCORE ? ' · 拿满' : ' · 离满分还差 ' + (C.MAX_SCORE - score) + ' 分')
+            : (b.win === 'b' ? ' · 还差 ' + b.left + ' 分到胜利线' : '')) + '</div>' +
         '<div class="res-d">' +
           (isSt ? '已结算，兑换 <b>' + C.calc.coinOfScore(settledPts) + '</b> 个能量块（10 分 = 1 块）'
                 : '未结算 · 按 10 分 = 1 块，可换 <b>' + C.calc.coinOfScore(score) + '</b> 块') +
