@@ -75,6 +75,32 @@ input,textarea,select{font-family:inherit;font-size:16px}
 .card-h .sub{font-size:11px;color:var(--txt3);margin-left:auto;text-align:right}
 .badge{font-size:11px;padding:2px 8px;border-radius:99px;background:rgba(47,107,255,.22);color:#9CC2FF;border:1px solid rgba(47,107,255,.4);white-space:nowrap;margin-left:auto}
 .badge.g{background:rgba(255,197,61,.16);color:var(--gold2);border-color:rgba(255,197,61,.35)}
+.badge.win{background:linear-gradient(135deg,rgba(255,197,61,.34),rgba(255,138,61,.22));color:#FFE9A8;border-color:rgba(255,197,61,.78);box-shadow:0 0 0 1px rgba(255,197,61,.2) inset,0 0 18px -6px rgba(255,197,61,.9)}
+/* ---------- 结算 KO 动画 ---------- */
+.ko-stage{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:24px;
+  background:radial-gradient(circle at 50% 42%,rgba(255,197,61,.22),rgba(6,10,24,.96) 62%);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);animation:koFade .28s ease-out both}
+.ko-stage.out{animation:koFadeOut .4s ease-in forwards}
+.ko-flash{position:absolute;inset:0;pointer-events:none;animation:koFlash .6s ease-out both;
+  background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.92),rgba(255,255,255,0) 55%)}
+.ko-inner{position:relative;text-align:center;animation:koPop .5s cubic-bezier(.2,1.6,.5,1) both}
+.ko-img{width:96px;height:96px;object-fit:contain;margin:0 auto 4px;display:block;transform-origin:50% 90%;
+  filter:grayscale(1) brightness(.72);animation:koFall .95s ease-out both}
+.ko-word{font-size:84px;font-weight:900;letter-spacing:6px;line-height:1;color:#fff;
+  text-shadow:0 0 18px rgba(255,197,61,.95),0 0 48px rgba(255,138,61,.75),0 6px 0 rgba(170,52,0,.55);
+  animation:koPunch .72s ease-out both}
+.ko-sub{margin-top:12px;font-size:19px;font-weight:800;color:#FFE9A8;letter-spacing:2px}
+.ko-line{margin-top:10px;font-size:13.5px;color:#DCE6FA}
+.ko-line b{color:#FFD75E;font-size:17px;font-variant-numeric:tabular-nums}
+.ko-tip{margin-top:20px;font-size:11px;color:rgba(220,230,250,.55)}
+.arena.ko-shake{animation:koShake .8s ease-out both}
+@keyframes koFade{from{opacity:0}to{opacity:1}}
+@keyframes koFadeOut{to{opacity:0}}
+@keyframes koFlash{0%{opacity:0;transform:scale(.4)}30%{opacity:.92}100%{opacity:0;transform:scale(1.7)}}
+@keyframes koPop{0%{opacity:0;transform:scale(.62) translateY(20px)}100%{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes koPunch{0%{transform:scale(2.3);opacity:0}44%{transform:scale(.9);opacity:1}66%{transform:scale(1.07)}100%{transform:scale(1)}}
+@keyframes koFall{0%{transform:rotate(0) scale(1.12);opacity:0}40%{transform:rotate(-6deg) scale(1);opacity:1}100%{transform:rotate(-80deg) translateY(10px);opacity:.5}}
+@keyframes koShake{0%,100%{transform:translate(0,0)}12%{transform:translate(-7px,3px)}26%{transform:translate(6px,-4px)}40%{transform:translate(-5px,2px)}56%{transform:translate(4px,-2px)}72%{transform:translate(-3px,1px)}}
 .mini-note{font-size:12px;color:var(--txt2);line-height:1.7;margin:0 0 12px}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 /* ---------- 对战场 ---------- */
@@ -366,8 +392,23 @@ body.day-locked #btn-study-reset{opacity:.45;pointer-events:none}
 .hs-day .hs-d b{display:block;font-size:13px;font-variant-numeric:tabular-nums}
 .hs-day .hs-d i{display:block;font-size:10px;color:var(--txt3);font-style:normal}
 .hs-day .hs-m{flex:1;min-width:0;font-size:11.5px;color:var(--txt2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.hs-day .hs-s{font-size:15px;font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums;flex:0 0 auto}
+.hs-day .hs-s{font-size:15px;font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums;flex:0 0 auto;text-align:right}
 .hs-day .hs-s small{font-size:10px;color:var(--txt3);font-weight:400}
+.hs-day .hs-s em{display:block;font-style:normal;font-size:10px;font-weight:700;margin-top:2px}
+.hs-day .hs-s em.win{color:var(--gold2)}
+.hs-day .hs-s em.lose{color:#FF8A93}
+.hs-day .hs-s em.none{color:var(--txt3);font-weight:400}
+/* ---------- 当天战绩卡（历史详情） ---------- */
+.res-box{border-radius:14px;padding:12px 14px;margin:0 0 14px;border:1px solid var(--line);background:rgba(255,255,255,.04)}
+.res-box.win{border-color:rgba(255,197,61,.55);background:linear-gradient(140deg,rgba(255,197,61,.18),rgba(255,197,61,.04));box-shadow:0 8px 26px -18px rgba(255,197,61,.9)}
+.res-box.lose{border-color:rgba(255,77,94,.42);background:linear-gradient(140deg,rgba(255,77,94,.13),rgba(255,77,94,.03))}
+.res-box .res-t{font-size:11px;color:var(--txt2);letter-spacing:1px}
+.res-box .res-v{font-size:22px;font-weight:900;line-height:1.25;margin:3px 0 6px}
+.res-box.win .res-v{color:var(--gold2);text-shadow:0 0 18px rgba(255,197,61,.45)}
+.res-box.lose .res-v{color:#FF8A93}
+.res-box.none .res-v{color:var(--txt2)}
+.res-box .res-d{font-size:11.5px;color:var(--txt2);line-height:1.6}
+.res-box .res-d b{color:var(--txt);font-variant-numeric:tabular-nums}
 .hs-day.empty{opacity:.42}
 </style>
 </head>
@@ -438,24 +479,22 @@ body.day-locked #btn-study-reset{opacity:.45;pointer-events:none}
           </div>
         </div>
 
+        <div class="chips" style="margin-top:10px">
+          <span class="chip" id="today-goal">胜利线 100 分</span>
+        </div>
+      </div>
+
+      <div>
         <div class="card">
           <div class="card-h"><h2>今日进度</h2><span class="sub" id="today-date"></span></div>
           <div class="prog-wrap">
             <div class="ring" id="ring"></div>
             <div class="prog-info">
               <div class="big"><span id="today-score">0</span><small> 分</small></div>
-              <p id="today-tip">完成一项得一分战力，赶紧开工吧</p>
+              <p id="today-tip">还没出拳，随手做一项就是第一下</p>
               <p style="color:var(--txt3);font-size:11px" id="settle-tip"></p>
             </div>
           </div>
-        </div>
-
-      </div>
-
-      <div>
-        <div class="card">
-          <div class="card-h"><h2>今天做什么</h2><span class="badge" id="study-badge">0 分</span></div>
-          <div id="home-entries"></div>
         </div>
       </div>
     </div>
@@ -758,7 +797,8 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     return s + t.pts + 3;      // 完成 + 认真评价
   }, 0);
   var QUIZ_MAX = 10;
-  var MAX_SCORE = STUDY_MAX + SPORT_MAX + QUIZ_MAX;   // 每日满分（行为规范可正可负，额外浮动）
+  var MAX_SCORE = STUDY_MAX + SPORT_MAX + QUIZ_MAX;   // 设计满分（行为规范可正可负，额外浮动）
+  var WIN_SCORE = 100;                                 // 胜利线：满 100 分擎天柱打败威震天
 
   var BEHAVIOR_GOOD = [
     { name: '午睡',     pts: 5 },
@@ -1050,6 +1090,12 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     isDayLocked: function (ds) {
       return isSettled(ds || todayStr());
     },
+    /* 当天胜负：win='a' 擎天柱胜 / 'b' 威震天胜 / 'none' 还没开战 */
+    battleOf: function (ds) {
+      var s = this.scoreOf(ds);
+      var win = s >= WIN_SCORE ? 'a' : (s > 0 ? 'b' : 'none');
+      return { s: s, win: win, left: Math.max(0, WIN_SCORE - s) };
+    },
     /* 当天总分：排除兑换/结算/心情/绘本标记 */
     scoreOf: function (ds) {
       var s = 0;
@@ -1202,9 +1248,8 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
   function renderArena() {
     var t = todayStr();
     var score = calc.scoreOf(t);
-    var maxScore = MAX_SCORE;
-    // 血条 = 今日战力占满分(144)的百分比，真实值 0~100，不做保底
-    var hpA = Math.max(0, Math.min(100, Math.round(score / maxScore * 100)));
+    // 血条以「胜利线 100 分」为分母：满 100 分 擎天柱 100 / 威震天 0
+    var hpA = Math.max(0, Math.min(100, Math.round(score / WIN_SCORE * 100)));
     var hpB = 100 - hpA;
 
     if ($('arena-day')) $('arena-day').textContent = calc.dayIndex();
@@ -1216,8 +1261,8 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     var st = $('arena-state');
     if (st) {
       if (isSettled(t)) { st.textContent = '已结算 · ' + num(store.data.settleLog[t]) + ' 分'; st.className = 'badge'; }
-      else if (score >= maxScore) { st.textContent = '满战力！'; st.className = 'badge g'; }
-      else { st.textContent = '进行中'; st.className = 'badge g'; }
+      else if (score >= WIN_SCORE) { st.textContent = '已击败威震天'; st.className = 'badge win'; }
+      else { st.textContent = '还差 ' + (WIN_SCORE - score) + ' 分'; st.className = 'badge g'; }
     }
 
     // 各维度小计
@@ -1296,18 +1341,32 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
   }
 
   /* ================= 渲染：首页进度/走势/快捷 ================= */
+  /* 分阶段激励语：按「距离 KO 还差多少」给话，越近越燃 */
+  function stageOf(score) {
+    if (score <= 0) return { i: 0, tip: '还没出拳，随手做一项就是第一下', color: 'var(--txt3)' };
+    if (score < 20) return { i: 1, tip: '开始出拳了！威震天正在活动筋骨', color: 'var(--blue2)' };
+    if (score < 40) return { i: 2, tip: '第一拳打中了，继续压上去', color: 'var(--blue2)' };
+    if (score < 60) return { i: 3, tip: '打平了！再拿几分就反超威震天', color: 'var(--cyan)' };
+    if (score < 80) return { i: 4, tip: '威震天开始后退，别给它喘息', color: 'var(--cyan)' };
+    if (score < WIN_SCORE) return { i: 5, tip: '只差 ' + (WIN_SCORE - score) + ' 分就 KO 了！', color: 'var(--gold2)' };
+    return { i: 6, tip: 'KO！擎天柱赢了，今天收工', color: 'var(--gold2)' };
+  }
+
   function renderRing() {
     var t = todayStr();
     var score = calc.scoreOf(t);
-    var pct = Math.max(0, Math.min(1, score / MAX_SCORE));
+    // 环 = 距离胜利线(100)的百分比
+    var pct = Math.max(0, Math.min(1, score / WIN_SCORE));
     var R = 32, C = 2 * Math.PI * R, off = C * (1 - pct);
     if ($('ring')) {
       $('ring').innerHTML =
         '<svg viewBox="0 0 78 78" style="width:78px;height:78px">' +
           '<defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1">' +
-          '<stop offset="0" stop-color="#4E8BFF"/><stop offset="1" stop-color="#3FD8F0"/></linearGradient></defs>' +
+          '<stop offset="0" stop-color="#4E8BFF"/><stop offset="1" stop-color="#3FD8F0"/></linearGradient>' +
+          '<linearGradient id="rgw" x1="0" y1="0" x2="1" y2="1">' +
+          '<stop offset="0" stop-color="#FFC53D"/><stop offset="1" stop-color="#FF8A3D"/></linearGradient></defs>' +
           '<circle cx="39" cy="39" r="' + R + '" fill="none" stroke="rgba(255,255,255,.10)" stroke-width="8"/>' +
-          '<circle cx="39" cy="39" r="' + R + '" fill="none" stroke="url(#rg)" stroke-width="8" stroke-linecap="round" ' +
+          '<circle cx="39" cy="39" r="' + R + '" fill="none" stroke="url(#' + (score >= WIN_SCORE ? 'rgw' : 'rg') + ')" stroke-width="8" stroke-linecap="round" ' +
             'stroke-dasharray="' + C.toFixed(1) + '" stroke-dashoffset="' + off.toFixed(1) + '" transform="rotate(-90 39 39)"/>' +
           '<text x="39" y="44" text-anchor="middle" fill="#EAF0FF" font-size="15" font-weight="800">' + Math.round(pct * 100) + '%</text>' +
         '</svg>';
@@ -1315,13 +1374,17 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     if ($('today-score')) $('today-score').textContent = score;
     if ($('today-date')) $('today-date').textContent = t.replace(/-/g, '/');
 
+    var sg = stageOf(score);
     var tip = $('today-tip');
     if (tip) {
-      if (score === 0) tip.textContent = '完成一项得一分战力，赶紧开工吧';
-      else if (score < 30) tip.textContent = '开局不错，威震天开始退后了';
-      else if (score < 60) tip.textContent = '打了一半，再加把劲！';
-      else if (score < MAX_SCORE) tip.textContent = '威震天快撑不住了！';
-      else tip.textContent = '满战力！今天完胜威震天 🎉';
+      tip.textContent = sg.tip;
+      tip.style.color = sg.color;
+    }
+    if ($('today-goal')) {
+      $('today-goal').textContent = score >= WIN_SCORE
+        ? '已达成胜利线 ' + WIN_SCORE + ' 分'
+        : '胜利线 ' + WIN_SCORE + ' 分 · 还差 ' + (WIN_SCORE - score) + ' 分';
+      $('today-goal').style.color = score >= WIN_SCORE ? 'var(--gold2)' : 'var(--txt3)';
     }
 
     var st = $('settle-tip');
@@ -1724,11 +1787,56 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
 
   /* 通用切换：同一天同项目已存在则撤销，否则新增 */
   function toggleByItem(type, date, item, value, note) {
+    /* 同名不同方向（如行为里的「其他 +5」和「其他 -5」）要分别判断，
+       否则会互相顶掉，两个都不亮。 */
+    var up = num(value) > 0;
     var found = null;
-    calc.ofType(date, type).forEach(function (r) { if (r.item === item) found = r; });
+    calc.ofType(date, type).forEach(function (r) {
+      if (r.item === item && (num(r.value) > 0) === up) found = r;
+    });
     if (found) { delRec(found.id); return false; }
     addRec(type, date, item, value, note);
     return true;
+  }
+
+  /* ================= KO 结算动画 ================= */
+  function showKO(score, gain) {
+    var old = document.querySelector('.ko-stage');
+    if (old && old.parentNode) old.parentNode.removeChild(old);
+
+    var mb = $('img-b');
+    var src = mb ? (mb.getAttribute('src') || '') : '';
+
+    var el = document.createElement('div');
+    el.className = 'ko-stage';
+    el.innerHTML =
+      '<div class="ko-flash"></div>' +
+      '<div class="ko-inner">' +
+        (src ? '<img class="ko-img" src="' + src + '" alt="">' : '') +
+        '<div class="ko-word">K.O.</div>' +
+        '<div class="ko-sub">擎天柱 击败 威震天</div>' +
+        '<div class="ko-line">今日战力 <b>' + score + '</b> 分' +
+          (gain > 0 ? ' · 获得 <b>' + gain + '</b> 个能量块' : '') + '</div>' +
+        '<div class="ko-tip">点一下关闭</div>' +
+      '</div>';
+    document.body.appendChild(el);
+
+    // 让战场也抖一下
+    var arena = document.querySelector('.arena');
+    if (arena) {
+      arena.classList.add('ko-shake');
+      setTimeout(function () { arena.classList.remove('ko-shake'); }, 900);
+    }
+
+    var closed = false;
+    function close() {
+      if (closed) return;
+      closed = true;
+      el.classList.add('out');
+      setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 420);
+    }
+    el.onclick = close;
+    setTimeout(close, 4600);
   }
 
   function settleDay() {
@@ -1756,7 +1864,15 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
       toast('结算完成：' + score + ' 分，不足 10 分没有能量块，明天加油！');
     }
     store.save();
-    if (!isAuto) refreshAll();
+    if (!isAuto) {
+      refreshAll();
+      // 手动结算且达成胜利线 → 播 KO 动画
+      if (score >= WIN_SCORE) {
+        var tb = $('toast');
+        if (tb) tb.className = 'toast';
+        setTimeout(function () { showKO(score, gain); }, 220);
+      }
+    }
   }
 
   /* ============ 21:00 自动结算 ============
@@ -2239,6 +2355,7 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     // 常量
     STUDY_TASKS: STUDY_TASKS, SPORT_ITEMS: SPORT_ITEMS, SPORT_PTS: SPORT_PTS,
     SPORT_MAX: SPORT_MAX, STUDY_MAX: STUDY_MAX, QUIZ_MAX: QUIZ_MAX, MAX_SCORE: MAX_SCORE,
+    WIN_SCORE: WIN_SCORE,
     EVAL_ITEMS: EVAL_ITEMS,
     BEHAVIOR_GOOD: BEHAVIOR_GOOD, BEHAVIOR_BAD: BEHAVIOR_BAD,
     SHOP_ITEMS: SHOP_ITEMS, MOODS: MOODS, TABS: TABS,
@@ -2658,16 +2775,19 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
 
   var TYPE = '行为规范';
 
+  /* 同名不同方向要分开记：好行为「其他 +5」和坏行为「其他 -5」不是一回事 */
+  function keyOf(name, pts) { return name + '|' + (C.num(pts) > 0 ? '+' : '-'); }
+
   function doneMap(ds) {
     var map = {};
-    C.calc.ofType(ds, TYPE).forEach(function (r) { map[r.item] = r; });
+    C.calc.ofType(ds, TYPE).forEach(function (r) { map[keyOf(r.item, r.value)] = r; });
     return map;
   }
 
   function chip(list, side, map) {
     var html = '';
     (list || []).forEach(function (b, i) {
-      var on = !!map[b.name];
+      var on = !!map[keyOf(b.name, b.pts)];
       html += '<button class="bh ' + side + (on ? ' on' : '') + '" data-bside="' + side + '" data-bi="' + i + '">' +
         C.esc(b.name) + '<span class="p">' + (b.pts > 0 ? '+' : '') + b.pts + '</span></button>';
     });
@@ -3163,50 +3283,67 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     return parts.length ? parts.join(' · ') : '这天没有记录';
   }
 
+  /* 胜负文案：win='a' 擎天柱胜 / 'b' 威震天胜 / 'none' 还没开战 */
+  function resultOf(win) {
+    if (win === 'a') return { t: '擎天柱 胜', cls: 'win' };
+    if (win === 'b') return { t: '威震天 胜', cls: 'lose' };
+    return { t: '未开战', cls: 'none' };
+  }
+
   function render() {
     var box = C.$('hs-list');
     if (!box) return;
 
-    var rows = [], activeDays = 0;
+    var rows = [], activeDays = 0, winDays = 0;
     for (var i = 0; i < DAYS; i++) {
       var ds = dateOf(i);
       var recs = C.calc.ofDay(ds);
-      var score = C.calc.scoreOf(ds);
+      var b = C.calc.battleOf(ds);
       if (recs.length) activeDays++;
-      rows.push({ ds: ds, i: i, n: recs.length, score: score });
+      if (b.win === 'a') winDays++;
+      rows.push({ ds: ds, i: i, n: recs.length, score: b.s, win: b.win });
     }
 
     if (C.$('hs-sub')) {
       var total = C.calc.daysCount();
-      if (C.$('hs-sub')) C.$('hs-sub').textContent = '有记录 ' + activeDays + ' 天 · 累计 ' + total + ' 天';
+      C.$('hs-sub').textContent = '胜 ' + winDays + ' 天 · 有记录 ' + activeDays + ' 天 · 累计 ' + total + ' 天';
     }
 
     box.innerHTML = rows.map(function (r) {
       var d = new Date(r.ds.replace(/-/g, '/'));
       var tag = r.i === 0 ? '今天' : (r.i === 1 ? '昨天' : (r.i === 2 ? '前天' : WD[d.getDay()]));
       var isSt = C.isSettled(r.ds);
+      var res = resultOf(r.win);
       return '<div class="hs-day' + (r.n ? '' : ' empty') + '" data-hs="' + r.ds + '" role="button">' +
         '<div class="hs-d"><b>' + r.ds.slice(5).replace('-', '/') + '</b><i>' + tag + '</i></div>' +
         '<div class="hs-m">' + C.esc(summaryOf(r.ds)) + '</div>' +
-        '<div class="hs-s">' + r.score + '<small> 分' + (isSt ? ' · 已结算' : '') + '</small></div>' +
+        '<div class="hs-s">' + r.score + '<small> 分' + (isSt ? ' · 已结算' : '') + '</small>' +
+          '<em class="' + res.cls + '">' + res.t + '</em></div>' +
         '</div>';
     }).join('');
   }
 
   function detail(ds) {
     var recs = C.calc.ofDay(ds);
-    var score = C.calc.scoreOf(ds);
+    var b = C.calc.battleOf(ds);
+    var score = b.s;
     var isSt = C.isSettled(ds);
     var settledPts = isSt ? C.num(C.store.data.settleLog[ds]) : 0;
+    var res = resultOf(b.win);
 
-    var html = '<div style="display:flex;align-items:center;margin-bottom:4px">' +
-      '<h3 style="font-size:16px;margin:0">' + ds + '</h3>' +
-      '<span style="margin-left:auto;font-size:13px;color:var(--gold);font-weight:800">' + score + ' 分</span>' +
-      '</div>' +
-      '<p class="mini-note" style="margin:2px 0 12px">' +
-      (isSt ? '当天已结算，兑换 ' + C.calc.coinOfScore(settledPts) + ' 个能量块（10 分 = 1 块）'
-        : '当天未结算 · 按 10 分 = 1 块，可换 ' + C.calc.coinOfScore(score) + ' 块') +
-      '</p>';
+    var html = '<h3 style="font-size:16px;margin:0 0 10px">' + ds + '</h3>' +
+
+      /* 当天总战绩 */
+      '<div class="res-box ' + res.cls + '">' +
+        '<div class="res-t">当日战绩</div>' +
+        '<div class="res-v">' + res.t + '</div>' +
+        '<div class="res-d">总分 <b>' + score + '</b> 分 · 胜利线 ' + C.WIN_SCORE + ' 分' +
+          (b.win === 'a' ? '' : (b.win === 'b' ? ' · 还差 ' + b.left + ' 分' : '')) + '</div>' +
+        '<div class="res-d">' +
+          (isSt ? '已结算，兑换 <b>' + C.calc.coinOfScore(settledPts) + '</b> 个能量块（10 分 = 1 块）'
+                : '未结算 · 按 10 分 = 1 块，可换 <b>' + C.calc.coinOfScore(score) + '</b> 块') +
+        '</div>' +
+      '</div>';
 
     if (!recs.length) {
       html += '<p class="mini-note" style="margin:0">这天什么都没有记录。</p>';
