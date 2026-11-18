@@ -84,8 +84,13 @@ input,textarea,select{font-family:inherit;font-size:16px}
 .ko-flash{position:absolute;inset:0;pointer-events:none;animation:koFlash .6s ease-out both;
   background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.92),rgba(255,255,255,0) 55%)}
 .ko-inner{position:relative;text-align:center;animation:koPop .5s cubic-bezier(.2,1.6,.5,1) both}
-.ko-img{width:96px;height:96px;object-fit:contain;margin:0 auto 4px;display:block;transform-origin:50% 90%;
-  filter:grayscale(1) brightness(.72);animation:koFall .95s ease-out both}
+.ko-fallwrap{position:relative;width:170px;height:130px;margin:0 auto 8px}
+.ko-ground{position:absolute;left:50%;bottom:0;width:110px;height:18px;margin-left:-55px;border-radius:50%;
+  background:radial-gradient(ellipse at center,rgba(0,0,0,.62),rgba(0,0,0,0) 72%);animation:koFade .35s ease .45s both}
+.ko-img{position:absolute;left:50%;bottom:6px;width:138px;height:138px;margin-left:-69px;object-fit:contain;
+  transform-origin:50% 92%;filter:grayscale(.5) brightness(.98) contrast(1.05)
+  drop-shadow(0 10px 20px rgba(0,0,0,.7)) drop-shadow(0 0 12px rgba(255,90,90,.45));
+  animation:koFall .9s ease-out both}
 .ko-word{font-size:84px;font-weight:900;letter-spacing:6px;line-height:1;color:#fff;
   text-shadow:0 0 18px rgba(255,197,61,.95),0 0 48px rgba(255,138,61,.75),0 6px 0 rgba(170,52,0,.55);
   animation:koPunch .72s ease-out both}
@@ -99,7 +104,9 @@ input,textarea,select{font-family:inherit;font-size:16px}
 @keyframes koFlash{0%{opacity:0;transform:scale(.4)}30%{opacity:.92}100%{opacity:0;transform:scale(1.7)}}
 @keyframes koPop{0%{opacity:0;transform:scale(.62) translateY(20px)}100%{opacity:1;transform:scale(1) translateY(0)}}
 @keyframes koPunch{0%{transform:scale(2.3);opacity:0}44%{transform:scale(.9);opacity:1}66%{transform:scale(1.07)}100%{transform:scale(1)}}
-@keyframes koFall{0%{transform:rotate(0) scale(1.12);opacity:0}40%{transform:rotate(-6deg) scale(1);opacity:1}100%{transform:rotate(-80deg) translateY(10px);opacity:.5}}
+@keyframes koFall{0%{transform:rotate(0) scale(1.12);opacity:0}
+  38%{transform:rotate(-9deg) scale(1);opacity:1}
+  100%{transform:rotate(-72deg) translate(8px,12px) scale(.98);opacity:.88}}
 @keyframes koShake{0%,100%{transform:translate(0,0)}12%{transform:translate(-7px,3px)}26%{transform:translate(6px,-4px)}40%{transform:translate(-5px,2px)}56%{transform:translate(4px,-2px)}72%{transform:translate(-3px,1px)}}
 .mini-note{font-size:12px;color:var(--txt2);line-height:1.7;margin:0 0 12px}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -1812,7 +1819,10 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     el.innerHTML =
       '<div class="ko-flash"></div>' +
       '<div class="ko-inner">' +
-        (src ? '<img class="ko-img" src="' + src + '" alt="">' : '') +
+        '<div class="ko-fallwrap">' +
+          '<div class="ko-ground"></div>' +
+          (src ? '<img class="ko-img" src="' + src + '" alt="">' : '') +
+        '</div>' +
         '<div class="ko-word">K.O.</div>' +
         '<div class="ko-sub">擎天柱 击败 威震天</div>' +
         '<div class="ko-line">今日战力 <b>' + score + '</b> 分' +
