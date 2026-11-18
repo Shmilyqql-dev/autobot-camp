@@ -162,9 +162,9 @@ input,textarea,select{font-family:inherit;font-size:16px}
 .trow .tm{flex:1;min-width:0}
 .trow .tm b{display:block;font-size:13.5px;font-weight:600}
 .trow .tm span{display:block;font-size:10.5px;color:var(--txt3);margin-top:1px}
-.trow .pt{font-size:11px;color:var(--gold);flex:0 0 auto;font-variant-numeric:tabular-nums;text-align:right;line-height:1.25}
-.trow .pt small{display:block;font-size:10px;color:var(--cyan);font-weight:700}
-.trow .pt small:only-child{color:inherit}
+.trow .pt{font-size:15px;font-weight:800;color:var(--gold);flex:0 0 auto;font-variant-numeric:tabular-nums;text-align:right;line-height:1.25;min-width:34px}
+.trow .pt.zero{color:var(--txt3);font-weight:600}
+.trow .pt.neg{color:#FF7A88}
 .evals{display:flex;gap:6px;margin-top:7px}
 .ev{min-height:38px;padding:0 12px;border-radius:10px;font-size:11.5px;font-weight:600;background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--txt2);transition:all .16s}
 .ev.good.on{background:linear-gradient(140deg,rgba(40,196,107,.88),rgba(40,196,107,.42));border-color:rgba(40,196,107,.9);color:#fff}
@@ -763,7 +763,8 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     { name: '勇敢表达', pts: 5 },
     { name: '勇敢闯关', pts: 5 },
     { name: '珍惜时间', pts: 5 },
-    { name: '得到表扬', pts: 10 }
+    { name: '得到表扬', pts: 10 },
+    { name: '其他',     pts: 5 }
   ];
 
   var BEHAVIOR_BAD = [
@@ -1476,6 +1477,10 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
       var g = evals[task.name + '·认真'];
       var b = evals[task.name + '·敷衍'];
       var bonus = g ? g.value : (b ? b.value : 0);
+      // 右侧只显示「本项实际得分」：打卡 5 分 + 评价 ±3 分；没打卡就是 0
+      var got = (rec ? task.pts : 0) + bonus;
+      var ptCls = got > 0 ? '' : (got < 0 ? ' neg' : ' zero');
+      var ptTxt = got > 0 ? '+' + got : String(got);
       html += '<div class="trow">' +
         '<div class="chk' + (rec ? ' done' : '') + '" data-task="' + task.id + '" role="button">' + svg('check') + '</div>' +
         '<div class="tm"><b>' + esc(task.name) + '</b><span>' + esc(task.desc) + '</span>' +
@@ -1484,9 +1489,7 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
             '<button class="ev bad' + (b ? ' on' : '') + '" data-ev="' + task.id + '|bad">敷衍 -3</button>' +
           '</div>' +
         '</div>' +
-        '<div class="pt">+' + task.pts +
-          (bonus ? '<small>' + (bonus > 0 ? '+' : '') + bonus + '</small>' : '') +
-        '</div></div>';
+        '<div class="pt' + ptCls + '">' + ptTxt + '</div></div>';
     });
     if ($('study-list')) $('study-list').innerHTML = html;
 
@@ -2132,8 +2135,23 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
   }
 
   /* ================= 启动 ================= */
+  /* 一次性清空入口：地址后面加 ?reset=1 打开，即清空全部记录（保留家长密码），
+   * 清完自动把地址栏的参数抹掉，不会每次打开都清。 */
+  function handleResetParam() {
+    var q = '';
+    try { q = String(location.search || ''); } catch (e) { return; }
+    if (!/[?&]reset=1(&|$)/.test(q)) return;
+    var keepPin = store.data.parentPin;
+    store.data = store.blank();
+    store.data.parentPin = keepPin;
+    store.save();
+    try { history.replaceState(null, '', location.pathname); } catch (e) {}
+    toast('已清空全部记录，可以重新录入了', 'ok');
+  }
+
   function boot() {
     store.load();
+    handleResetParam();
     loadImages();
     bindEvents();
 
@@ -2584,7 +2602,7 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
 <script>
 /* ===== behavior.js ===== */
 /* 模块：行为规范
- * 加分红榜 10 项、扣分改进 6 项，点一下记一条，再点一下取消。
+ * 加分红榜 11 项、扣分改进 10 项，点一下记一条，再点一下取消。
  */
 (function () {
   'use strict';
