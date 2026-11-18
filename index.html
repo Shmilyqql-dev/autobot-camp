@@ -280,6 +280,20 @@ input,textarea,select{font-family:inherit;font-size:16px}
 /* ---------- 备份提醒 ---------- */
 .warn{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,rgba(255,197,61,.18),rgba(255,197,61,.05));border:1px solid rgba(255,197,61,.42);border-radius:14px;padding:11px 13px;margin-bottom:12px;font-size:12px;color:#FFE3A3;line-height:1.5}
 .warn b{color:var(--gold);font-variant-numeric:tabular-nums}
+/* ---------- 结算后锁定 ---------- */
+.lock-tip{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(255,197,61,.16),rgba(255,197,61,.04));border:1px solid rgba(255,197,61,.4);border-radius:14px;padding:11px 13px;margin-bottom:12px;font-size:12px;color:#FFE3A3;line-height:1.5}
+body.day-locked #study-list .chk,
+body.day-locked #study-list .ev,
+body.day-locked #sp-list .tier,
+body.day-locked #bh-good .bh,
+body.day-locked #bh-bad .bh,
+body.day-locked #bh-today [data-delrec],
+body.day-locked #qz-list [data-qi]{opacity:.42}
+body.day-locked #study-list .chk:active,
+body.day-locked #sp-list .tier:active,
+body.day-locked #bh-good .bh:active,
+body.day-locked #bh-bad .bh:active{transform:none}
+body.day-locked #btn-study-reset{opacity:.45;pointer-events:none}
 .hide{display:none!important}
 /* ---------- 心情日记 ---------- */
 .mood-row{display:flex;gap:10px;margin-bottom:14px}
@@ -365,8 +379,8 @@ input,textarea,select{font-family:inherit;font-size:16px}
       <div class="brand-t"><b>汽车人训练营</b><span>AUTOBOT CAMP</span></div>
     </div>
     <div class="stats">
-      <div class="stat gold"><i>能量块</i><b id="hdr-coin">0</b></div>
       <div class="stat blue"><i>今日</i><b id="hdr-today">0</b></div>
+      <div class="stat gold"><i>能量块</i><b id="hdr-coin">0</b></div>
       <div class="stat cy"><i>累计天</i><b id="hdr-days">0</b></div>
     </div>
     <span class="syncdot" id="syncdot"></span>
@@ -417,7 +431,7 @@ input,textarea,select{font-family:inherit;font-size:16px}
             <button class="btn pri" style="flex:1" id="btn-settle">结算今天的战斗</button>
           </div>
           <div class="chips">
-            <span class="chip">学习 <b id="c-study">0</b>/88</span>
+            <span class="chip">学习 <b id="c-study">0</b>/<span id="c-study-max">72</span></span>
             <span class="chip">运动 <b id="c-sport">0</b>/46</span>
             <span class="chip">行为 <b id="c-behavior">0</b></span>
             <span class="chip">科普 <b id="c-quiz">0</b>/10</span>
@@ -443,16 +457,6 @@ input,textarea,select{font-family:inherit;font-size:16px}
           <div class="card-h"><h2>今天做什么</h2><span class="badge" id="study-badge">0 分</span></div>
           <div id="home-entries"></div>
         </div>
-
-        <div class="card">
-          <div class="card-h"><h2>最近三天</h2><span class="sub">战力走势</span></div>
-          <div class="trend" id="trend"></div>
-          <div class="chips" style="margin-top:12px">
-            <span class="chip">连续打卡 <b id="stat-streak">0</b> 天</span>
-            <span class="chip">累计 <b id="stat-total">0</b> 条记录</span>
-            <span class="chip">已完成 <b id="stat-all">0</b> 项任务</span>
-          </div>
-        </div>
       </div>
     </div>
   </section>
@@ -463,6 +467,7 @@ input,textarea,select{font-family:inherit;font-size:16px}
       <h1>今日五项</h1>
       <span class="sub">今天要做的五件事</span>
     </div>
+    <div class="lock-tip hide" data-lock-tip>今天已结算，分数锁定，明天再来吧</div>
     <div class="card">
       <div class="card-h"><h2>今日五项</h2><span class="sub">点进去打卡</span></div>
       <div id="check-grid" class="entry-grid"></div>
@@ -470,7 +475,7 @@ input,textarea,select{font-family:inherit;font-size:16px}
     <div class="card">
       <div class="card-h"><h2>得分规则</h2></div>
       <p class="mini-note" style="margin-bottom:0">
-        学习任务 11 项：每项完成 +5，再加「认真 +3 / 敷衍 -3」＝ 最高 88 分<br>
+        学习任务 9 项：每项完成 +5，再加「认真 +3 / 敷衍 -3」＝ 最高 72 分<br>
         运动锻炼 6 项（跳绳 / 拍球 / 跑步 / 开合跳 / 吊单杠 / 靠墙站）＝ 最高 46 分<br>
         知识科普 5 题 × 2 分 = 10 分<br>
         行为规范按项加减，表现好可以突破这个分数。<br>
@@ -483,10 +488,11 @@ input,textarea,select{font-family:inherit;font-size:16px}
     <div class="page-h">
       <button class="back" data-go="check" aria-label="返回"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
       <h1>学习任务</h1>
-      <span class="sub" id="study-max">满分 88 分</span>
+      <span class="sub" id="study-max">满分 72 分</span>
     </div>
+    <div class="lock-tip hide" data-lock-tip>今天已结算，分数锁定，明天再来吧</div>
     <div class="card">
-      <div class="card-h"><h2>今日 11 项</h2><span class="badge g" id="study-score">0 分</span></div>
+      <div class="card-h"><h2>今日 9 项</h2><span class="badge g" id="study-score">0 分</span></div>
       <div id="study-list"></div>
     </div>
     <div class="card">
@@ -548,8 +554,9 @@ input,textarea,select{font-family:inherit;font-size:16px}
     <div class="page-h">
       <button class="back" data-go="check" aria-label="返回"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
       <h1>运动锻炼</h1>
-      <span class="sub" id="sp-total">0 / 40 分</span>
+      <span class="sub" id="sp-total">0 / 46 分</span>
     </div>
+    <div class="lock-tip hide" data-lock-tip>今天已结算，分数锁定，明天再来吧</div>
     <div class="card">
       <div class="card-h"><h2>今天动了多少</h2><span class="sub">点一下选档位</span></div>
       <div id="sp-list"></div>
@@ -566,6 +573,7 @@ input,textarea,select{font-family:inherit;font-size:16px}
       <h1>行为规范</h1>
       <span class="sub" id="bh-total">0 分</span>
     </div>
+    <div class="lock-tip hide" data-lock-tip>今天已结算，分数锁定，明天再来吧</div>
     <div class="card">
       <div class="bh-group">
         <div class="bh-title">表现好，加分</div>
@@ -588,6 +596,7 @@ input,textarea,select{font-family:inherit;font-size:16px}
       <h1>知识科普</h1>
       <span class="sub" id="qz-score">0 / 10 分</span>
     </div>
+    <div class="lock-tip hide" data-lock-tip>今天已结算，分数锁定，明天再来吧</div>
     <div class="card">
       <div class="card-h"><h2>今日 5 题</h2><span class="badge" id="qz-cnt">0/5</span></div>
       <div id="qz-list"></div>
@@ -716,8 +725,6 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
   var LS_KEY = 'wb_autobot_camp_v1';
 
   var STUDY_TASKS = [
-    { id: 'shizi',    name: '识字',     desc: '摩比爱识字 · 每天一课', pts: 5, icon: 'book' },
-    { id: 'math',     name: '数学',     desc: '20 以内加减法练习',     pts: 5, icon: 'calc' },
     { id: 'morning',  name: '早读',     desc: '大声朗读 10 分钟',      pts: 5, icon: 'sun' },
     { id: 'night',    name: '晚读',     desc: '睡前亲子共读',          pts: 5, icon: 'moon' },
     { id: 'poem',     name: '古诗',     desc: '背一首古诗',            pts: 5, icon: 'feather' },
@@ -726,7 +733,7 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     { id: 'think',    name: '思维',     desc: '思维训练一题',          pts: 5, icon: 'bulb' },
     { id: 'draw',     name: '画画',     desc: '自由绘画',              pts: 5, icon: 'brush' },
     { id: 'listen',   name: '磨耳朵',   desc: '英语音频 20 分钟',      pts: 5, icon: 'ear' },
-    { id: 'literacy', name: '文学启蒙', desc: '听一个故事',            pts: 5, icon: 'star' }
+    { id: 'literacy', name: '文学启蒙', desc: '读一篇古文',            pts: 5, icon: 'star' }
   ];
 
   /* 每项任务的完成评价：认真 +3 / 敷衍 -3 */
@@ -796,6 +803,10 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
   /* 晚上几点自动结算（24 小时制） */
   var AUTO_SETTLE_HOUR = 21;
 
+  /* 结算后锁定的记录类型：这些都会改变当天得分，当天一结算就不许再动 */
+  var LOCK_TYPES = { '任务打卡': 1, '任务评价': 1, '运动打卡': 1, '行为规范': 1, '每日题数': 1 };
+  var LOCK_TIP = '今天已经结算了，分数锁定，明天再来吧';
+
   var MOODS = [
     { id: 'happy', name: '开心', color: '#28C46B', face: 'smile' },
     { id: 'ok',    name: '还好', color: '#FFC53D', face: 'meh' },
@@ -832,6 +843,12 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
   function num(v) { var n = Number(v); return isFinite(n) ? n : 0; }
+
+  /* 某天是否已结算：必须按「key 是否存在」判断，
+   * 因为 0 分那天的 settleLog[日期] = 0，用真假判断会误判成未结算。 */
+  function isSettled(ds) {
+    return Object.prototype.hasOwnProperty.call(store.data.settleLog, ds);
+  }
 
   var toastTimer = null;
   function toast(msg, type) {
@@ -1029,7 +1046,11 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     ofType: function (ds, type) {
       return this.ofDay(ds).filter(function (r) { return r.type === type; });
     },
-    /* 某天总分：排除兑换/结算/心情/绘本标记 */
+    /* 某天是否已结算（结算后当天分数锁定） */
+    isDayLocked: function (ds) {
+      return isSettled(ds || todayStr());
+    },
+    /* 当天总分：排除兑换/结算/心情/绘本标记 */
     scoreOf: function (ds) {
       var s = 0;
       this.ofDay(ds).forEach(function (r) {
@@ -1123,6 +1144,8 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
 
   /* ================= 记录写入（含攻击队列） ================= */
   function addRec(type, date, item, value, note) {
+    // 当天已结算 → 分数类记录一律拒绝（界面层会先拦一次，这里是兜底）
+    if (LOCK_TYPES[type] && isSettled(date)) return null;
     var rec = { id: uid(), type: type, date: date, item: item, value: num(value), note: note || '', synced: false };
     store.data.records.push(rec);
     // 攻击队列：正分 → 打威震天；负分 → 擎天柱挨打
@@ -1134,6 +1157,10 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
   }
 
   function delRec(id) {
+    var target = null;
+    store.data.records.forEach(function (r) { if (r.id === id) target = r; });
+    // 已结算那天的分数记录不许删
+    if (target && LOCK_TYPES[target.type] && isSettled(target.date)) return null;
     var keep = [], gone = null;
     store.data.records.forEach(function (r) {
       if (r.id === id) gone = r; else keep.push(r);
@@ -1188,13 +1215,14 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
 
     var st = $('arena-state');
     if (st) {
-      if (store.data.settleLog[t]) { st.textContent = '已结算 · ' + store.data.settleLog[t] + ' 分'; st.className = 'badge'; }
+      if (isSettled(t)) { st.textContent = '已结算 · ' + num(store.data.settleLog[t]) + ' 分'; st.className = 'badge'; }
       else if (score >= maxScore) { st.textContent = '满战力！'; st.className = 'badge g'; }
       else { st.textContent = '进行中'; st.className = 'badge g'; }
     }
 
     // 各维度小计
     if ($('c-study')) $('c-study').textContent = calc.studyScore(t);
+    if ($('c-study-max')) $('c-study-max').textContent = STUDY_MAX;
     if ($('c-sport')) $('c-sport').textContent = calc.sumType(t, '运动打卡');
     if ($('c-behavior')) $('c-behavior').textContent = calc.sumType(t, '行为规范');
     if ($('c-quiz')) $('c-quiz').textContent = calc.sumType(t, '每日题数');
@@ -1298,10 +1326,10 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
 
     var st = $('settle-tip');
     if (st) {
-      if (store.data.settleLog[t]) {
+      if (isSettled(t)) {
         var auto = !!(store.data.settleAuto && store.data.settleAuto[t]);
         st.textContent = (auto ? '21:00 已自动结算：' : '今日已结算：') +
-          store.data.settleLog[t] + ' 分，获得 ' + calc.coinOfScore(store.data.settleLog[t]) + ' 能量块';
+          num(store.data.settleLog[t]) + ' 分，获得 ' + calc.coinOfScore(num(store.data.settleLog[t])) + ' 能量块';
       } else {
         var h = new Date().getHours();
         var gain = calc.coinOfScore(score);
@@ -1312,8 +1340,8 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     }
     var btn = $('btn-settle');
     if (btn) {
-      btn.textContent = store.data.settleLog[t] ? '今日已结算 ✓' : '现在结算今天的战斗';
-      btn.disabled = !!store.data.settleLog[t];
+      btn.textContent = isSettled(t) ? '今日已结算 ✓' : '现在结算今天的战斗';
+      btn.disabled = isSettled(t);
     }
   }
 
@@ -1517,6 +1545,19 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     else if (sync.ready) sync.setDot('on');
   }
 
+  /* 结算后锁定：body 加状态类（控件变灰）+ 各页顶部提示条 */
+  function renderLockState() {
+    var locked = calc.isDayLocked(todayStr());
+    if (document.body && document.body.classList) {
+      document.body.classList.toggle('day-locked', locked);
+    }
+    var tips = document.querySelectorAll('[data-lock-tip]');
+    for (var i = 0; i < tips.length; i++) {
+      tips[i].className = 'lock-tip' + (locked ? '' : ' hide');
+    }
+    return locked;
+  }
+
   function renderBackupWarn() {
     var el = $('backup-warn');
     if (!el) return;
@@ -1542,6 +1583,7 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     renderCheckGrid();
     renderStudyList();
     renderShopList();
+    renderLockState();
     renderSyncBadge();
     renderBackupWarn();
     renderParentMode();
@@ -1623,6 +1665,7 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     STUDY_TASKS.forEach(function (t) { if (t.id === taskId) task = t; });
     if (!task) return;
     var t = todayStr();
+    if (calc.isDayLocked(t)) { toast(LOCK_TIP); return; }
     var done = calc.studyDoneMap(t);
     var exist = done[task.name];
     if (exist) {
@@ -1641,6 +1684,7 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     STUDY_TASKS.forEach(function (t) { if (t.id === taskId) task = t; });
     if (!task) return;
     var t = todayStr();
+    if (calc.isDayLocked(t)) { toast(LOCK_TIP); return; }
     var evals = calc.evalMap(t);
     var pick = key === 'good' ? EVAL_ITEMS[0] : EVAL_ITEMS[1];
     var other = key === 'good' ? EVAL_ITEMS[1] : EVAL_ITEMS[0];
@@ -1661,6 +1705,7 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
   }
 
   function resetStudyToday() {
+    if (calc.isDayLocked(todayStr())) { toast(LOCK_TIP); return; }
     confirmBox('撤销今天的学习打卡', '今天所有「学习任务」打卡和「认真/敷衍」评价都会被撤销（其他记录保留）。确定吗？', '撤销', function () {
       var t = todayStr();
       store.data.records = store.data.records.filter(function (r) {
@@ -1688,7 +1733,7 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
 
   function settleDay() {
     var t = todayStr();
-    if (store.data.settleLog[t]) { toast('今天已经结算过了，一天只能结算一次'); return; }
+    if (isSettled(t)) { toast('今天已经结算过了，一天只能结算一次'); return; }
     var score = calc.scoreOf(t);
     var gain = calc.coinOfScore(score);
     confirmBox('结算第 ' + calc.dayIndex() + ' 天',
@@ -1730,7 +1775,7 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     var cur = d.autoSettleSince > today ? today : d.autoSettleSince;
     var guard = 0;
     while (cur <= today && guard++ < 62) {
-      if (!d.settleLog[cur]) {
+      if (!Object.prototype.hasOwnProperty.call(d.settleLog, cur)) {
         // 今天必须过了 21:00 才算到期；更早的日子视为已到期
         if (cur < today || now.getHours() >= AUTO_SETTLE_HOUR) list.push(cur);
       }
@@ -1984,7 +2029,7 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
       added++;
     });
     if (obj.settleLog && typeof obj.settleLog === 'object') {
-      for (var k in obj.settleLog) { if (!store.data.settleLog[k]) store.data.settleLog[k] = obj.settleLog[k]; }
+      for (var k in obj.settleLog) { if (!Object.prototype.hasOwnProperty.call(store.data.settleLog, k)) store.data.settleLog[k] = obj.settleLog[k]; }
     }
     if (obj.settleAuto && typeof obj.settleAuto === 'object') {
       if (!store.data.settleAuto) store.data.settleAuto = {};
@@ -2038,7 +2083,7 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
           if (r.id && !exist[r.id]) { exist[r.id] = 1; r.synced = false; add.push(r); n++; }
         });
         store.data.records = store.data.records.concat(add);
-        if (d.settleLog) { for (var k in d.settleLog) { if (!store.data.settleLog[k]) store.data.settleLog[k] = d.settleLog[k]; } }
+        if (d.settleLog) { for (var k in d.settleLog) { if (!Object.prototype.hasOwnProperty.call(store.data.settleLog, k)) store.data.settleLog[k] = d.settleLog[k]; } }
         if (d.settleAuto && typeof d.settleAuto === 'object') {
           if (!store.data.settleAuto) store.data.settleAuto = {};
           for (var k3 in d.settleAuto) { store.data.settleAuto[k3] = d.settleAuto[k3]; }
@@ -2186,7 +2231,7 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     toast: toast, confirmBox: confirmBox, openModal: openModal, closeModal: closeModal,
     askPin: askPin,
     // 数据
-    store: store, calc: calc, addRec: addRec, delRec: delRec,
+    store: store, calc: calc, addRec: addRec, delRec: delRec, isSettled: isSettled,
     toggleByItem: toggleByItem,
     refreshAll: refreshAll, goTo: goTo,
     registerView: registerView,
@@ -2198,6 +2243,7 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     BEHAVIOR_GOOD: BEHAVIOR_GOOD, BEHAVIOR_BAD: BEHAVIOR_BAD,
     SHOP_ITEMS: SHOP_ITEMS, MOODS: MOODS, TABS: TABS,
     PB_GOAL: PB_GOAL, PB_REWARD: PB_REWARD, AUTO_SETTLE_HOUR: AUTO_SETTLE_HOUR,
+    LOCK_TIP: LOCK_TIP,
     runAutoSettle: runAutoSettle, autoSettleDue: autoSettleDue, redeemPicbook: redeemPicbook,
     sync: sync,
     playHit: playHit
@@ -2567,6 +2613,7 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     if (tierIdx < 1 || tierIdx >= it.tiers.length) return;
 
     var ds = C.todayStr();
+    if (C.calc.isDayLocked(ds)) { C.toast(C.LOCK_TIP); return; }
     var cur = curOf(it.name, ds);
     var lab = labelOf(it, tierIdx);
     var pts = (it.pts && it.pts[tierIdx]) || 0;
@@ -2656,6 +2703,7 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     var b = src[idx];
     if (!b) return;
     var ds = C.todayStr();
+    if (C.calc.isDayLocked(ds)) { C.toast(C.LOCK_TIP); return; }
     var added = C.toggleByItem(TYPE, ds, b.name, b.pts, '');
     if (added) {
       if (b.pts > 0) C.toast(b.name + ' +' + b.pts + ' 战力', 'ok');
@@ -2682,6 +2730,7 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
       today.addEventListener('click', function (e) {
         var el = e.target.closest ? e.target.closest('[data-delrec]') : null;
         if (!el) return;
+        if (C.calc.isDayLocked(C.todayStr())) { C.toast(C.LOCK_TIP); return; }
         C.delRec(el.getAttribute('data-delrec'));
         C.toast('已删除这条记录');
         C.refreshAll();
@@ -3037,6 +3086,7 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
 
   function answer(qi, oi) {
     var ds = C.todayStr();
+    if (C.calc.isDayLocked(ds)) { C.toast(C.LOCK_TIP); return; }
     var set = setOf(ds);
     var item = BANK[set[qi]];
     if (!item) return;
@@ -3134,11 +3184,11 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
     box.innerHTML = rows.map(function (r) {
       var d = new Date(r.ds.replace(/-/g, '/'));
       var tag = r.i === 0 ? '今天' : (r.i === 1 ? '昨天' : (r.i === 2 ? '前天' : WD[d.getDay()]));
-      var settled = C.store.data.settleLog[r.ds];
+      var isSt = C.isSettled(r.ds);
       return '<div class="hs-day' + (r.n ? '' : ' empty') + '" data-hs="' + r.ds + '" role="button">' +
         '<div class="hs-d"><b>' + r.ds.slice(5).replace('-', '/') + '</b><i>' + tag + '</i></div>' +
         '<div class="hs-m">' + C.esc(summaryOf(r.ds)) + '</div>' +
-        '<div class="hs-s">' + r.score + '<small> 分' + (settled ? ' · 已结算' : '') + '</small></div>' +
+        '<div class="hs-s">' + r.score + '<small> 分' + (isSt ? ' · 已结算' : '') + '</small></div>' +
         '</div>';
     }).join('');
   }
@@ -3146,14 +3196,15 @@ window.CAMP_DB_ID = "a8ja0RzwygtIaiBdH0odSL";
   function detail(ds) {
     var recs = C.calc.ofDay(ds);
     var score = C.calc.scoreOf(ds);
-    var settled = C.store.data.settleLog[ds];
+    var isSt = C.isSettled(ds);
+    var settledPts = isSt ? C.num(C.store.data.settleLog[ds]) : 0;
 
     var html = '<div style="display:flex;align-items:center;margin-bottom:4px">' +
       '<h3 style="font-size:16px;margin:0">' + ds + '</h3>' +
       '<span style="margin-left:auto;font-size:13px;color:var(--gold);font-weight:800">' + score + ' 分</span>' +
       '</div>' +
       '<p class="mini-note" style="margin:2px 0 12px">' +
-      (settled ? '当天已结算，兑换 ' + C.calc.coinOfScore(settled) + ' 个能量块（10 分 = 1 块）'
+      (isSt ? '当天已结算，兑换 ' + C.calc.coinOfScore(settledPts) + ' 个能量块（10 分 = 1 块）'
         : '当天未结算 · 按 10 分 = 1 块，可换 ' + C.calc.coinOfScore(score) + ' 块') +
       '</p>';
 
